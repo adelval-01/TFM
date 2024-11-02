@@ -7,12 +7,13 @@ import wave
 import numpy as np
 from livekit import rtc, api
 
-SAMPLE_RATE = 48000
+SAMPLE_RATE = 16000
 NUM_CHANNELS = 1
 FRAME_DURATION_MS = 10  # Frame duration in milliseconds
 
 
-audio_wav = "audios/audio_1.wav"
+#audio_wav = "audios/audio_1.wav"
+audio_wav = "audios/5-CH0_C01_stadium_15dB.wav"
 # ensure LIVEKIT_URL, LIVEKIT_API_KEY, and LIVEKIT_API_SECRET are set
 
 
@@ -34,7 +35,7 @@ async def main(room: rtc.Room) -> None:
         .with_grants(
             api.VideoGrants(
                 room_join=True,
-                room="my-room",
+                room="TFM-room",
             )
         )
         .to_jwt()
@@ -63,12 +64,17 @@ async def main(room: rtc.Room) -> None:
     publication = await room.local_participant.publish_track(track, options)
     logging.info("published track %s", publication.sid)
 
-    asyncio.ensure_future(publish_wav_frames(source, audio_wav))
+    while(True):
+        # Wait for Enter key press
+        await asyncio.to_thread(input)
+        print('Publishing wav file')
+        asyncio.ensure_future(publish_wav_frames(source, audio_wav))
 
 
 async def publish_wav_frames(source: rtc.AudioSource, wav_file_path: str):
     """Read a .wav file and send its audio frames through the source."""
     
+    source.clear_queue
     # Open the .wav file
     with wave.open(wav_file_path, 'rb') as wav_file:
         # Ensure the .wav file's format matches the stream's expected sample rate and channels
@@ -87,12 +93,13 @@ async def publish_wav_frames(source: rtc.AudioSource, wav_file_path: str):
         audio_data = np.frombuffer(audio_frame.data, dtype=np.int16)
 
         # Read and send audio frames from the .wav file
+        i = 0
         while True:
             # Read raw audio data from the file (in bytes)
             raw_data = wav_file.readframes(samples_per_channel)
             if not raw_data:
                 break  # End of file reached
-
+            
             # Convert raw audio data to numpy array and fill the audio frame
             wav_samples = np.frombuffer(raw_data, dtype=np.int16)
             
@@ -101,8 +108,7 @@ async def publish_wav_frames(source: rtc.AudioSource, wav_file_path: str):
                 # Pad with zeros if necessary
                 wav_samples = np.pad(wav_samples, (0, samples_per_channel - len(wav_samples)), 'constant')
                         
-            # Convert raw audio data to numpy array and fill the audio frame
-            wav_samples = np.frombuffer(raw_data, dtype=np.int16)
+
             np.copyto(audio_data, wav_samples)
 
             # Capture frame to send it to the track

@@ -10,15 +10,14 @@ import pyaudio
 import numpy as np
 from livekit import rtc, api
 
-SAMPLE_RATE = 48000
+SAMPLE_RATE = 16000
 NUM_CHANNELS = 1
 FORMAT = pyaudio.paInt16
-
 
 # Initializate wav file
 def setup_wav_file():
     # Crear el directorio si no existe
-    wav_file = "audios/sine.wav"
+    wav_file = "audios/audio_received.wav"
     os.makedirs(os.path.dirname(wav_file), exist_ok=True)
     wav_file = wave.open(wav_file, 'wb')
     wav_file.setnchannels(NUM_CHANNELS)
@@ -45,19 +44,21 @@ async def main(room: rtc.Room) -> None:
             # video_stream is an async iterator that yields VideoFrame
         elif track.kind == rtc.TrackKind.KIND_AUDIO:
             print("Subscribed to an Audio Track")
-            _audio_stream = rtc.AudioStream(track)
+            _audio_stream = rtc.AudioStream(track,sample_rate=SAMPLE_RATE, num_channels=NUM_CHANNELS)
             # audio_stream is an async iterator that yields AudioFrame
-        # Start an async task to handle the audio frames
-        asyncio.create_task(process_audio_stream(_audio_stream))
 
-    async def process_audio_stream(audio_stream):
+        # Start an async task to handle the audio frames
+        asyncio.create_task(process_audio_stream(_audio_stream, 0))
+
+    async def process_audio_stream(audio_stream, i):
         """Async function to process audio frames from the audio stream."""
         async for event in audio_stream:
-            # Write or process the audio data in each event
-            # print("Received audio frame:", event.frame)
-            # Here, you could add logic to write to a WAV file
-            audio_bytes = wav.writeframes(event.frame.to_wav_bytes())
-            
+            # Convert bytes to numpy array for analysis (assuming 16-bit PCM)
+            audio_data = np.frombuffer(event.frame.to_wav_bytes(), dtype=np.int16)
+
+            # Write non-silent frames to wav file
+            if (np.count_nonzero(np.abs(audio_data[22:]) > 10)) > 0:    # Remove 22 header long
+                wav.writeframes(audio_data[22:])
     
 
     token = (
@@ -67,7 +68,7 @@ async def main(room: rtc.Room) -> None:
         .with_grants(
             api.VideoGrants(
                 room_join=True,
-                room="my-room",
+                room="TFM-room",
             )
         )
         .to_jwt()
@@ -107,22 +108,6 @@ async def main(room: rtc.Room) -> None:
         num_channels=1,
     )  
     """  
-
-
-async def publish_frames(source: rtc.AudioSource, frequency: int):
-    amplitude = 32767  # for 16-bit audio
-    samples_per_channel = 480  # 10ms at 48kHz
-    time = np.arange(samples_per_channel) / SAMPLE_RATE
-    total_samples = 0
-    audio_frame = rtc.AudioFrame.create(SAMPLE_RATE, NUM_CHANNELS, samples_per_channel)
-    audio_data = np.frombuffer(audio_frame.data, dtype=np.int16)
-    while True:
-        time = (total_samples + np.arange(samples_per_channel)) / SAMPLE_RATE
-        sine_wave = (amplitude * np.sin(2 * np.pi * frequency * time)).astype(np.int16)
-        np.copyto(audio_data, sine_wave)
-        await source.capture_frame(audio_frame)
-        total_samples += samples_per_channel
-
 
 if __name__ == "__main__":
     logging.basicConfig(
