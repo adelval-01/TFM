@@ -92,7 +92,15 @@ async def publish_wav_frames(source: rtc.AudioSource, wav_file_path: str):
             raw_data = wav_file.readframes(samples_per_channel)
             if not raw_data:
                 break  # End of file reached
+
+            # Convert raw audio data to numpy array and fill the audio frame
+            wav_samples = np.frombuffer(raw_data, dtype=np.int16)
             
+            # Check if the data is shorter than expected
+            if len(wav_samples) < samples_per_channel:
+                # Pad with zeros if necessary
+                wav_samples = np.pad(wav_samples, (0, samples_per_channel - len(wav_samples)), 'constant')
+                        
             # Convert raw audio data to numpy array and fill the audio frame
             wav_samples = np.frombuffer(raw_data, dtype=np.int16)
             np.copyto(audio_data, wav_samples)
@@ -106,7 +114,7 @@ async def publish_wav_frames(source: rtc.AudioSource, wav_file_path: str):
 if __name__ == "__main__":
     logging.basicConfig(
         level=logging.INFO,
-        handlers=[logging.FileHandler("publish_wave.log"), logging.StreamHandler()],
+        handlers=[logging.FileHandler("logs/publish_wave.log"), logging.StreamHandler()],
     )
 
     loop = asyncio.get_event_loop()

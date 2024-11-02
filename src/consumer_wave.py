@@ -127,7 +127,7 @@ async def publish_frames(source: rtc.AudioSource, frequency: int):
 if __name__ == "__main__":
     logging.basicConfig(
         level=logging.INFO,
-        handlers=[logging.FileHandler("consumer_wave.log"), logging.StreamHandler()],
+        handlers=[logging.FileHandler("logs/consumer_wave.log"), logging.StreamHandler()],
     )
 
     loop = asyncio.get_event_loop()
