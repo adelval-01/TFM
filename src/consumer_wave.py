@@ -48,9 +48,11 @@ async def main(room: rtc.Room) -> None:
             # audio_stream is an async iterator that yields AudioFrame
 
         # Start an async task to handle the audio frames
-        asyncio.create_task(process_audio_stream(_audio_stream, 0))
+        asyncio.create_task(process_audio_stream(_audio_stream))
 
-    async def process_audio_stream(audio_stream, i):
+
+    async def process_audio_stream(audio_stream):
+        post_silent = False
         """Async function to process audio frames from the audio stream."""
         async for event in audio_stream:
             # Convert bytes to numpy array for analysis (assuming 16-bit PCM)
@@ -59,6 +61,10 @@ async def main(room: rtc.Room) -> None:
             # Write non-silent frames to wav file
             if (np.count_nonzero(np.abs(audio_data[22:]) > 10)) > 0:    # Remove 22 header long
                 wav.writeframes(audio_data[22:])
+                post_silent = True
+            elif post_silent :
+                break 
+        logging.info("Audio received")
     
 
     token = (
@@ -89,25 +95,6 @@ async def main(room: rtc.Room) -> None:
         logging.error("failed to connect to the room: %s", e)
         return
 
-    """
-    @room.on("track")
-    async def on_track(audio_stream):
-        print("Recibiendo audio...")
-        # Leer datos de audio conforme llegan
-        async for frame in audio_stream:
-            # Escribe los datos de audio en el archivo WAV
-            wav_file.writeframes(frame)
-        print("Audio terminado.")
-
-    
-    # receive a track
-    audio_stream = rtc.AudioStream.from_participant(
-        participant=rtc.RemoteParticipant,
-        track_source=rtc.TrackSource.SOURCE_MICROPHONE,
-        sample_rate=SAMPLE_RATE,
-        num_channels=1,
-    )  
-    """  
 
 if __name__ == "__main__":
     logging.basicConfig(
