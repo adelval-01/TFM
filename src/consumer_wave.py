@@ -2,24 +2,24 @@ import asyncio
 import logging
 from signal import SIGINT, SIGTERM
 import os
-
 import wave
 import pyaudio
-
 
 import numpy as np
 from livekit import rtc, api
 
+import utils
+
 SAMPLE_RATE = 16000
 NUM_CHANNELS = 1
 FORMAT = pyaudio.paInt16
+WAV_FILE = "audios/audio_received.wav"
 
 # Initializate wav file
 def setup_wav_file():
     # Crear el directorio si no existe
-    wav_file = "audios/audio_received.wav"
-    os.makedirs(os.path.dirname(wav_file), exist_ok=True)
-    wav_file = wave.open(wav_file, 'wb')
+    os.makedirs(os.path.dirname(WAV_FILE), exist_ok=True)
+    wav_file = wave.open(WAV_FILE, 'wb')
     wav_file.setnchannels(NUM_CHANNELS)
     wav_file.setsampwidth(pyaudio.PyAudio().get_sample_size(FORMAT))
     wav_file.setframerate(SAMPLE_RATE)
