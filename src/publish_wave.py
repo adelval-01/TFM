@@ -13,7 +13,9 @@ FRAME_DURATION_MS = 10  # Frame duration in milliseconds
 
 
 #audio_wav = "audios/audio_1.wav"
-audio_wav = "audios/5-CH0_C01_stadium_15dB.wav"
+#audio_wav = "audios/5-CH0_C01_stadium_15dB.wav"
+audio_wav = "TFM/audios/7-CH0_C01_city_5dB.wav"
+
 # ensure LIVEKIT_URL, LIVEKIT_API_KEY, and LIVEKIT_API_SECRET are set
 
 
@@ -118,6 +120,7 @@ async def publish_wav_frames(source: rtc.AudioSource, wav_file_path: str):
 
 
 if __name__ == "__main__":
+    os.makedirs("logs", exist_ok=True)
     logging.basicConfig(
         level=logging.INFO,
         handlers=[logging.FileHandler("logs/publish_wave.log"), logging.StreamHandler()],
