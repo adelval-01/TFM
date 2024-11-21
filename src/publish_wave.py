@@ -2,12 +2,19 @@ import asyncio
 import logging
 from signal import SIGINT, SIGTERM
 import os
+import wave
 
 import numpy as np
 from livekit import rtc, api
 
-SAMPLE_RATE = 48000
+SAMPLE_RATE = 16000
 NUM_CHANNELS = 1
+FRAME_DURATION_MS = 10  # Frame duration in milliseconds
+
+
+#audio_wav = "audios/audio_1.wav"
+#audio_wav = "audios/5-CH0_C01_stadium_15dB.wav"
+audio_wav = "TFM/audios/7-CH0_C01_city_5dB.wav"
 
 # ensure LIVEKIT_URL, LIVEKIT_API_KEY, and LIVEKIT_API_SECRET are set
 
@@ -30,7 +37,7 @@ async def main(room: rtc.Room) -> None:
         .with_grants(
             api.VideoGrants(
                 room_join=True,
-                room="my-room",
+                room="TFM-room",
             )
         )
         .to_jwt()
@@ -53,34 +60,70 @@ async def main(room: rtc.Room) -> None:
 
     # publish a track
     source = rtc.AudioSource(SAMPLE_RATE, NUM_CHANNELS)
-    track = rtc.LocalAudioTrack.create_audio_track("sinewave", source)
+    track = rtc.LocalAudioTrack.create_audio_track("audio_wav", source)
     options = rtc.TrackPublishOptions()
     options.source = rtc.TrackSource.SOURCE_MICROPHONE
     publication = await room.local_participant.publish_track(track, options)
     logging.info("published track %s", publication.sid)
 
-    asyncio.ensure_future(publish_frames(source, 200))
+    while(True):
+        # Wait for Enter key press
+        await asyncio.to_thread(input)
+        print('Publishing wav file')
+        asyncio.ensure_future(publish_wav_frames(source, audio_wav))
 
 
-async def publish_frames(source: rtc.AudioSource, frequency: int):
-    amplitude = 32767  # for 16-bit audio
-    samples_per_channel = 480  # 10ms at 48kHz
-    time = np.arange(samples_per_channel) / SAMPLE_RATE
-    total_samples = 0
-    audio_frame = rtc.AudioFrame.create(SAMPLE_RATE, NUM_CHANNELS, samples_per_channel)
-    audio_data = np.frombuffer(audio_frame.data, dtype=np.int16)
-    while True:
-        time = (total_samples + np.arange(samples_per_channel)) / SAMPLE_RATE
-        sine_wave = (amplitude * np.sin(2 * np.pi * frequency * time)).astype(np.int16)
-        np.copyto(audio_data, sine_wave)
-        await source.capture_frame(audio_frame)
-        total_samples += samples_per_channel
+async def publish_wav_frames(source: rtc.AudioSource, wav_file_path: str):
+    """Read a .wav file and send its audio frames through the source."""
+    
+    source.clear_queue
+    # Open the .wav file
+    with wave.open(wav_file_path, 'rb') as wav_file:
+        # Ensure the .wav file's format matches the stream's expected sample rate and channels
+        wav_sample_rate = wav_file.getframerate()
+        wav_channels = wav_file.getnchannels()
+        
+        if wav_sample_rate != SAMPLE_RATE or wav_channels != NUM_CHANNELS:
+            raise ValueError(f"Expected .wav file with {SAMPLE_RATE} Hz and {NUM_CHANNELS} channel(s), "
+                             f"but got {wav_sample_rate} Hz and {wav_channels} channel(s).")
+
+        # Calculate samples per frame
+        samples_per_channel = SAMPLE_RATE * FRAME_DURATION_MS // 1000  # For 10 ms frame duration
+
+        # Prepare the audio frame
+        audio_frame = rtc.AudioFrame.create(SAMPLE_RATE, NUM_CHANNELS, samples_per_channel)
+        audio_data = np.frombuffer(audio_frame.data, dtype=np.int16)
+
+        # Read and send audio frames from the .wav file
+        i = 0
+        while True:
+            # Read raw audio data from the file (in bytes)
+            raw_data = wav_file.readframes(samples_per_channel)
+            if not raw_data:
+                break  # End of file reached
+            
+            # Convert raw audio data to numpy array and fill the audio frame
+            wav_samples = np.frombuffer(raw_data, dtype=np.int16)
+            
+            # Check if the data is shorter than expected
+            if len(wav_samples) < samples_per_channel:
+                # Pad with zeros if necessary
+                wav_samples = np.pad(wav_samples, (0, samples_per_channel - len(wav_samples)), 'constant')
+                        
+
+            np.copyto(audio_data, wav_samples)
+
+            # Capture frame to send it to the track
+            await source.capture_frame(audio_frame)
+
+    print("Finished publishing .wav audio file.")
 
 
 if __name__ == "__main__":
+    os.makedirs("logs", exist_ok=True)
     logging.basicConfig(
         level=logging.INFO,
-        handlers=[logging.FileHandler("publish_wave.log"), logging.StreamHandler()],
+        handlers=[logging.FileHandler("logs/publish_wave.log"), logging.StreamHandler()],
     )
 
     loop = asyncio.get_event_loop()
