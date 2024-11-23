@@ -13,7 +13,7 @@ import utils
 SAMPLE_RATE = 16000
 NUM_CHANNELS = 1
 FORMAT = pyaudio.paInt16
-WAV_FILE = "audios/audio_received.wav"
+WAV_FILE = "TFM/audios/audio_received.wav"
 
 # Initializate wav file
 def setup_wav_file():
@@ -39,17 +39,29 @@ async def main(room: rtc.Room) -> None:
         participant: rtc.RemoteParticipant,
     ):
         logging.info("track subscribed: %s", publication.sid)
-        if track.kind == rtc.TrackKind.KIND_VIDEO:
-            _video_stream = rtc.VideoStream(track)
-            # video_stream is an async iterator that yields VideoFrame
-        elif track.kind == rtc.TrackKind.KIND_AUDIO:
+        if track.kind == rtc.TrackKind.KIND_AUDIO:
             print("Subscribed to an Audio Track")
             _audio_stream = rtc.AudioStream(track,sample_rate=SAMPLE_RATE, num_channels=NUM_CHANNELS)
             # audio_stream is an async iterator that yields AudioFrame
 
         # Start an async task to handle the audio frames
         asyncio.create_task(process_audio_stream(_audio_stream))
+        
+    @room.on("track_unpublished")
+    def on_track_unpublished(
+        publication: rtc.RemoteTrackPublication, 
+        participant: rtc.RemoteParticipant
+    ):
+        logging.info("track unpublished: %s", publication.sid)
 
+    @room.on("track_unsubscribed")
+    def on_track_unsubscribed(
+        track: rtc.Track,
+        publication: rtc.RemoteTrackPublication,
+        participant: rtc.RemoteParticipant,
+    ):
+        logging.info("track unsubscribed: %s", publication.sid)
+        wav.close()
 
     async def process_audio_stream(audio_stream):
         post_silent = False
@@ -58,12 +70,16 @@ async def main(room: rtc.Room) -> None:
             # Convert bytes to numpy array for analysis (assuming 16-bit PCM)
             audio_data = np.frombuffer(event.frame.to_wav_bytes(), dtype=np.int16)
 
+
+            wav.writeframes(audio_data[22:])
+            """
             # Write non-silent frames to wav file
             if (np.count_nonzero(np.abs(audio_data[22:]) > 10)) > 0:    # Remove 22 header long
                 wav.writeframes(audio_data[22:])
                 post_silent = True
             elif post_silent :
-                break 
+                break
+            """ 
         logging.info("Audio received")
     
 
@@ -99,7 +115,7 @@ async def main(room: rtc.Room) -> None:
 if __name__ == "__main__":
     logging.basicConfig(
         level=logging.INFO,
-        handlers=[logging.FileHandler("logs/consumer_wave.log"), logging.StreamHandler()],
+        handlers=[logging.FileHandler("TFM/logs/consumer_wave.log"), logging.StreamHandler()],
     )
 
     loop = asyncio.get_event_loop()

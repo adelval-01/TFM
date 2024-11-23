@@ -13,7 +13,7 @@ FRAME_DURATION_MS = 10  # Frame duration in milliseconds
 
 
 #audio_wav = "audios/audio_1.wav"
-audio_wav = "audios/5-CH0_C01_stadium_15dB.wav"
+audio_wav = "TFM/audios/5-CH0_C01_stadium_15dB.wav"
 # ensure LIVEKIT_URL, LIVEKIT_API_KEY, and LIVEKIT_API_SECRET are set
 
 
@@ -64,17 +64,22 @@ async def main(room: rtc.Room) -> None:
     publication = await room.local_participant.publish_track(track, options)
     logging.info("published track %s", publication.sid)
 
-    while(True):
-        # Wait for Enter key press
-        await asyncio.to_thread(input)
-        print('Publishing wav file')
-        asyncio.ensure_future(publish_wav_frames(source, audio_wav))
+    # Wait for Enter key press
+    #await asyncio.to_thread(input)
+    print('Publishing wav file')
+    try:
+        future = asyncio.ensure_future(publish_wav_frames(source, audio_wav))
+        await future
+    finally:
+        await room.local_participant.unpublish_track(track.sid, stop_on_unpublish=True)
+
+
 
 
 async def publish_wav_frames(source: rtc.AudioSource, wav_file_path: str):
     """Read a .wav file and send its audio frames through the source."""
     
-    source.clear_queue
+    source.clear_queue()
     # Open the .wav file
     with wave.open(wav_file_path, 'rb') as wav_file:
         # Ensure the .wav file's format matches the stream's expected sample rate and channels
@@ -120,7 +125,7 @@ async def publish_wav_frames(source: rtc.AudioSource, wav_file_path: str):
 if __name__ == "__main__":
     logging.basicConfig(
         level=logging.INFO,
-        handlers=[logging.FileHandler("logs/publish_wave.log"), logging.StreamHandler()],
+        handlers=[logging.FileHandler("TFM/logs/publish_wave.log"), logging.StreamHandler()],
     )
 
     loop = asyncio.get_event_loop()
