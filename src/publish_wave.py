@@ -8,13 +8,13 @@ import time
 import numpy as np
 from livekit import rtc, api
 
-SAMPLE_RATE = 48000
+SAMPLE_RATE = 16000
 NUM_CHANNELS = 1
 FRAME_DURATION_MS = 10  # Frame duration in milliseconds
 
 
-audio_wav = "TFM/audios/audio_1.wav"
-#audio_wav = "TFM/audios/5-CH0_C01_stadium_15dB.wav"
+#audio_wav = "TFM/audios/audio_1.wav"
+audio_wav = "TFM/audios/7-CH0_C01_city_5dB.wav"
 # ensure LIVEKIT_URL, LIVEKIT_API_KEY, and LIVEKIT_API_SECRET are set
 
 

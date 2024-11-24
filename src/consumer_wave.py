@@ -10,7 +10,7 @@ from livekit import rtc, api
 
 import utils
 
-SAMPLE_RATE = 48000
+SAMPLE_RATE = 16000
 NUM_CHANNELS = 1
 FORMAT = pyaudio.paInt16
 WAV_FILE = "TFM/audios/audio_received.wav"
