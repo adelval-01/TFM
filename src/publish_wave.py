@@ -3,17 +3,18 @@ import logging
 from signal import SIGINT, SIGTERM
 import os
 import wave
+import time
 
 import numpy as np
 from livekit import rtc, api
 
-SAMPLE_RATE = 16000
+SAMPLE_RATE = 48000
 NUM_CHANNELS = 1
 FRAME_DURATION_MS = 10  # Frame duration in milliseconds
 
 
-#audio_wav = "audios/audio_1.wav"
-audio_wav = "TFM/audios/5-CH0_C01_stadium_15dB.wav"
+audio_wav = "TFM/audios/audio_1.wav"
+#audio_wav = "TFM/audios/5-CH0_C01_stadium_15dB.wav"
 # ensure LIVEKIT_URL, LIVEKIT_API_KEY, and LIVEKIT_API_SECRET are set
 
 
@@ -62,16 +63,18 @@ async def main(room: rtc.Room) -> None:
     options = rtc.TrackPublishOptions()
     options.source = rtc.TrackSource.SOURCE_MICROPHONE
     publication = await room.local_participant.publish_track(track, options)
-    logging.info("published track %s", publication.sid)
+    logging.debug("published track %s", publication.sid)
 
     # Wait for Enter key press
-    #await asyncio.to_thread(input)
+    await asyncio.to_thread(input)
     print('Publishing wav file')
     try:
         future = asyncio.ensure_future(publish_wav_frames(source, audio_wav))
         await future
     finally:
+        time.sleep(1) # Compesate the inminent close of the track
         await room.local_participant.unpublish_track(track.sid, stop_on_unpublish=True)
+        logging.info("Unpublished track %s", publication.sid)
 
 
 
@@ -112,13 +115,14 @@ async def publish_wav_frames(source: rtc.AudioSource, wav_file_path: str):
             if len(wav_samples) < samples_per_channel:
                 # Pad with zeros if necessary
                 wav_samples = np.pad(wav_samples, (0, samples_per_channel - len(wav_samples)), 'constant')
-                        
+            i +=1
+                     
 
             np.copyto(audio_data, wav_samples)
 
             # Capture frame to send it to the track
             await source.capture_frame(audio_frame)
-
+        print(f"Total frames of 10ms are {i}")   
     print("Finished publishing .wav audio file.")
 
 

@@ -10,7 +10,7 @@ from livekit import rtc, api
 
 import utils
 
-SAMPLE_RATE = 16000
+SAMPLE_RATE = 48000
 NUM_CHANNELS = 1
 FORMAT = pyaudio.paInt16
 WAV_FILE = "TFM/audios/audio_received.wav"
@@ -27,6 +27,7 @@ def setup_wav_file():
 
 async def main(room: rtc.Room) -> None:
     wav = setup_wav_file()
+    stop_processing = asyncio.Event()  # Event to signal when to stop processing
 
     @room.on("participant_disconnected")
     def on_participant_disconnect(participant: rtc.Participant, *_):
@@ -49,38 +50,28 @@ async def main(room: rtc.Room) -> None:
         
     @room.on("track_unpublished")
     def on_track_unpublished(
-        publication: rtc.RemoteTrackPublication, 
-        participant: rtc.RemoteParticipant
-    ):
-        logging.info("track unpublished: %s", publication.sid)
-
-    @room.on("track_unsubscribed")
-    def on_track_unsubscribed(
-        track: rtc.Track,
         publication: rtc.RemoteTrackPublication,
         participant: rtc.RemoteParticipant,
     ):
-        logging.info("track unsubscribed: %s", publication.sid)
-        wav.close()
+        logging.info("Track unpublished: %s", publication.sid)
+        stop_processing.set()  # Signal to stop audio processing
 
     async def process_audio_stream(audio_stream):
-        post_silent = False
-        """Async function to process audio frames from the audio stream."""
-        async for event in audio_stream:
-            # Convert bytes to numpy array for analysis (assuming 16-bit PCM)
-            audio_data = np.frombuffer(event.frame.to_wav_bytes(), dtype=np.int16)
+        try:
+            i = 0
+            async for event in audio_stream:
+                # Check if we should stop processing
+                if stop_processing.is_set():
+                    logging.info("Stopping audio processing as track is unpublished.")
+                    break
+                i += 1
+                audio_data = np.frombuffer(event.frame.to_wav_bytes(), dtype=np.int16)
+                wav.writeframes(audio_data[22:])  # Save to WAV
 
-
-            wav.writeframes(audio_data[22:])
-            """
-            # Write non-silent frames to wav file
-            if (np.count_nonzero(np.abs(audio_data[22:]) > 10)) > 0:    # Remove 22 header long
-                wav.writeframes(audio_data[22:])
-                post_silent = True
-            elif post_silent :
-                break
-            """ 
-        logging.info("Audio received")
+            print(f"Total frames of 10ms are {i}")
+            logging.info("Audio stream processing completed.")
+        except Exception as e:
+            logging.error(f"Error processing audio stream: {e}")
     
 
     token = (
