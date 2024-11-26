@@ -65,8 +65,8 @@ async def main(room: rtc.Room) -> None:
                     logging.info("Stopping audio processing as track is unpublished.")
                     break
                 i += 1
-                audio_data = np.frombuffer(event.frame.to_wav_bytes(), dtype=np.int16)
-                wav.writeframes(audio_data[22:])  # Save to WAV
+                audio_data = np.frombuffer(event.frame.data, dtype=np.int16)
+                wav.writeframes(audio_data)  # Save to WAV
 
             print(f"Total frames of 10ms are {i}")
             logging.info("Audio stream processing completed.")
