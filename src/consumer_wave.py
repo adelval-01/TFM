@@ -3,16 +3,15 @@ import logging
 from signal import SIGINT, SIGTERM
 import os
 import wave
-import pyaudio
 
 import numpy as np
 from livekit import rtc, api
 
 import utils
 
-SAMPLE_RATE = 48000
+SAMPLE_RATE = 16000
 NUM_CHANNELS = 1
-FORMAT = pyaudio.paInt16
+FORMAT = 2 # 16-bit PCM
 WAV_FILE = "TFM/audios/audio_received.wav"
 
 # Initializate wav file
@@ -21,7 +20,7 @@ def setup_wav_file():
     os.makedirs(os.path.dirname(WAV_FILE), exist_ok=True)
     wav_file = wave.open(WAV_FILE, 'wb')
     wav_file.setnchannels(NUM_CHANNELS)
-    wav_file.setsampwidth(pyaudio.PyAudio().get_sample_size(FORMAT))
+    wav_file.setsampwidth(FORMAT)
     wav_file.setframerate(SAMPLE_RATE)
     return wav_file
 

@@ -8,13 +8,13 @@ import time
 import numpy as np
 from livekit import rtc, api
 
-SAMPLE_RATE = 48000
+SAMPLE_RATE = 16000
 NUM_CHANNELS = 1
 FRAME_DURATION_MS = 10  # Frame duration in milliseconds
 
 
-audio_wav = "TFM/audios/audio_1.wav"
-#audio_wav = "TFM/audios/5-CH0_C01_stadium_15dB.wav"
+#audio_wav = "TFM/audios/audio_1.wav"
+audio_wav = "TFM/audios/5-CH0_C01_stadium_15dB.wav"
 # ensure LIVEKIT_URL, LIVEKIT_API_KEY, and LIVEKIT_API_SECRET are set
 
 
@@ -66,7 +66,7 @@ async def main(room: rtc.Room) -> None:
     logging.debug("published track %s", publication.sid)
 
     # Wait for Enter key press
-    await asyncio.to_thread(input)
+    #await asyncio.to_thread(input)
     print('Publishing wav file')
     try:
         future = asyncio.ensure_future(publish_wav_frames(source, audio_wav))
@@ -82,7 +82,7 @@ async def main(room: rtc.Room) -> None:
 async def publish_wav_frames(source: rtc.AudioSource, wav_file_path: str):
     """Read a .wav file and send its audio frames through the source."""
     
-    source.clear_queue()
+    #source.clear_queue()
     # Open the .wav file
     with wave.open(wav_file_path, 'rb') as wav_file:
         # Ensure the .wav file's format matches the stream's expected sample rate and channels
