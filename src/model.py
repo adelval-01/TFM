@@ -12,7 +12,8 @@ import utils
 SAMPLE_RATE = 16000
 NUM_CHANNELS = 1
 FORMAT = 2 # 16-bit PCM
-WAV_FILE = "BTS/TFM/audios/audio_received.wav"
+WAV_FILE = "BTS/TFM/audios/audio_model.wav"
+WAV_FILE2 = "BTS/TFM/audios/audio_enhancement.wav"
 
 # Initializate wav file
 def setup_wav_file():
@@ -64,9 +65,9 @@ async def main(room: rtc.Room) -> None:
                     logging.info("Stopping audio processing as track is unpublished.")
                     break
                 i += 1
-                audio_data = np.frombuffer(event.frame.data, dtype=np.int16)
+                audio_data = np.frombuffer(event.frame.data, dtype=np.int16) # Receive samples of 160
                 wav.writeframes(audio_data)  # Save to WAV
-
+                
             print(f"Total frames of 10ms are {i}")
             logging.info("Audio stream processing completed.")
         except Exception as e:
@@ -75,8 +76,8 @@ async def main(room: rtc.Room) -> None:
 
     token = (
         api.AccessToken('API4bcDob32kABX','fWCQds2YzguBZJbVgdXbPCodqYY0jcHviHqIkwDZ7yV')
-        .with_identity("python-consumer")
-        .with_name("Python Consumer")
+        .with_identity("python-model")
+        .with_name("Python Model")
         .with_grants(
             api.VideoGrants(
                 room_join=True,
@@ -105,7 +106,7 @@ async def main(room: rtc.Room) -> None:
 if __name__ == "__main__":
     logging.basicConfig(
         level=logging.INFO,
-        handlers=[logging.FileHandler("BTS/TFM/logs/consumer_wave.log"), logging.StreamHandler()],
+        handlers=[logging.FileHandler("BTS/TFM/logs/model.log"), logging.StreamHandler()],
     )
 
     loop = asyncio.get_event_loop()
