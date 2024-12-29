@@ -15,7 +15,7 @@ SAMPLE_RATE = 16000
 NUM_CHANNELS = 1
 FORMAT = 2 # 16-bit PCM
 WAV_FILE = "BTS/TFM/audios/livekit/audio_received.wav"
-WAV_ENH = "BTS/TFM/audios/livekit/audio_enhanced_.wav"
+WAV_ENH = "BTS/TFM/audios/livekit/audio_enhanced.wav"
 WAV_ENH_NORM = "BTS/TFM/audios/livekit/audio_enhanced_norm.wav"
 
 # Load model dimensions and weights
@@ -286,6 +286,8 @@ async def main(room: rtc.Room) -> None:
                     logging.error(f"Failed to save enhanced audio: {save_error}")
     
 
+    room_id = input("Please enter a value for the variable: ")
+    logging.info("Trying to connect to room %s", room_id)
     token = (
         api.AccessToken('API4bcDob32kABX','fWCQds2YzguBZJbVgdXbPCodqYY0jcHviHqIkwDZ7yV')
         .with_identity("python-model")
@@ -293,7 +295,8 @@ async def main(room: rtc.Room) -> None:
         .with_grants(
             api.VideoGrants(
                 room_join=True,
-                room="TFM-room",
+                # room="TFM-room",
+                room=room_id,
             )
         )
         .to_jwt()

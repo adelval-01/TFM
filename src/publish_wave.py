@@ -29,6 +29,9 @@ async def main(room: rtc.Room) -> None:
     def on_participant_disconnect(participant: rtc.Participant, *_):
         logging.info("participant disconnected: %s", participant.identity)
 
+
+    room_id = input("Please enter a value for the variable: ")
+    logging.info("Trying to connect to room %s", room_id)
     token = (
         api.AccessToken('API4bcDob32kABX','fWCQds2YzguBZJbVgdXbPCodqYY0jcHviHqIkwDZ7yV')
         .with_identity("python-publisher")
@@ -36,7 +39,8 @@ async def main(room: rtc.Room) -> None:
         .with_grants(
             api.VideoGrants(
                 room_join=True,
-                room="TFM-room",
+                room=room_id,
+                # room="TFM-room",
             )
         )
         .to_jwt()

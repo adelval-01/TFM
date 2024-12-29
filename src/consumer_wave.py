@@ -80,7 +80,8 @@ async def main(room: rtc.Room) -> None:
         .with_grants(
             api.VideoGrants(
                 room_join=True,
-                room="TFM-room",
+                # room="TFM-room",
+                room="playground-cAdX-Wzcn",
             )
         )
         .to_jwt()
