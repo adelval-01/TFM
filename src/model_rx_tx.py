@@ -16,7 +16,7 @@ NUM_CHANNELS = 1
 FORMAT = 2 # 16-bit PCM
 WAV_FILE = "BTS/TFM/audios/livekit/audio_received.wav"
 WAV_ENH = "BTS/TFM/audios/livekit/audio_enhanced.wav"
-# WAV_ENH_NORM = "BTS/TFM/audios/livekit/audio_enhanced_norm.wav"
+WAV_ENH_NORM = "BTS/TFM/audios/livekit/audio_enhanced_norm.wav"
 
 # Load model dimensions and weights
 
@@ -84,7 +84,6 @@ async def main(room: rtc.Room) -> None:
         stop_processing.set()  # Signal to stop audio processing
 
     async def process_audio_stream(audio_stream):
-        logging.info("Processing audio stream...")
         try:
 
             ## Parameters for the SE model ##
@@ -118,7 +117,7 @@ async def main(room: rtc.Room) -> None:
             buffer_frame = np.zeros(0)  # Buffer de ventana recibida
 
             snr_frame_mask = np.ones((512,min_windows)) # Inicializado con la duración de la ventana de inferencia
-            yenh = np.zeros(320000) # Inicializado con la duración del audio original
+            yenh = np.zeros(100000) # Inicializado con la duración del audio original
 
             async for event in audio_stream:
 
@@ -130,7 +129,6 @@ async def main(room: rtc.Room) -> None:
                 n_frame += 1
                 audio_data = np.frombuffer(event.frame.data, dtype=np.int16) # Receive samples of 160
                 logging.debug(f'{n_frame-1} Se reciben estos frames {list(event.frame.data[:10])}')
-                logging.info(f'Frame {n_frame} received')
                 wav.writeframes(audio_data)  # Save to WAV to compare
                 
                 ## PROCESS AUDIO DATA
@@ -262,13 +260,14 @@ async def main(room: rtc.Room) -> None:
                         slice_size = 0
                     yenh[cnt * shift_samples : cnt * shift_samples + slice_size] += xenh[0:slice_size]
                     logging.debug(f'{n_frame} Frames en yenh {yenh[cnt * shift_samples : cnt * shift_samples + 10]}')
-                    logging.info(f'Frame {cnt} processed')
-            
-            # max_amplitude = np.max(np.abs(yenh))
-            # if max_amplitude > 0:
-            #     yenh_norm = (yenh / max_amplitude)
+                    ## SEND FRAME TO TACK
+                    
 
-            # wavfile.write(WAV_ENH_NORM,fs,yenh_norm)
+            max_amplitude = np.max(np.abs(yenh))
+            if max_amplitude > 0:
+                yenh_norm = (yenh / max_amplitude)
+
+            wavfile.write(WAV_ENH_NORM,fs,yenh_norm)
 
             logging.info(f"Audio stream processing completed. {n_frame} frames processed.")
 
@@ -323,11 +322,7 @@ async def main(room: rtc.Room) -> None:
 if __name__ == "__main__":
     logging.basicConfig(
         level=logging.INFO,
-        format="%(asctime)s - %(levelname)s - %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S",
-        handlers=[
-            logging.FileHandler("BTS/TFM/logs/model.log"), 
-            logging.StreamHandler()],
+        handlers=[logging.FileHandler("BTS/TFM/logs/model.log"), logging.StreamHandler()],
     )
 
     loop = asyncio.get_event_loop()

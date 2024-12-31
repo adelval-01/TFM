@@ -77,7 +77,7 @@ async def main(room: rtc.Room) -> None:
         await future
     finally:
         # await asyncio.to_thread(input)
-        time.sleep(10) # Compesate the inminent close of the track
+        time.sleep(2) # Compesate the inminent close of the track
         await room.local_participant.unpublish_track(track.sid, stop_on_unpublish=True)
         logging.info("Unpublished track %s", publication.sid)
 
@@ -128,6 +128,7 @@ async def publish_wav_frames(source: rtc.AudioSource, wav_file_path: str):
             # Capture frame to send it to the track
             # logging.info(f"Capturing frame {list(audio_frame.data[:10])}")
             await source.capture_frame(audio_frame)
+            time.sleep(0.001) # Study the effect of delay
         print(f"Total frames of 10ms are {i}")   
     print("Finished publishing .wav audio file.")
 

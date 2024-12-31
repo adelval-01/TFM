@@ -1,28 +1,18 @@
-import pyaudio
-import wave
+import subprocess
 
-def play_audio(filename):
-    # Open the .wav file for playback
-    with wave.open(filename, 'rb') as wf:
-        audio = pyaudio.PyAudio()
+def download_audio_files(remote_host, remote_directory, local_directory, username):
+    try:
+        # Construct the SCP command
+        scp_command = f"scp {username}@{remote_host}:{remote_directory}/*.wav {local_directory}"
+        subprocess.run(scp_command, shell=True, check=True)
+        print("Files downloaded successfully to:", local_directory)
+    except subprocess.CalledProcessError as e:
+        print("Error during file transfer:", str(e))
 
-        # Open a stream for playback
-        stream = audio.open(format=audio.get_format_from_width(wf.getsampwidth()),
-                            channels=wf.getnchannels(),
-                            rate=wf.getframerate(),
-                            output=True)
+# Configuration
+remote_host = "your.remote.server.com"
+username = "your_username"
+remote_directory = "/path/to/remote/directory"
+local_directory = "/path/to/local/directory"
 
-        print("Playing audio...")
-
-        # Read and play back audio in chunks
-        data = wf.readframes(1024)
-        while data:
-            stream.write(data)
-            data = wf.readframes(1024)
-
-        print("Playback finished.")
-
-        # Stop and close the stream
-        stream.stop_stream()
-        stream.close()
-        audio.terminate()
+download_audio_files(remote_host, remote_directory, local_directory, username)
