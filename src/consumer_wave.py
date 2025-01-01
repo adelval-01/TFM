@@ -7,12 +7,11 @@ import wave
 import numpy as np
 from livekit import rtc, api
 
-import utils
 
 SAMPLE_RATE = 16000
 NUM_CHANNELS = 1
 FORMAT = 2 # 16-bit PCM
-WAV_FILE = "BTS/TFM/audios/audio_received.wav"
+WAV_FILE = "BTS/TFM/audios/audio_received_consumer.wav"
 
 # Initializate wav file
 def setup_wav_file():
@@ -72,7 +71,7 @@ async def main(room: rtc.Room) -> None:
         except Exception as e:
             logging.error(f"Error processing audio stream: {e}")
     
-
+    room_id = input("Please enter an id for the receiver room: ")
     token = (
         api.AccessToken('API4bcDob32kABX','fWCQds2YzguBZJbVgdXbPCodqYY0jcHviHqIkwDZ7yV')
         .with_identity("python-consumer")
@@ -81,7 +80,7 @@ async def main(room: rtc.Room) -> None:
             api.VideoGrants(
                 room_join=True,
                 # room="TFM-room",
-                room="playground-cAdX-Wzcn",
+                room=room_id,
             )
         )
         .to_jwt()

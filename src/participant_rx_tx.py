@@ -24,7 +24,7 @@ def setup_wav_file():
 
 async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
     """
-    Main function to connect participant to 2 room. From the fisrt room, the participant will receive audio frames
+    Main function to connect participant to 2 rooms. From the fisrt room, the participant will receive audio frames
     and send them to the second room.
     Args:
         room_1: rtc.Room object --> Room where the participant will receive audio frames

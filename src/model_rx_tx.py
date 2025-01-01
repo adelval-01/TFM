@@ -1,25 +1,25 @@
+import os
+import sys
+import wave
+import time
 import asyncio
 import logging
-from signal import SIGINT, SIGTERM
-import os
-import wave
-import sys
-from scipy.io import wavfile
-
 import numpy as np
+from scipy.io import wavfile
 from livekit import rtc, api
+from signal import SIGINT, SIGTERM
 
 import model_utils as mu
 
 SAMPLE_RATE = 16000
+FRAME_DURATION_MS = 10
 NUM_CHANNELS = 1
 FORMAT = 2 # 16-bit PCM
-WAV_FILE = "BTS/TFM/audios/livekit/audio_received.wav"
-WAV_ENH = "BTS/TFM/audios/livekit/audio_enhanced.wav"
-WAV_ENH_NORM = "BTS/TFM/audios/livekit/audio_enhanced_norm.wav"
+WAV_FILE = "BTS/TFM/audios/livekit/audio_received_lk.wav"
+WAV_ENH = "BTS/TFM/audios/livekit/audio_enhanced_lk.wav"
+
 
 # Load model dimensions and weights
-
 # 8k Net trained
 # workspace_dir = '/home/adelval/BTS/TFM/afterburner8k/'
 
@@ -38,9 +38,10 @@ from net_snr import Net_snr
 net_snr = Net_snr(input_dim, output_dim, cuda=True)
 net_snr.load_theta( workspace_dir + 'data/model/theta_last')
 
+
+
 # Initializate wav file
 def setup_wav_file():
-    # Crear el directorio si no existe
     os.makedirs(os.path.dirname(WAV_FILE), exist_ok=True)
     wav_file = wave.open(WAV_FILE, 'wb')
     wav_file.setnchannels(NUM_CHANNELS)
@@ -48,15 +49,23 @@ def setup_wav_file():
     wav_file.setframerate(SAMPLE_RATE)
     return wav_file
 
-async def main(room: rtc.Room) -> None:
-    wav = setup_wav_file()
-    stop_processing = asyncio.Event()  # Event to signal when to stop processing
+async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
+    """
+    Main function to connect participant to 2 rooms. From the fisrt room, the participant will receive audio frames
+    and send them to the second room.
+    Args:
+        room_1: rtc.Room object --> Room where the participant will receive audio frames
+        room_2: rtc.Room object --> Room where the participant will send audio frames
+    """
+    
+    wav = setup_wav_file()                          # Initialize wav file to save audio frames
+    stop_processing = asyncio.Event()               # Event to signal when to stop processing
 
-    @room.on("participant_disconnected")
+    @room_1.on("participant_disconnected")
     def on_participant_disconnect(participant: rtc.Participant, *_):
         logging.info("participant disconnected: %s", participant.identity)
 
-    @room.on("track_subscribed")
+    @room_1.on("track_subscribed")
     def on_track_subscribed(
         track: rtc.Track,
         publication: rtc.RemoteTrackPublication,
@@ -73,21 +82,26 @@ async def main(room: rtc.Room) -> None:
             # audio_stream is an async iterator that yields AudioFrame
 
         # Start an async task to handle the audio frames
-        asyncio.create_task(process_audio_stream(_audio_stream))
+        asyncio.create_task(process_audio_stream(_audio_stream, source))
         
-    @room.on("track_unpublished")
+    @room_1.on("track_unpublished")
     def on_track_unpublished(
         publication: rtc.RemoteTrackPublication,
         participant: rtc.RemoteParticipant,
     ):
         logging.info("Track unpublished: %s", publication.sid)
-        stop_processing.set()  # Signal to stop audio processing
+        stop_processing.set()                       # Signal to stop audio processing
 
-    async def process_audio_stream(audio_stream):
+    async def process_audio_stream(audio_stream, source):
+        """
+        Process audio frames from the audio stream and send them to the source
+        Args:
+            audio_stream: rtc.AudioStream object --> Audio stream from the subscribed track
+            source: rtc.AudioSource object --> Audio source to publish the audio frames
+        """
+
         try:
-
-            ## Parameters for the SE model ##
-            #-------------------------------------------------------------------------------------#
+            #--------------------------PARAMETERS FOR SE MODEL------------------------------------#
             n_frame = 0     # Counter for frames
             it = 0          # Counter for windows
 
@@ -98,13 +112,13 @@ async def main(room: rtc.Room) -> None:
             nfft=[1024]
             gmin = 0.0562
 
-            frame_size = 0.01  # 10 ms
+            frame_size = 0.01       # ms
             frame_samples = int(frame_size * fs)  # Muestras por frame
             logging.debug(f'Un frame tiene una duración de {frame_samples} samples')
-            shift_size = m  # 10 ms
+            shift_size = m          # ms
             shift_samples = int(shift_size * fs)  # Desplazamiento entre frames 160
             logging.debug(f'Desplazamiento de {shift_samples} samples')
-            window_size = w[0]  # 40 ms (640 muestras)
+            window_size = w[0]      # 40 ms (640 muestras)
             window_samples = int(window_size * fs)  # Muestras por ventana 640
             logging.debug(f'La ventana tiene una duración de {window_samples} samples')
             min_windows = 4
@@ -114,139 +128,69 @@ async def main(room: rtc.Room) -> None:
             logging.debug(f'El buffer retendra hasta {window_inference_max} samples')
             #-------------------------------------------------------------------------------------#
             
-            buffer_frame = np.zeros(0)  # Buffer de ventana recibida
+            buffer_frame = np.zeros(0)                      # Buffer de ventana recibida
 
-            snr_frame_mask = np.ones((512,min_windows)) # Inicializado con la duración de la ventana de inferencia
-            yenh = np.zeros(100000) # Inicializado con la duración del audio original
+            snr_frame_mask = np.ones((512,min_windows))     # Inicializado con la duración de la ventana de inferencia
+            yenh = np.zeros(320000)                         # Inicializado con la duración del audio original
+
+
+            #------------------------------PARAMETERS SEND FRAMES---------------------------------#
+            samples_per_channel = SAMPLE_RATE * FRAME_DURATION_MS // 1000                       # Calculate samples per frame
+            audio_frame = rtc.AudioFrame.create(SAMPLE_RATE, NUM_CHANNELS, samples_per_channel) # Prepare the audio frame
+            audio_data_tx = np.frombuffer(audio_frame.data, dtype=np.int16)                     # Maps the audio frame data to a numpy array for easier manipulation
+            #-------------------------------------------------------------------------------------#
 
             async for event in audio_stream:
-
                 # Check if participant has unpublished the track
                 if stop_processing.is_set():
                     logging.info("Stopping audio processing as track is unpublished.")
                     break
 
                 n_frame += 1
-                audio_data = np.frombuffer(event.frame.data, dtype=np.int16) # Receive samples of 160
-                logging.debug(f'{n_frame-1} Se reciben estos frames {list(event.frame.data[:10])}')
-                wav.writeframes(audio_data)  # Save to WAV to compare
-                
+                audio_data_rx = np.frombuffer(event.frame.data, dtype=np.int16)
+                wav.writeframes(audio_data_rx) 
+
                 ## PROCESS AUDIO DATA
                 # Concatenar el frame recibido al buffer `buffer_frame`
-                buffer_frame = np.concatenate([buffer_frame, audio_data])
+                buffer_frame = np.concatenate([buffer_frame, audio_data_rx])
 
                 if len(buffer_frame) >= window_samples:
-                    # Extraer las primeras 640 muestras como ventana completa
+
                     if len(buffer_frame) < window_inference_max:
                         work_window = buffer_frame[it*shift_samples:it*shift_samples+window_samples]
                         logging.debug(f"Frame number: {n_frame} y buffer len {int(len(buffer_frame)/frame_samples)}")
-                        logging.debug(f"Ventana acumulada {work_window[:10]}")
-                        logging.debug(f"Ventana acumulada {work_window[160:170]}")
-                        logging.debug(f"Ventana acumulada {work_window[320:330]}")
-                        logging.debug(f"Ventana acumulada {work_window[480:490]}")
-                        it += 1 # Number of windows received
+                        it += 1                                                                 # Number of windows received
                         if len(buffer_frame) >= window_inference_min:
                             logging.debug("Reached MIN WINDOW --> STRATING INFERENCE")
                             work_inf_frames = buffer_frame[:window_inference_max]
-                            logging.debug(f'0 frame  {work_inf_frames[:10]}')
-                            logging.debug(f'1 frame  {work_inf_frames[frame_samples:frame_samples+10]}')
-                            logging.debug(f'2 frame  {work_inf_frames[2*frame_samples:2*frame_samples+10]}')
-                            logging.debug(f'3 frame  {work_inf_frames[3*frame_samples:3*frame_samples+10]}')
                             fft_windows = mu.frame_fft(work_inf_frames, fs, w, m, nfft, it)
-                            logging.debug(f'0 Vector 2D con FFT para cada frame por row  {fft_windows[0,:10]}')
-                            logging.debug(f'1 Vector 2D con FFT para cada frame por row  {fft_windows[1,:10]}')
-                            logging.debug(f'2 Vector 2D con FFT para cada frame por row  {fft_windows[2,:10]}')
-                            logging.debug(f'3 Vector 2D con FFT para cada frame por row  {fft_windows[3,:10]}')
                             fft_windows_log = mu.log_scale(fft_windows)
-                            logging.debug(f'0 Vector 2D con FFT para cada frame por row  {fft_windows_log[0,:10]}')
-                            logging.debug(f'1 Vector 2D con FFT para cada frame por row  {fft_windows_log[1,:10]}')
-                            logging.debug(f'2 Vector 2D con FFT para cada frame por row  {fft_windows_log[2,:10]}')
-                            logging.debug(f'3 Vector 2D con FFT para cada frame por row  {fft_windows_log[3,:10]}')
                             fb_windows = mu.frame_fb_mfcc(work_inf_frames, fs, B, w, m, nfft, it)
-                            logging.debug(f'0 Filtro Mel {fb_windows[0,:5]}')
-                            logging.debug(f'1 Filtro Mel {fb_windows[1,:5]}')
-                            logging.debug(f'2 Filtro Mel {fb_windows[2,:5]}')
-                            logging.debug(f'3 Filtro Mel {fb_windows[3,:5]}')
                             fb_windows_norm = mu.norm_fb_frame(fb_windows)
-                            logging.debug(f'0 Filtro Mel normalizado {fb_windows_norm[0,:5]}')
-                            logging.debug(f'1 Filtro Mel normalizado {fb_windows_norm[1,:5]}')
-                            logging.debug(f'2 Filtro Mel normalizado {fb_windows_norm[2,:5]}')
-                            logging.debug(f'3 Filtro Mel normalizado {fb_windows_norm[3,:5]}')
                             windows_concat = np.concatenate( (fft_windows_log,fb_windows_norm), 1 )
-                            logging.debug(f'0 La concatenacion resulta  {windows_concat[0,:5]}  y {windows_concat[0,512:517]}')
-                            logging.debug(f'1 La concatenacion resulta  {windows_concat[1,:5]}  y {windows_concat[1,512:517]}')
-                            logging.debug(f'2 La concatenacion resulta  {windows_concat[2,:5]}  y {windows_concat[2,512:517]}')
-                            logging.debug(f'3 La concatenacion resulta  {windows_concat[3,:5]}  y {windows_concat[3,512:517]}')
                             snr_frame_mask = mu.net_eval(windows_concat, net_snr)
-                            logging.debug(snr_frame_mask.shape)
-                            logging.debug(snr_frame_mask[0,:10])
-                            logging.debug(snr_frame_mask[1,:10])
-                            logging.debug(snr_frame_mask[2,:10])
-                            logging.debug(snr_frame_mask[3,:10])
                             snr_frame_mask = snr_frame_mask.T
-                            logging.debug(f'La máscara {it} calculada es de {snr_frame_mask.shape}')
                             logging.debug(f'Frames restantes en el buffer {len(buffer_frame)/frame_samples}')
 
                     # Si el buffer alcanza o excede las 20 ventanas para hacer la inferencia
                     else:
                         work_window = buffer_frame[window_inference_max-window_samples:] # Los últimos frames del buffer
-                        logging.debug(f"Frame number: {n_frame}")
-                        logging.debug(f"Ventana acumulada {work_window[:10]}")
-                        logging.debug(f"Ventana acumulada {work_window[160:170]}")
-                        logging.debug(f"Ventana acumulada {work_window[320:330]}")
-                        logging.debug(f"Ventana acumulada {work_window[480:490]}")
                         logging.debug("Reached MAX WINDOW --> Starting Inference")
                         work_inf_frames = buffer_frame[:window_inference_max]
-                        logging.debug(f'0 frame  {work_inf_frames[:10]}')
-                        logging.debug(f'1 frame  {work_inf_frames[frame_samples:frame_samples+10]}')
-                        logging.debug(f'2 frame  {work_inf_frames[2*frame_samples:2*frame_samples+10]}')
-                        logging.debug(f'3 frame  {work_inf_frames[3*frame_samples:3*frame_samples+10]}')
-                        logging.debug(f'23 frame {work_inf_frames[22*frame_samples:22*frame_samples+10]}')
                         fft_windows = mu.frame_fft(work_inf_frames, fs, w, m, nfft, max_windows)
-                        logging.debug(f'0 Vector 2D con FFT para cada frame por row  {fft_windows[0,:10]}')
-                        logging.debug(f'1 Vector 2D con FFT para cada frame por row  {fft_windows[1,:10]}')
-                        logging.debug(f'2 Vector 2D con FFT para cada frame por row  {fft_windows[2,:10]}')
-                        logging.debug(f'3 Vector 2D con FFT para cada frame por row  {fft_windows[3,:10]}')
-                        logging.debug(f'20 Vector 2D con FFT para cada frame por row {fft_windows[19,:10]}')
                         fft_windows_log = mu.log_scale(fft_windows)
-                        logging.debug(f'0 Vector 2D con FFT para cada frame por row  {fft_windows_log[0,:10]}')
-                        logging.debug(f'1 Vector 2D con FFT para cada frame por row  {fft_windows_log[1,:10]}')
-                        logging.debug(f'2 Vector 2D con FFT para cada frame por row  {fft_windows_log[2,:10]}')
-                        logging.debug(f'3 Vector 2D con FFT para cada frame por row  {fft_windows_log[3,:10]}')
-                        logging.debug(f'20 Vector 2D con FFT para cada frame por row {fft_windows_log[19,:10]}')
                         fb_windows = mu.frame_fb_mfcc(work_inf_frames, fs, B, w, m, nfft, max_windows)
-                        logging.debug(f'0 Filtro Mel {fb_windows[0,:5]}')
-                        logging.debug(f'1 Filtro Mel {fb_windows[1,:5]}')
-                        logging.debug(f'2 Filtro Mel {fb_windows[2,:5]}')
-                        logging.debug(f'3 Filtro Mel {fb_windows[3,:5]}')
-                        logging.debug(f'19 Filtro Mel {fb_windows[19,:5]}')
                         fb_windows_norm = mu.norm_fb_frame(fb_windows)
-                        logging.debug(f'0 Filtro Mel normalizado {fb_windows_norm[0,:5]}')
-                        logging.debug(f'1 Filtro Mel normalizado {fb_windows_norm[1,:5]}')
-                        logging.debug(f'2 Filtro Mel normalizado {fb_windows_norm[2,:5]}')
-                        logging.debug(f'3 Filtro Mel normalizado {fb_windows_norm[3,:5]}')
-                        logging.debug(f'19 Filtro Melnormalizado {fb_windows_norm[19,:5]}')
                         windows_concat = np.concatenate( (fft_windows_log,fb_windows_norm), 1 )
-                        logging.debug(f'0 La concatenacion resulta  {windows_concat[0,:5]}  y {windows_concat[0,512:517]}')
-                        logging.debug(f'1 La concatenacion resulta  {windows_concat[1,:5]}  y {windows_concat[1,512:517]}')
-                        logging.debug(f'2 La concatenacion resulta  {windows_concat[2,:5]}  y {windows_concat[2,512:517]}')
-                        logging.debug(f'3 La concatenacion resulta  {windows_concat[3,:5]}  y {windows_concat[3,512:517]}')
-                        logging.debug(f'19 La concatenacion resulta {windows_concat[19,:5]} y {windows_concat[19,512:517]}')
-
                         snr_frame_mask = mu.net_eval(windows_concat, net_snr)
-                        logging.debug(snr_frame_mask.shape)
-                        logging.debug(snr_frame_mask[0,:10])
-                        logging.debug(snr_frame_mask[1,:10])
-                        logging.debug(snr_frame_mask[2,:10])
-                        logging.debug(snr_frame_mask[3,:10])
-                        logging.debug(snr_frame_mask[19,:10])
                         snr_frame_mask = snr_frame_mask.T
                         #Desplazar las muestras en `buffer_frame` para la próxima ventana
                         buffer_frame = buffer_frame[shift_samples:]
                         logging.debug(f'Frames restantes en el buffer {len(buffer_frame)/frame_samples}')
 
                     # Aqui haría la evaluacion con la máscara pertinente (para las primeras 3 ventanas sin máscara calculada)
-                    cnt = n_frame - 3
+                    #---------------------------------EVALUATION OF WINDOW---------------------------------#
+                    cnt = n_frame - 3 # Automatize
                     logging.debug(f'EVALUATION OF WINDOW {cnt}')
                     x = np.array(work_window, dtype=np.float32) / 2 ** 15 # 0.04 * fs = 640 samples
                     logging.debug(f'El frame sin enventanado resulta {x[:10]}')
@@ -260,14 +204,26 @@ async def main(room: rtc.Room) -> None:
                         slice_size = 0
                     yenh[cnt * shift_samples : cnt * shift_samples + slice_size] += xenh[0:slice_size]
                     logging.debug(f'{n_frame} Frames en yenh {yenh[cnt * shift_samples : cnt * shift_samples + 10]}')
-                    ## SEND FRAME TO TACK
+                    logging.info(f'Frame {cnt} processed')
+                    #-------------------------------------------------------------------------------------#
                     
+                    if(cnt == 300):
+                        # Publish audio frames to the track in room_2 with delay
+                        for i in range(200):
+                            await asyncio.ensure_future(publish_frames(
+                                source, 
+                                audio_frame, 
+                                audio_data_tx, 
+                                (yenh[i* frame_samples : i * frame_samples + frame_samples]*2**15).astype(np.int16))
+                            )
 
-            max_amplitude = np.max(np.abs(yenh))
-            if max_amplitude > 0:
-                yenh_norm = (yenh / max_amplitude)
-
-            wavfile.write(WAV_ENH_NORM,fs,yenh_norm)
+                    # # Publish audio frames to the track in room_2 with no delay
+                    # await asyncio.ensure_future(publish_frames(
+                    #     source, 
+                    #     audio_frame, 
+                    #     audio_data_tx, 
+                    #     (yenh[cnt * frame_samples : cnt * frame_samples + frame_samples]*2**15).astype(np.int16))
+                    # )
 
             logging.info(f"Audio stream processing completed. {n_frame} frames processed.")
 
@@ -281,15 +237,14 @@ async def main(room: rtc.Room) -> None:
                     logging.debug(f'El audio mejorado tiene una longitud de {len(yenh)} y {yenh.dtype}')
                     for i in range(200):
                         logging.debug(f'{i} La señal mejorada es {np.int16((2**15)*yenh[i*160:10+i*160])}')
-                    wavfile.write(WAV_ENH, SAMPLE_RATE, yenh)
+                    wavfile.write(WAV_ENH, SAMPLE_RATE, (yenh*2**15).astype(np.int16))
                     logging.info("Enhanced audio saved successfully.")
                 except Exception as save_error:
                     logging.error(f"Failed to save enhanced audio: {save_error}")
+            wav.close()
     
-
-    room_id = input("Please enter a value for the variable: ")
-    logging.info("Trying to connect to room %s", room_id)
-    token = (
+    room_id_1 = input("Please enter an id for the receiver room: ")
+    token_1 = (
         api.AccessToken('API4bcDob32kABX','fWCQds2YzguBZJbVgdXbPCodqYY0jcHviHqIkwDZ7yV')
         .with_identity("python-model")
         .with_name("Python Model")
@@ -297,46 +252,109 @@ async def main(room: rtc.Room) -> None:
             api.VideoGrants(
                 room_join=True,
                 # room="TFM-room",
-                room=room_id,
+                room=room_id_1,
             )
         )
         .to_jwt()
     )
-    url = "wss://test-tfm-3lii83j0.livekit.cloud"
+    room_id_2 = input("Please enter an id for the sender room: ")
+    token_2 = (
+        api.AccessToken('API4bcDob32kABX','fWCQds2YzguBZJbVgdXbPCodqYY0jcHviHqIkwDZ7yV')
+        .with_identity("python-model")
+        .with_name("Python Model")
+        .with_grants(
+            api.VideoGrants(
+                room_join=True,
+                # room="TFM-room",
+                room=room_id_2,
+            )
+        )
+        .to_jwt()
+    )
 
-    logging.info("connecting to %s", url)
+    url = "wss://test-tfm-3lii83j0.livekit.cloud"   # Livekit project URL   
+
+    logging.info("Connecting to %s", url)
     try:
-        await room.connect(
+        logging.info("Connecting to room %s...", room_2.name)
+        await room_2.connect(
             url,
-            token,
+            token_2,
+            options=rtc.RoomOptions(
+                auto_subscribe=False,
+            ),
+        )
+        logging.info("Connected to room %s", room_2.name)
+
+        # Publish a track
+        source = rtc.AudioSource(SAMPLE_RATE, NUM_CHANNELS)
+        track = rtc.LocalAudioTrack.create_audio_track("audio_wav", source)
+        options = rtc.TrackPublishOptions()
+        options.source = rtc.TrackSource.SOURCE_MICROPHONE
+        publication = await room_2.local_participant.publish_track(track, options)
+        logging.info(f"Track {publication.sid} published by {room_2.local_participant.identity}")
+
+        logging.info("Connecting to room %s...", room_1.name)
+        await room_1.connect(
+            url,
+            token_1,
             options=rtc.RoomOptions(
                 auto_subscribe=True,
             ),
         )
-        logging.info("connected to room %s", room.name)
+        logging.info("Connected to room %s", room_1.name)
     except rtc.ConnectError as e:
-        logging.error("failed to connect to the room: %s", e)
+        logging.error("Failed to connect to the room: %s", e)
         return
+    
+    
 
+async def publish_frames(source: rtc.AudioSource, audio_frame:rtc.AudioFrame, audio_data: np.ndarray, frame: np.ndarray):
+    """
+    Send audio frames through the source
+    Args:   
+        source: rtc.AudioSource object --> Audio source to publish the audio frames
+        audio_frame: rtc.AudioFrame object --> Audio frame to send
+        audio_data: np.ndarray --> Audio data mapped to audio frame to send
+        frame: np.ndarray --> Frame to send
+
+    """
+    #source.clear_queue()
+
+    np.copyto(audio_data, frame)
+
+    # Capture frame to send it to the track
+    # logging.info(f"Capturing frame {list(audio_frame.data[:10])}")
+    await source.capture_frame(audio_frame)
+    # time.sleep(0.001) # Study the effect of delay
 
 if __name__ == "__main__":
     logging.basicConfig(
         level=logging.INFO,
-        handlers=[logging.FileHandler("BTS/TFM/logs/model.log"), logging.StreamHandler()],
+        handlers=[logging.FileHandler("BTS/TFM/logs/consumer_wave.log"), logging.StreamHandler()],
     )
 
-    loop = asyncio.get_event_loop()
-    room = rtc.Room(loop=loop)
+    loop_1 = asyncio.get_event_loop()
+    room_1 = rtc.Room(loop=loop_1)
+    loop_2 = asyncio.get_event_loop()
+    room_2 = rtc.Room(loop=loop_2)
 
-    async def cleanup():
-        await room.disconnect()
-        loop.stop()
+    async def cleanup_1():
+        await room_1.disconnect()
+        loop_1.stop()
+    
+    async def cleanup_2():
+        await room_2.disconnect()
+        loop_2.stop()
 
-    asyncio.ensure_future(main(room))
+    asyncio.ensure_future(main(room_1, room_2))
     for signal in [SIGINT, SIGTERM]:
-        loop.add_signal_handler(signal, lambda: asyncio.ensure_future(cleanup()))
+        loop_1.add_signal_handler(signal, lambda: asyncio.ensure_future(cleanup_1()))
+        loop_2.add_signal_handler(signal, lambda: asyncio.ensure_future(cleanup_2()))
 
     try:
-        loop.run_forever()
+        loop_1.run_forever()
+        loop_2.run_forever()
     finally:
-        loop.close()
+        loop_1.close()
+        loop_2.close()
