@@ -131,7 +131,7 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
             buffer_frame = np.zeros(0)                      # Buffer de ventana recibida
 
             snr_frame_mask = np.ones((512,min_windows))     # Inicializado con la duración de la ventana de inferencia
-            yenh = np.zeros(320000)                         # Inicializado con la duración del audio original
+            yenh = np.zeros(640000)                         # Inicializado con la duración del audio original
 
 
             #------------------------------PARAMETERS SEND FRAMES---------------------------------#
@@ -206,17 +206,16 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
                     logging.debug(f'{n_frame} Frames en yenh {yenh[cnt * shift_samples : cnt * shift_samples + 10]}')
                     logging.info(f'Frame {cnt} processed')
                     #-------------------------------------------------------------------------------------#
-                    
-                    if(cnt == 300):
-                        # Publish audio frames to the track in room_2 with delay
-                        for i in range(200):
-                            await asyncio.ensure_future(publish_frames(
-                                source, 
-                                audio_frame, 
-                                audio_data_tx, 
-                                (yenh[i* frame_samples : i * frame_samples + frame_samples]*2**15).astype(np.int16))
-                            )
-
+                    # Usar thread para enviar el frame mejorado simultaneamente
+                    # if(cnt == 1000):
+                    #     # Publish audio frames to the track in room_2 with delay
+                    #     for i in range(900):
+                    #         await asyncio.ensure_future(publish_frames(
+                    #             source, 
+                    #             audio_frame, 
+                    #             audio_data_tx, 
+                    #             (np.clip(yenh[i* frame_samples : i * frame_samples + frame_samples]*2**15, -32768, 32767)).astype(np.int16))
+                    #         )
                     # # Publish audio frames to the track in room_2 with no delay
                     # await asyncio.ensure_future(publish_frames(
                     #     source, 
@@ -237,7 +236,7 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
                     logging.debug(f'El audio mejorado tiene una longitud de {len(yenh)} y {yenh.dtype}')
                     for i in range(200):
                         logging.debug(f'{i} La señal mejorada es {np.int16((2**15)*yenh[i*160:10+i*160])}')
-                    wavfile.write(WAV_ENH, SAMPLE_RATE, (yenh*2**15).astype(np.int16))
+                    wavfile.write(WAV_ENH, SAMPLE_RATE, np.clip(yenh*2**15, -32768, 32767).astype(np.int16))
                     logging.info("Enhanced audio saved successfully.")
                 except Exception as save_error:
                     logging.error(f"Failed to save enhanced audio: {save_error}")
