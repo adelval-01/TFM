@@ -12,7 +12,7 @@ from signal import SIGINT, SIGTERM
 
 import model_utils as mu
 
-SAMPLE_RATE = 16000
+SAMPLE_RATE = 8000
 FRAME_DURATION_MS = 10
 NUM_CHANNELS = 1
 FORMAT = 2 # 16-bit PCM
@@ -23,11 +23,12 @@ frame_queue = asyncio.Queue()
 
 # Load model dimensions and weights
 # 8k Net trained
-# workspace_dir = '/home/adelval/BTS/TFM/afterburner8k/'
+workspace_dir = '/home/adelval/BTS/TFM/afterburner8k/'
 
 # 16k Net trained
-workspace_dir = '/home/adelval/BTS/TFM/test/'
-input_dim, output_dim = mu.load_obj(workspace_dir + 'data/model/dimensions.pkl') 
+# workspace_dir = '/home/adelval/BTS/TFM/test/'
+# input_dim, output_dim = mu.load_obj(workspace_dir + 'data/model/dimensions.pkl') 
+input_dim, output_dim = mu.load_obj(workspace_dir + 'data/model/dimensions_rn.pkl') 
 
 print('  input_dim: %s' % str(input_dim))
 print('  output_dim: %s' % str(output_dim))
@@ -38,13 +39,13 @@ from net_snr import Net_snr
 # from net_snr_original import Net_snr
 
 net_snr = Net_snr(input_dim, output_dim, cuda=True)
-net_snr.load_theta( workspace_dir + 'data/model/theta_last')
+net_snr.load_theta( workspace_dir + 'data/model/theta_last_rn')
 
 # Function to send audio frames as a coroutine
 async def start_sending_frames(source, audio_frame, audio_data, frame_queue, send_rate=0.005, loop_thread=None):
     """
     Continuously send frames from the frame queue at a constant rate.
-    Starts only when there are at least 50 elements in the queue.
+    Starts only when there are at least 500 elements in the queue.
     Args:
         source: rtc.AudioSource object --> Audio source to publish the audio frames
         audio_frame: rtc.AudioFrame object --> Audio frame to send
@@ -118,9 +119,9 @@ async def main(room_1: rtc.Room, room_2: rtc.Room, loop_3) -> None:
 
 
         #------------------------------PARAMETERS SEND FRAMES---------------------------------#
-        samples_per_channel = SAMPLE_RATE * FRAME_DURATION_MS // 1000                       # Calculate samples per frame
-        audio_frame = rtc.AudioFrame.create(SAMPLE_RATE, NUM_CHANNELS, samples_per_channel) # Prepare the audio frame
-        audio_data_tx = np.frombuffer(audio_frame.data, dtype=np.int16)                     # Maps the audio frame data to a numpy array for easier manipulation
+        samples_per_channel = SAMPLE_RATE * FRAME_DURATION_MS // 1000                           # Calculate samples per frame
+        audio_frame = rtc.AudioFrame.create(SAMPLE_RATE, NUM_CHANNELS, samples_per_channel)     # Prepare the audio frame
+        audio_data_tx = np.frombuffer(audio_frame.data, dtype=np.int16)                         # Maps the audio frame data to a numpy array for easier manipulation
         #-------------------------------------------------------------------------------------#
         asyncio.create_task(start_sending_frames(source, audio_frame, audio_data_tx, frame_queue))
         print("Sending frames task started")
@@ -195,7 +196,7 @@ async def main(room_1: rtc.Room, room_2: rtc.Room, loop_3) -> None:
                     if len(buffer_frame) < window_inference_max:
                         work_window = buffer_frame[it*shift_samples:it*shift_samples+window_samples]
                         logging.debug(f"Frame number: {n_frame} y buffer len {int(len(buffer_frame)/frame_samples)}")
-                        it += 1                                                                 # Number of windows received
+                        it += 1                                                           # Number of windows received
                         if len(buffer_frame) >= window_inference_min:
                             logging.debug("Reached MIN WINDOW --> STRATING INFERENCE")
                             work_inf_frames = buffer_frame[:window_inference_max]
@@ -221,7 +222,6 @@ async def main(room_1: rtc.Room, room_2: rtc.Room, loop_3) -> None:
                         fb_windows_norm = mu.norm_fb_frame(fb_windows)
                         windows_concat = np.concatenate( (fft_windows_log,fb_windows_norm), 1 )
                         # Avoid blocking the event loop by creating a paralell thread
-                        # snr_frame_mask = mu.net_eval(windows_concat, net_snr)
                         loop = asyncio.get_event_loop()
                         snr_frame_mask = await loop.run_in_executor(None, mu.net_eval, windows_concat, net_snr)
                         snr_frame_mask = snr_frame_mask.T
@@ -229,7 +229,6 @@ async def main(room_1: rtc.Room, room_2: rtc.Room, loop_3) -> None:
                         buffer_frame = buffer_frame[shift_samples:]
                         logging.debug(f'Frames restantes en el buffer {len(buffer_frame)/frame_samples}')
 
-                    # Aqui haría la evaluacion con la máscara pertinente (para las primeras 3 ventanas sin máscara calculada)
                     #---------------------------------EVALUATION OF WINDOW---------------------------------#
                     cnt = n_frame - 3 # Automatize
                     logging.debug(f'EVALUATION OF WINDOW {cnt}')
@@ -252,22 +251,6 @@ async def main(room_1: rtc.Room, room_2: rtc.Room, loop_3) -> None:
                     await frame_queue.put((np.clip(yenh[cnt*frame_samples : cnt*frame_samples+frame_samples]*2**15, -32768, 32767)).astype(np.int16))
                     logging.info(f"Enhanced frame produced {frame_queue.qsize()}")
                     await asyncio.sleep(0)
-                    # if(cnt == 1000):
-                    #     # Publish audio frames to the track in room_2 with delay
-                    #     for i in range(900):
-                    #         await asyncio.ensure_future(publish_frames(
-                    #             source, 
-                    #             audio_frame, 
-                    #             audio_data_tx, 
-                    #             (np.clip(yenh[i* frame_samples : i * frame_samples + frame_samples]*2**15, -32768, 32767)).astype(np.int16))
-                    #         )
-                    # # Publish audio frames to the track in room_2 with no delay
-                    # await asyncio.ensure_future(publish_frames(
-                    #     source, 
-                    #     audio_frame, 
-                    #     audio_data_tx, 
-                    #     (yenh[cnt * frame_samples : cnt * frame_samples + frame_samples]*2**15).astype(np.int16))
-                    # )
 
             logging.info(f"Audio stream processing completed. {n_frame} frames processed.")
 

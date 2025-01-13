@@ -19,9 +19,9 @@ import torch
 import torch.utils.data as data
 
 # 8k Net trained
-# workspace_dir = '/home/adelval/BTS/TFM/afterburner8k/'
+workspace_dir = '/home/adelval/BTS/TFM/afterburner8k/'
 # 16k Net trained
-workspace_dir = '/home/adelval/BTS/TFM/test/'
+# workspace_dir = '/home/adelval/BTS/TFM/test/'
 
 sys.path.append(workspace_dir + 'src/net')
 sys.path.append(workspace_dir + 'src/train')
@@ -196,7 +196,8 @@ def read_pkl(f):
 
 def norm_fb_frame(frame_fbmfcc):
     # Normalization of fbmfcc
-    file = workspace_dir + 'data/model/fe1_norm1.pkl'  # de donde salen??
+    # file = workspace_dir + 'data/model/fe1_norm1.pkl'  
+    file = workspace_dir + 'data/model/fe1_norm1_rn.pkl' 
     x = frame_fbmfcc
     mu, std = read_pkl(file)
     x -= mu

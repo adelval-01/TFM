@@ -7,7 +7,7 @@ import numpy as np
 from livekit import rtc, api
 from signal import SIGINT, SIGTERM
 
-SAMPLE_RATE = 16000
+SAMPLE_RATE = 8000
 FRAME_DURATION_MS = 10
 NUM_CHANNELS = 1
 FORMAT = 2 # 16-bit PCM
