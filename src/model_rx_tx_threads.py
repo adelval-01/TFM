@@ -153,6 +153,7 @@ async def main(room_1: rtc.Room, room_2: rtc.Room, loop_3) -> None:
             m=0.010
             nfft=[1024]
             gmin = 0.0562
+            diezmation_factor = 1
 
             frame_size = 0.01       # ms
             frame_samples = int(frame_size * fs)  # Muestras por frame
@@ -222,9 +223,10 @@ async def main(room_1: rtc.Room, room_2: rtc.Room, loop_3) -> None:
                         fb_windows_norm = mu.norm_fb_frame(fb_windows)
                         windows_concat = np.concatenate( (fft_windows_log,fb_windows_norm), 1 )
                         # Avoid blocking the event loop by creating a paralell thread
-                        loop = asyncio.get_event_loop()
-                        snr_frame_mask = await loop.run_in_executor(None, mu.net_eval, windows_concat, net_snr)
-                        snr_frame_mask = snr_frame_mask.T
+                        if(n_frame % diezmation_factor == 0):
+                            loop = asyncio.get_event_loop()
+                            snr_frame_mask = await loop.run_in_executor(None, mu.net_eval, windows_concat, net_snr)
+                            snr_frame_mask = snr_frame_mask.T
                         # Desplazar las muestras en `buffer_frame` para la próxima ventana
                         buffer_frame = buffer_frame[shift_samples:]
                         logging.debug(f'Frames restantes en el buffer {len(buffer_frame)/frame_samples}')
