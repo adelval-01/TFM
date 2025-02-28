@@ -18,17 +18,17 @@ async def main():
   # Create a dispatch rule to place all callers in the same room
   rule = SIPDispatchRule(
     dispatch_rule_direct = SIPDispatchRuleDirect(
-      room_name = room_name,
-      pin = ''
+      room_name = 'TFM',
+      # pin = ''
     )   
   )
 
   request = CreateSIPDispatchRuleRequest(
     rule = rule,
     name = 'My dispatch rule',
-    trunk_ids = [ 
-      trunk_id,
-    ],  
+    # trunk_ids = [ 
+    #   trunk_id,
+    # ],  
     hide_phone_number = False
   )
 
@@ -40,22 +40,22 @@ async def main():
 
   trunk = SIPInboundTrunkInfo(
     name = "My Twilio trunk",
-    numbers = ['+15105550100'],
+    numbers = ['+12025688661'],
   )
   
-  # request = CreateSIPInboundTrunkRequest(
-  #   trunk = trunk
-  # )
-  # print(f"Created SIP inbound trunk {trunk}"
-
-  # trunk = await livekit_api.sip.create_sip_inbound_trunk(request)
-
-  request = DeleteSIPTrunkRequest(
-    sip_trunk_id = "ST_UUSDbPr48NuD"
+  request = CreateSIPInboundTrunkRequest(
+    trunk = trunk
   )
-  print(f"Removed SIP inbound trunk {trunk}")
+  print(f"Created SIP inbound trunk {trunk}")
 
-  trunk = await livekit_api.sip.delete_sip_trunk(request)
+  trunk = await livekit_api.sip.create_sip_inbound_trunk(request)
+
+  # request = DeleteSIPTrunkRequest(
+  #   sip_trunk_id = "ST_UUSDbPr48NuD"
+  # )
+  # print(f"Removed SIP inbound trunk {trunk}")
+
+  # trunk = await livekit_api.sip.delete_sip_trunk(request)
 
 
   rules = await livekit_api.sip.list_sip_inbound_trunk(

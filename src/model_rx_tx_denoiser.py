@@ -4,14 +4,21 @@ import time
 import asyncio
 import logging
 import numpy as np
+from scipy.io import wavfile
 from livekit import rtc, api
 from signal import SIGINT, SIGTERM
+
+import torch
+from denoiser import pretrained
+from denoiser.dsp import convert_audio
 
 SAMPLE_RATE = 16000
 FRAME_DURATION_MS = 10
 NUM_CHANNELS = 1
 FORMAT = 2 # 16-bit PCM
-WAV_FILE = "BTS/TFM/audios/audio_received.wav"
+WAV_FILE = "BTS/TFM/audios/livekit/audio_received_denoiser.wav"
+WAV_ENH = "BTS/TFM/audios/livekit/audio_enhanced_denoiser.wav"
+
 
 # Initializate wav file
 def setup_wav_file():
@@ -33,6 +40,12 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
     
     wav = setup_wav_file()                          # Initialize wav file to save audio frames
     stop_processing = asyncio.Event()               # Event to signal when to stop processing
+
+    @room_1.on("participant_connected")
+    def on_participant_connected(participant: rtc.RemoteParticipant) -> None:
+        logging.info(
+            "participant connected: %s %s %s %s", participant.sid, participant.identity, participant.metadata, participant.name
+        )
 
     @room_1.on("participant_disconnected")
     def on_participant_disconnect(participant: rtc.Participant, *_):
@@ -70,40 +83,109 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
         """
 
         try:
-            i = 0
-            samples_per_channel = SAMPLE_RATE * FRAME_DURATION_MS // 1000                       # Calculate samples per frame
-            audio_frame = rtc.AudioFrame.create(SAMPLE_RATE, NUM_CHANNELS, samples_per_channel) # Prepare the audio frame
-            audio_data_tx = np.frombuffer(audio_frame.data, dtype=np.int16)                     # Maps the audio frame data to a numpy array for easier manipulation
+            it = 0
 
-            # # Initialize the AudioResampler for upsampling from 8kHz to 16kHz
-            # upsampler = rtc.AudioResampler(input_rate=SAMPLE_RATE, output_rate=16000, num_channels=1)
+            #------------------------------PARAMETERS SEND FRAMES---------------------------------#
+            samples_per_channel = SAMPLE_RATE * FRAME_DURATION_MS // 1000                         # Calculate samples per frame
+            audio_frame = rtc.AudioFrame.create(SAMPLE_RATE, NUM_CHANNELS, samples_per_channel)   # Prepare the audio frame
+            audio_data_tx = np.frombuffer(audio_frame.data, dtype=np.int16)                       # Maps the audio frame data to a numpy array for easier manipulation
+            #-------------------------------------------------------------------------------------#
 
-            # # Initialize the AudioResampler for downsampling from 16kHz to 8kHz
-            # downsampler = rtc.AudioResampler(input_rate=16000, output_rate=8000, num_channels=1)
+            #------------------------------BUFFERING PARAMETERS-----------------------------------#
+            frame_size = 0.01   # s
+            frame_samples = int(frame_size * SAMPLE_RATE)  # Samples per frame 
+            shift_size = 0.01   # s
+            shift_samples = int(shift_size * SAMPLE_RATE)  # Windows shifting
+            logging.debug(f'Desplazamiento de {shift_samples} samples')
+            window_size = 0.04  # s
+            window_samples = int(window_size * SAMPLE_RATE)  # Samples per window 640
+            logging.debug(f'La ventana tiene una duración de {window_samples} samples')
 
+            buffer_frame = np.zeros(0, dtype=np.float32)
+            denoised_signal = np.zeros(0)
+            denoised_signal = np.zeros(64000000, dtype=np.float32)
+
+            # window = torch.hann_window(window_samples, periodic=False, dtype=torch.float32)
+            window = np.hamming(window_samples)
+            #-------------------------------------------------------------------------------------#
+
+            #-------------------------------- DENOISER -------------------------------------------#
+            device = 'cuda' if torch.cuda.is_available() else 'cpu'
+            print(f'Using device: {device}')
+            model = pretrained.dns48().to(device)
+            #-------------------------------------------------------------------------------------#
             
+            accum_time = 0
 
             async for event in audio_stream:
                 # Check if we should stop processing
                 if stop_processing.is_set():
                     logging.info("Stopping audio processing as track is unpublished.")
                     break
-                i += 1
+                
                 audio_data_rx = np.frombuffer(event.frame.data, dtype=np.int16)
                 wav.writeframes(audio_data_rx) 
 
-                # Publish audio frames to the track in room_2
-                await asyncio.ensure_future(publish_frames(source, audio_frame, audio_data_tx, audio_data_rx))
-                if(i>=2):
-                    delay = time.time() - past_time
-                    print(f"Frame {i} at {delay}")
-                past_time = time.time()
+
+                #-------------------------------- PROCESS AUDIO ----------------------------------------#
+                
+                buffer_frame = np.concatenate([buffer_frame, audio_data_rx])
 
 
-            print(f"Total frames are {i}")
+                if len(buffer_frame) >= window_samples:
+                    work_window = buffer_frame[:window_samples]
+                    # print(work_window.shape, work_window.dtype)
+                    
+                    
+                    with torch.no_grad():
+                        # work_window = convert_audio(work_window.to(device), SAMPLE_RATE, model.sample_rate, model.chin)
+                        work_window_tensor = torch.tensor(work_window[None]).to(device)
+                        # print(work_window_tensor.shape, work_window_tensor.dtype)
+                        start_time = time.time()
+                        denoised_window = model(torch.tensor(work_window[None]).to(device))[0]
+                        # print(f'Tiempo de procesamiento de la ventana {time.time() - start_time}')
+                        denoised_window = denoised_window.squeeze(0)
+                        accum_time += time.time() - start_time
+                        # print(f'Denoised signal {denoised_window.shape} {denoised_window.dtype}')
+                    # denoised_signal = np.concatenate([denoised_signal, denoised_window.data[:shift_samples].cpu().numpy()])
+                    # print(denoised_signal.shape, denoised_signal.dtype)
+                    denoised_signal[it*shift_samples:it*shift_samples+window_samples] += denoised_window.data.cpu().numpy() * window
+
+                    buffer_frame = buffer_frame[shift_samples:]
+                    # print(buffer_frame.shape, buffer_frame.dtype)
+                    
+                    denoised_frame = denoised_signal[it*shift_samples:it*shift_samples+shift_samples].astype(np.int16)
+                    # print(denoised_frame.shape, denoised_frame.dtype)
+                    it += 1
+
+                    # Publish audio frames to the track in room_2
+                    await asyncio.ensure_future(publish_frames(source, audio_frame, audio_data_tx, denoised_frame))
+                    # if(i>=2):
+                    #     delay = time.time() - past_time
+                    #     print(f"Frame {it} at {delay}")
+                    # past_time = time.time()
+
+                #---------------------------------------------------------------------------------------#
+            
+            print(f"Total frames are {it} and the average time per window is {(accum_time/it*1000):.4f} ms")
             logging.info("Audio stream processing completed.")
+
         except Exception as e:
             logging.error(f"Error processing audio stream: {e}")
+
+        finally:
+            # Save the WAV file even if an error occurs
+            if denoised_signal is not None:
+                try:
+                    logging.debug(f'El audio mejorado tiene una longitud de {len(denoised_signal)} y {denoised_signal.dtype}')
+                    # for i in range(200):
+                    #     logging.debug(f'{i} La señal mejorada es {np.int16((2**15)*yenh[i*160:10+i*160])}')
+                    wavfile.write(WAV_ENH, SAMPLE_RATE, denoised_signal.astype(np.int16))
+                    logging.info("Enhanced audio saved successfully.")
+                except Exception as save_error:
+                    logging.error(f"Failed to save enhanced audio: {save_error}")
+            wav.close()
+            # exit(0)
     
     room_id_1 = input("Please enter an id for the receiver room: ")
     token_1 = (
@@ -113,7 +195,6 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
         .with_grants(
             api.VideoGrants(
                 room_join=True,
-                # room="TFM-room",
                 room=room_id_1,
             )
         )

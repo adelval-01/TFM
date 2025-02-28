@@ -4,6 +4,7 @@ from signal import SIGINT, SIGTERM
 import os
 import wave
 import time
+import sys
 
 import numpy as np
 from livekit import rtc, api
@@ -14,7 +15,7 @@ FRAME_DURATION_MS = 10  # Frame duration in milliseconds
 
 
 # audio_wav = "BTS/TFM/audios/audio_1.wav"
-audio_wav = "BTS/TFM/audios/7-CH0_C01_city_5dB.wav"
+audio_wav = sys.argv[1]
 # ensure LIVEKIT_URL, LIVEKIT_API_KEY, and LIVEKIT_API_SECRET are set
 
 
@@ -128,7 +129,7 @@ async def publish_wav_frames(source: rtc.AudioSource, wav_file_path: str):
             # Capture frame to send it to the track
             # logging.info(f"Capturing frame {list(audio_frame.data[:10])}")
             await source.capture_frame(audio_frame)
-            time.sleep(0.001) # Study the effect of delay
+            # time.sleep(0.005) # Study the effect of delay
         print(f"Total frames of 10ms are {i}")   
     print("Finished publishing .wav audio file.")
 
