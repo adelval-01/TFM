@@ -6,6 +6,7 @@ import logging
 import numpy as np
 from scipy.io import wavfile
 from livekit import rtc, api
+from livekit.protocol.sip import CreateSIPOutboundTrunkRequest, SIPOutboundTrunkInfo,  ListSIPOutboundTrunkRequest
 from signal import SIGINT, SIGTERM
 
 import torch
@@ -36,6 +37,24 @@ async def publish_track(room: rtc.Room):
     publication = await room.local_participant.publish_track(track, options)
     logging.info(f"Callback track {publication.sid} published by {room.local_participant.identity}")
 
+async def api_call():
+    livekit_api = api.LiveKitAPI(
+        url="wss://test-tfm-3lii83j0.livekit.cloud",
+        api_key="APIaRjG6ptSKLTy",
+        api_secret="VAovqneYo91unfwHFCGmlJgevds1CZDUIbeufPUuThoE"
+    )
+    return livekit_api
+
+async def send_dtmf_code(dtmf_code: str, room: rtc.Room):
+    await asyncio.to_thread(input)
+    # publishes extension in DTMF
+    for digit in dtmf_code:
+        code = int(digit)  # Convert digit to integer
+        await room.local_participant.publish_dtmf(code=code, digit=digit)
+        await asyncio.sleep(0.5)  # Small delay to avoid overlapping signals
+
+    print(f"DTMF code '{dtmf_code}' sent successfully.")
+
 
 async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
     """
@@ -55,9 +74,68 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
         logging.info(
             "participant connected: %s %s %s %s", participant.sid, participant.identity, participant.metadata, participant.name
         )
-        #-------------------------- ANSWER THE CALL ---------------------------------#
-        # Publish a track
-        asyncio.create_task(publish_track(room_1))
+        #-------------------------- MAKE THE CALL ---------------------------------#
+        
+        async def make_call():
+            try:
+                logging.info("Connecting to room %s...", room_2.name)
+                await room_2.connect(
+                    url,
+                    token_2,
+                    options=rtc.RoomOptions(
+                        auto_subscribe=False,
+                    ),
+                )
+                logging.info("Connected to room %s", room_2.name)
+
+                livekit_api = await api_call()
+
+                user_identity = "phone_callee"
+                # phone_number = "+34683151962"
+                # phone_number = "+34616762841"
+                phone_number = "+34976214883"
+                # out_trunk_id = input("Please enter the id of the outbound trunk: ")
+                out_trunk_id = "ST_sEbW5d8fhh3E"
+                print(f"Creating SIP participant to {phone_number}")
+                await livekit_api.sip.create_sip_participant(
+                    api.CreateSIPParticipantRequest(
+                        room_name=room_id_2,
+                        sip_trunk_id=out_trunk_id,
+                        sip_call_to=phone_number,
+                        participant_identity=user_identity,
+                    )
+                )
+
+                # participant = await room.wait_for_participant(identity=user_identity)
+                # print(f"Press enter to send the DTMF code to the participant")
+                # await send_dtmf_code("8226", room_1)
+                # print(f"Press enter to send the DTMF code to the participant")
+                # await asyncio.to_thread(input)
+                await asyncio.sleep(22)  # Delay to wait for extension asked
+                # publishes extension in DTMF
+                print(f"Sending DTMF code to the participant")
+                await room_2.local_participant.publish_dtmf(code=8, digit='8')
+                await room_2.local_participant.publish_dtmf(code=2, digit='2')
+                await room_2.local_participant.publish_dtmf(code=2, digit='2')
+                await room_2.local_participant.publish_dtmf(code=8, digit='8')
+
+                # Publish a track in room 2
+                global source
+                source = rtc.AudioSource(SAMPLE_RATE, NUM_CHANNELS)
+                track = rtc.LocalAudioTrack.create_audio_track("audio_wav", source)
+                options = rtc.TrackPublishOptions()
+                options.source = rtc.TrackSource.SOURCE_MICROPHONE
+                publication = await room_2.local_participant.publish_track(track, options)
+                logging.info(f"Track {publication.sid} published by {room_2.local_participant.identity}")
+
+                # Publish a track in room 1 to answer the call
+                await publish_track(room_1)
+
+            except rtc.ConnectError as e:
+                logging.error("Failed to connect to the room: %s", e)
+                return 
+        
+        asyncio.create_task(make_call())
         #-----------------------------------------------------------------------------#
 
     @room_1.on("participant_disconnected")
@@ -78,6 +156,7 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
         participant: rtc.RemoteParticipant,
     ):
         global call_sid
+        global source
         call_sid = publication.sid
         logging.info("track subscribed: %s", call_sid)
         if (track.kind == rtc.TrackKind.KIND_AUDIO):
@@ -183,7 +262,7 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
                     it += 1
 
                     # Publish audio frames to the track in room_2
-                    await asyncio.ensure_future(publish_frames(source, audio_frame, audio_data_tx, denoised_frame))
+                    await asyncio.ensure_future(publish_frames(source, audio_frame, audio_data_tx, (denoised_frame/4).astype(np.int16)))
                     # if(i>=2):
                     #     delay = time.time() - past_time
                     #     print(f"Frame {it} at {delay}")
@@ -204,7 +283,7 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
                     logging.debug(f'El audio mejorado tiene una longitud de {len(denoised_signal)} y {denoised_signal.dtype}')
                     # for i in range(200):
                     #     logging.debug(f'{i} La señal mejorada es {np.int16((2**15)*yenh[i*160:10+i*160])}')
-                    wavfile.write(WAV_ENH, SAMPLE_RATE, denoised_signal.astype(np.int16))
+                    wavfile.write(WAV_ENH, SAMPLE_RATE, (denoised_signal/4).astype(np.int16))
                     logging.info("Enhanced audio saved successfully.")
                 except Exception as save_error:
                     logging.error(f"Failed to save enhanced audio: {save_error}")
@@ -242,23 +321,23 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
 
     logging.info("Connecting to %s", url)
     try:
-        logging.info("Connecting to room %s...", room_2.name)
-        await room_2.connect(
-            url,
-            token_2,
-            options=rtc.RoomOptions(
-                auto_subscribe=False,
-            ),
-        )
-        logging.info("Connected to room %s", room_2.name)
+        # logging.info("Connecting to room %s...", room_2.name)
+        # await room_2.connect(
+        #     url,
+        #     token_2,
+        #     options=rtc.RoomOptions(
+        #         auto_subscribe=False,
+        #     ),
+        # )
+        # logging.info("Connected to room %s", room_2.name)
 
-        # Publish a track
-        source = rtc.AudioSource(SAMPLE_RATE, NUM_CHANNELS)
-        track = rtc.LocalAudioTrack.create_audio_track("audio_wav", source)
-        options = rtc.TrackPublishOptions()
-        options.source = rtc.TrackSource.SOURCE_MICROPHONE
-        publication = await room_2.local_participant.publish_track(track, options)
-        logging.info(f"Track {publication.sid} published by {room_2.local_participant.identity}")
+        # # Publish a track
+        # source = rtc.AudioSource(SAMPLE_RATE, NUM_CHANNELS)
+        # track = rtc.LocalAudioTrack.create_audio_track("audio_wav", source)
+        # options = rtc.TrackPublishOptions()
+        # options.source = rtc.TrackSource.SOURCE_MICROPHONE
+        # publication = await room_2.local_participant.publish_track(track, options)
+        # logging.info(f"Track {publication.sid} published by {room_2.local_participant.identity}")
 
         logging.info("Connecting to room %s...", room_1.name)
         await room_1.connect(
@@ -304,6 +383,8 @@ if __name__ == "__main__":
     room_1 = rtc.Room(loop=loop_1)
     loop_2 = asyncio.get_event_loop()
     room_2 = rtc.Room(loop=loop_2)
+    
+
 
     async def cleanup_1():
         await room_1.disconnect()

@@ -12,7 +12,7 @@ async def main():
   )
 
   trunk_id = '<trunk_id>'
-  room_name = 'TFM-room'
+  room_name = 'TFM'
 
 
   # Create a dispatch rule to place all callers in the same room
@@ -39,7 +39,7 @@ async def main():
     print(f"{e.code} error: {e.message}")
 
   trunk = SIPInboundTrunkInfo(
-    name = "My Twilio trunk",
+    name = "Inbound trunk",
     numbers = ['+12025688661'],
   )
   
