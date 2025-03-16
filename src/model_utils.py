@@ -3,13 +3,13 @@ from __future__ import division
 import time, os, sys
 import numpy as np
 import soundfile as sf
-from spicy import signal
 import pickle
 import warnings
 import gzip
 import scipy.io
 from scipy.io import wavfile
 from scipy.io import loadmat
+from scipy import signal
 import matplotlib.pyplot as plt
 import logging
 

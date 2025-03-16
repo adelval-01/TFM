@@ -1,3 +1,23 @@
+"""
+LiveKit SIP Outbound Call
+
+Description:
+    This script integrates LiveKit with a SIP provider to call a phone number and publish an audio file in the room.
+
+Author: Aitor del Val Allueva 
+Date: 2025-03-12 
+Version: 1.0  
+
+Requirements:
+    - Python 3.9
+    - livekit SDKs
+    - SIP integration library (Twilio)
+
+Usage:
+    Ensure the SIP provider is properly configured with a dispatch rule for Room 1.
+    Run the script with the necessary credentials for LiveKit and SIP.
+"""
+
 import asyncio
 import logging
 from signal import SIGINT, SIGTERM
@@ -180,7 +200,7 @@ async def publish_wav_frames(source: rtc.AudioSource, wav_file_path: str):
 if __name__ == "__main__":
     logging.basicConfig(
         level=logging.INFO,
-        handlers=[logging.FileHandler("BTS/TFM/logs/publish_wave.log"), logging.StreamHandler()],
+        handlers=[logging.FileHandler("BTS/TFM/logs/call_wave.log"), logging.StreamHandler()],
     )
 
     loop = asyncio.get_event_loop()

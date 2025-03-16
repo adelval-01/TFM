@@ -1,3 +1,27 @@
+"""
+LiveKit Dual-Room Audio Processing
+
+Description:
+    This script integrates with LiveKit to facilitate real-time audio processing between two rooms.
+    - **Room 1**: Waits for a participant to connect and publish an audio track.
+    - When an audio track is detected, a speech processing module is triggered to clean the audio (noise reduction).
+    - **Room 2**: The cleaned audio is published as a new track.
+
+    This implementation ensures high-quality, real-time audio enhancement from participant in Room 1 for participants in Room 2.
+
+Author: Aitor del Val Allueva
+Date: 2025-03-14  
+Version: 1.0  
+
+Requirements:
+    - Python 3.9
+    - livekit SDK
+    - Speech processing library (e.g., noise reduction, filtering)
+
+Usage:
+    Run the script and ensure proper LiveKit credentials are configured.
+"""
+
 import os
 import wave
 import time

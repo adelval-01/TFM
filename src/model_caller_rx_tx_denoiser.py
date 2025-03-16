@@ -1,3 +1,33 @@
+"""
+LiveKit SIP Audio Processing - Dual-Room Pipeline
+
+Description:
+    This script integrates LiveKit with a SIP provider to facilitate real-time audio processing for phone calls.
+    - **Phone A (Caller)** dials a SIP provider number.
+    - The SIP provider, using a dispatch rule, routes the call to **Room 1**.
+    - The script detects the incoming participant in **Room 1** and initiates an outbound call to **Phone B (Callee)**.
+    - The script then answers **Phone A**'s.
+    - The received audio from **Phone A** is processed to remove noise.
+    - The cleaned audio is published into **Room 2**, where **Phone B** is connected and receiving the enhanced audio.
+
+    This ensures real-time audio enhancement for SIP-based calls, improving call quality for the callee.
+
+Author: Aitor del Val Allueva 
+Date: 2025-03-12 
+Version: 1.0  
+
+Requirements:
+    - Python 3.9
+    - livekit SDKs
+    - SIP integration library (Twilio)
+    - Speech processing library for noise reduction (Denoiser)
+
+Usage:
+    Ensure the SIP provider is properly configured with a dispatch rule for Room 1.
+    Run the script with the necessary credentials for LiveKit and SIP.
+"""
+
+
 import os
 import wave
 import time
