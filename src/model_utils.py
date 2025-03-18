@@ -252,7 +252,7 @@ def apply_filter(data, filt, frame=640, shift=160, nfft=1024):
     yw = np.zeros(data.size)
     #print(f'La ventana se desplazara {it} veces')
     it = 1
-    for i in range(0,it):
+    for i in range(0,it): #Por la cara, eliiminar bucle
         logging.debug(f'El frame sin enventanado con rn resulta {data[:10]}')
         xw = data[i*shift : i*shift+frame] * win
         logging.debug(f'El frame enventanado resulta {xw[:10]}')
