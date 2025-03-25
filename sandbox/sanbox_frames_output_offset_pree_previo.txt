@@ -1,0 +1,3066 @@
+El tiempo de cálculo de los filtros es 0.0010693073272705078
+El tiempo de cálculo de las bases dct es 0.0010540485382080078
+El audio elegido es /home/adelval/BTS/TFM/afterburner8k/data/audio/minitest_8k/6-CH0_C01_traffic_15dB.wav
+El audio mejorado es /home/adelval/BTS/TFM/audios/enh/6-CH0_C01_traffic_15dB_f2f_enh_HM_2_8k_4to20w_40ms_s10_int16.wav de tipo int16
+La frecuencia de muestreo es 8000 Hz
+La duración del audio es 3.168125 segundos y 25345 muestras
+Tamaño de frame: 80 samples
+Desplazamiento: 80 samples
+Tamaño de ventana: 320 samples
+El buffer retendra desde 560 hasta 1840 samples
+
+0 frame de 80 --> [ 206  968  782  781 1234  990  747  592  633  -31]
+Tiempo de procesamiento del frame 0 completo es de 0.0007152557373046875 ms
+
+1 frame de 80 --> [-462  109  153  187  159  245  631  313  386  773]
+Tiempo de procesamiento del frame 1 completo es de 0.0007152557373046875 ms
+
+2 frame de 80 --> [ 608  209  414  321  255  165    3  -22 -555  -20]
+Tiempo de procesamiento del frame 2 completo es de 0.000476837158203125 ms
+
+3 frame de 80 --> [ -575 -1128   194    74 -1574  -836  -415  -536  -615  -319]
+Tiempo de procesamiento del frame 3 completo es de 0.4315376281738281 ms
+
+4 frame de 80 --> [  406   -35  -315  -420  -620  -536 -1026  -838   482  -110]
+Tiempo de procesamiento del frame 4 completo es de 0.3266334533691406 ms
+
+5 frame de 80 --> [-1584 -1392  -895 -1364 -1592 -1795  -927   904   323  -208]
+Tiempo de procesamiento del frame 5 completo es de 0.2944469451904297 ms
+
+6 frame de 80 --> [-1234  -685  -949  -907  -509  -457  -482  -404  -312    45]
+Offset time: 0.032901763916015625 ms
+Preemphasis time: 0.3085136413574219 ms
+Tiempo de procesamiento de la FFT del frame 6 es de 0.4820823669433594 ms
+Tiempo de procesamiento de la escala log del frame 6 es de 0.02765655517578125 ms
+El tiempo de cálculo de los coeficientes fb es 2.7894973754882812e-05
+El tiempo de cálculo de los coeficientes dct es 2.6226043701171875e-06
+Tiempo de procesamiento de la FB MFCC del frame 6 es de 0.4935264587402344 ms
+Tiempo de procesamiento de la normalización del frame 6 es de 0.13637542724609375 ms
+Move time to cuda: 16.948223114013672 ms
+Inference time for 4 windows done at the same time is: 26.391267776489258 ms
+Time per window is 6.5978169441223145 ms
+Tiempo de procesamiento de la inferencia del frame 6 es de 46.602725982666016 ms
+Tiempo de procesamiento del frame 6 completo es de 48.551321029663086 ms
+
+7 frame de 80 --> [1926 1490 1849 1119  777  881  751  315    1 -139]
+Offset time: 0.041484832763671875 ms
+Preemphasis time: 0.7147789001464844 ms
+Tiempo de procesamiento de la FFT del frame 7 es de 1.001596450805664 ms
+Tiempo de procesamiento de la escala log del frame 7 es de 0.05030632019042969 ms
+El tiempo de cálculo de los coeficientes fb es 4.029273986816406e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Tiempo de procesamiento de la FB MFCC del frame 7 es de 0.6921291351318359 ms
+Tiempo de procesamiento de la normalización del frame 7 es de 0.15211105346679688 ms
+Move time to cuda: 0.12111663818359375 ms
+Inference time for 5 windows done at the same time is: 29.07109260559082 ms
+Time per window is 5.814218521118164 ms
+Tiempo de procesamiento de la inferencia del frame 7 es de 32.35650062561035 ms
+Tiempo de procesamiento del frame 7 completo es de 34.92856025695801 ms
+
+8 frame de 80 --> [1427 1138  801 1051  803  691  813   22  -26  -22]
+Offset time: 0.03528594970703125 ms
+Preemphasis time: 0.49877166748046875 ms
+Tiempo de procesamiento de la FFT del frame 8 es de 0.7240772247314453 ms
+Tiempo de procesamiento de la escala log del frame 8 es de 0.04935264587402344 ms
+El tiempo de cálculo de los coeficientes fb es 4.1961669921875e-05
+El tiempo de cálculo de los coeficientes dct es 3.0994415283203125e-06
+Tiempo de procesamiento de la FB MFCC del frame 8 es de 0.7801055908203125 ms
+Tiempo de procesamiento de la normalización del frame 8 es de 0.24056434631347656 ms
+Move time to cuda: 0.14400482177734375 ms
+Inference time for 6 windows done at the same time is: 46.42081260681152 ms
+Time per window is 7.736802101135254 ms
+Tiempo de procesamiento de la inferencia del frame 8 es de 49.77226257324219 ms
+Tiempo de procesamiento del frame 8 completo es de 52.221059799194336 ms
+
+9 frame de 80 --> [-1129 -1345 -1197  -922  -176  -668 -1778 -2017 -2222 -2152]
+Offset time: 0.03719329833984375 ms
+Preemphasis time: 0.8256435394287109 ms
+Tiempo de procesamiento de la FFT del frame 9 es de 1.1043548583984375 ms
+Tiempo de procesamiento de la escala log del frame 9 es de 0.07081031799316406 ms
+El tiempo de cálculo de los coeficientes fb es 4.649162292480469e-05
+El tiempo de cálculo de los coeficientes dct es 3.337860107421875e-06
+Tiempo de procesamiento de la FB MFCC del frame 9 es de 1.150369644165039 ms
+Tiempo de procesamiento de la normalización del frame 9 es de 0.1423358917236328 ms
+Move time to cuda: 0.08225440979003906 ms
+Inference time for 7 windows done at the same time is: 28.72943878173828 ms
+Time per window is 4.1042055402483255 ms
+Tiempo de procesamiento de la inferencia del frame 9 es de 32.10639953613281 ms
+Tiempo de procesamiento del frame 9 completo es de 35.4769229888916 ms
+
+10 frame de 80 --> [ -945 -1349  -720  -905  -739  -609 -1070  -689   377   430]
+Offset time: 0.053882598876953125 ms
+Preemphasis time: 0.8745193481445312 ms
+Tiempo de procesamiento de la FFT del frame 10 es de 1.230478286743164 ms
+Tiempo de procesamiento de la escala log del frame 10 es de 0.072479248046875 ms
+El tiempo de cálculo de los coeficientes fb es 3.7670135498046875e-05
+El tiempo de cálculo de los coeficientes dct es 4.291534423828125e-06
+Tiempo de procesamiento de la FB MFCC del frame 10 es de 1.2176036834716797 ms
+Tiempo de procesamiento de la normalización del frame 10 es de 0.15544891357421875 ms
+Move time to cuda: 0.12731552124023438 ms
+Inference time for 8 windows done at the same time is: 30.855417251586914 ms
+Time per window is 3.8569271564483643 ms
+Tiempo de procesamiento de la inferencia del frame 10 es de 35.0651741027832 ms
+Tiempo de procesamiento del frame 10 completo es de 38.57994079589844 ms
+
+11 frame de 80 --> [1272  936 1163 1305  871  357 1909 1375 1402 1172]
+Offset time: 0.04553794860839844 ms
+Preemphasis time: 0.8158683776855469 ms
+Tiempo de procesamiento de la FFT del frame 11 es de 1.4100074768066406 ms
+Tiempo de procesamiento de la escala log del frame 11 es de 0.10371208190917969 ms
+El tiempo de cálculo de los coeficientes fb es 6.127357482910156e-05
+El tiempo de cálculo de los coeficientes dct es 5.245208740234375e-06
+Tiempo de procesamiento de la FB MFCC del frame 11 es de 1.5234947204589844 ms
+Tiempo de procesamiento de la normalización del frame 11 es de 0.36644935607910156 ms
+Move time to cuda: 0.16832351684570312 ms
+Inference time for 9 windows done at the same time is: 25.153636932373047 ms
+Time per window is 2.7948485480414496 ms
+Tiempo de procesamiento de la inferencia del frame 11 es de 28.390169143676758 ms
+Tiempo de procesamiento del frame 11 completo es de 32.363176345825195 ms
+
+12 frame de 80 --> [2129 2055 1126  997  111  963 1567  789 1229 1249]
+Offset time: 0.046253204345703125 ms
+Preemphasis time: 0.5352497100830078 ms
+Tiempo de procesamiento de la FFT del frame 12 es de 0.8454322814941406 ms
+Tiempo de procesamiento de la escala log del frame 12 es de 0.07891654968261719 ms
+El tiempo de cálculo de los coeficientes fb es 4.6253204345703125e-05
+El tiempo de cálculo de los coeficientes dct es 2.86102294921875e-06
+Tiempo de procesamiento de la FB MFCC del frame 12 es de 0.995635986328125 ms
+Tiempo de procesamiento de la normalización del frame 12 es de 0.13709068298339844 ms
+Move time to cuda: 0.49114227294921875 ms
+Inference time for 10 windows done at the same time is: 29.816150665283203 ms
+Time per window is 2.9816150665283203 ms
+Tiempo de procesamiento de la inferencia del frame 12 es de 35.446882247924805 ms
+Tiempo de procesamiento del frame 12 completo es de 38.18631172180176 ms
+
+13 frame de 80 --> [-1067 -1322 -2205  -973  -971  -507   363  -126  -801  -709]
+Offset time: 0.04482269287109375 ms
+Preemphasis time: 1.1355876922607422 ms
+Tiempo de procesamiento de la FFT del frame 13 es de 1.714468002319336 ms
+Tiempo de procesamiento de la escala log del frame 13 es de 0.12493133544921875 ms
+El tiempo de cálculo de los coeficientes fb es 5.078315734863281e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Tiempo de procesamiento de la FB MFCC del frame 13 es de 1.516103744506836 ms
+Tiempo de procesamiento de la normalización del frame 13 es de 0.24652481079101562 ms
+Move time to cuda: 0.20265579223632812 ms
+Inference time for 11 windows done at the same time is: 21.774768829345703 ms
+Time per window is 1.9795244390314275 ms
+Tiempo de procesamiento de la inferencia del frame 13 es de 24.537324905395508 ms
+Tiempo de procesamiento del frame 13 completo es de 28.799057006835938 ms
+
+14 frame de 80 --> [-1229  -893 -1290 -1270 -1606  -318   691   -11   779   501]
+Offset time: 0.034809112548828125 ms
+Preemphasis time: 0.9787082672119141 ms
+Tiempo de procesamiento de la FFT del frame 14 es de 1.3246536254882812 ms
+Tiempo de procesamiento de la escala log del frame 14 es de 0.110626220703125 ms
+El tiempo de cálculo de los coeficientes fb es 4.863739013671875e-05
+El tiempo de cálculo de los coeficientes dct es 3.814697265625e-06
+Tiempo de procesamiento de la FB MFCC del frame 14 es de 1.5761852264404297 ms
+Tiempo de procesamiento de la normalización del frame 14 es de 0.15091896057128906 ms
+Move time to cuda: 0.0629425048828125 ms
+Inference time for 12 windows done at the same time is: 19.73438262939453 ms
+Time per window is 1.6445318857828777 ms
+Tiempo de procesamiento de la inferencia del frame 14 es de 22.305011749267578 ms
+Tiempo de procesamiento del frame 14 completo es de 26.22056007385254 ms
+
+15 frame de 80 --> [ 352   46 -352  462  418 -259  205  599  454  572]
+Offset time: 0.0400543212890625 ms
+Preemphasis time: 1.2049674987792969 ms
+Tiempo de procesamiento de la FFT del frame 15 es de 1.5795230865478516 ms
+Tiempo de procesamiento de la escala log del frame 15 es de 0.14734268188476562 ms
+El tiempo de cálculo de los coeficientes fb es 4.38690185546875e-05
+El tiempo de cálculo de los coeficientes dct es 4.0531158447265625e-06
+Tiempo de procesamiento de la FB MFCC del frame 15 es de 1.379251480102539 ms
+Tiempo de procesamiento de la normalización del frame 15 es de 0.15687942504882812 ms
+Move time to cuda: 0.06556510925292969 ms
+Inference time for 13 windows done at the same time is: 18.01919937133789 ms
+Time per window is 1.386092259333684 ms
+Tiempo de procesamiento de la inferencia del frame 15 es de 20.463228225708008 ms
+Tiempo de procesamiento del frame 15 completo es de 24.416446685791016 ms
+
+16 frame de 80 --> [1145   99  431  571   52  133  948  925  876 1149]
+Offset time: 0.03695487976074219 ms
+Preemphasis time: 1.2969970703125 ms
+Tiempo de procesamiento de la FFT del frame 16 es de 1.6634464263916016 ms
+Tiempo de procesamiento de la escala log del frame 16 es de 0.09989738464355469 ms
+El tiempo de cálculo de los coeficientes fb es 5.0067901611328125e-05
+El tiempo de cálculo de los coeficientes dct es 3.0994415283203125e-06
+Tiempo de procesamiento de la FB MFCC del frame 16 es de 1.2238025665283203 ms
+Tiempo de procesamiento de la normalización del frame 16 es de 0.1304149627685547 ms
+Move time to cuda: 0.06103515625 ms
+Inference time for 14 windows done at the same time is: 21.260738372802734 ms
+Time per window is 1.5186241694859095 ms
+Tiempo de procesamiento de la inferencia del frame 16 es de 24.660825729370117 ms
+Tiempo de procesamiento del frame 16 completo es de 28.43785285949707 ms
+
+17 frame de 80 --> [ 255   -5 -523 -112  -15   53    3  384 1185  680]
+Offset time: 0.03910064697265625 ms
+Preemphasis time: 1.4729499816894531 ms
+Tiempo de procesamiento de la FFT del frame 17 es de 2.0308494567871094 ms
+Tiempo de procesamiento de la escala log del frame 17 es de 0.16069412231445312 ms
+El tiempo de cálculo de los coeficientes fb es 0.00010752677917480469
+El tiempo de cálculo de los coeficientes dct es 8.106231689453125e-06
+Tiempo de procesamiento de la FB MFCC del frame 17 es de 1.871347427368164 ms
+Tiempo de procesamiento de la normalización del frame 17 es de 0.17333030700683594 ms
+Move time to cuda: 0.16117095947265625 ms
+Inference time for 15 windows done at the same time is: 30.720949172973633 ms
+Time per window is 2.048063278198242 ms
+Tiempo de procesamiento de la inferencia del frame 17 es de 35.31932830810547 ms
+Tiempo de procesamiento del frame 17 completo es de 40.38190841674805 ms
+
+18 frame de 80 --> [ -543 -1429 -1297 -1108 -1752 -1744 -1073  -906  -934 -1086]
+Offset time: 0.051975250244140625 ms
+Preemphasis time: 1.3327598571777344 ms
+Tiempo de procesamiento de la FFT del frame 18 es de 2.190113067626953 ms
+Tiempo de procesamiento de la escala log del frame 18 es de 0.17499923706054688 ms
+El tiempo de cálculo de los coeficientes fb es 4.744529724121094e-05
+El tiempo de cálculo de los coeficientes dct es 4.291534423828125e-06
+Tiempo de procesamiento de la FB MFCC del frame 18 es de 1.9571781158447266 ms
+Tiempo de procesamiento de la normalización del frame 18 es de 0.2040863037109375 ms
+Move time to cuda: 0.2658367156982422 ms
+Inference time for 16 windows done at the same time is: 27.400493621826172 ms
+Time per window is 1.7125308513641357 ms
+Tiempo de procesamiento de la inferencia del frame 18 es de 30.843734741210938 ms
+Tiempo de procesamiento del frame 18 completo es de 35.9342098236084 ms
+
+19 frame de 80 --> [ 1195  1102   759   100  1173  1280  -595  -326  -486 -1311]
+Offset time: 0.03647804260253906 ms
+Preemphasis time: 0.7908344268798828 ms
+Tiempo de procesamiento de la FFT del frame 19 es de 1.127004623413086 ms
+Tiempo de procesamiento de la escala log del frame 19 es de 0.080108642578125 ms
+El tiempo de cálculo de los coeficientes fb es 5.269050598144531e-05
+El tiempo de cálculo de los coeficientes dct es 4.0531158447265625e-06
+Tiempo de procesamiento de la FB MFCC del frame 19 es de 1.1365413665771484 ms
+Tiempo de procesamiento de la normalización del frame 19 es de 0.13208389282226562 ms
+Move time to cuda: 0.07176399230957031 ms
+Inference time for 17 windows done at the same time is: 24.843215942382812 ms
+Time per window is 1.4613656436695772 ms
+Tiempo de procesamiento de la inferencia del frame 19 es de 27.506113052368164 ms
+Tiempo de procesamiento del frame 19 completo es de 30.497312545776367 ms
+
+20 frame de 80 --> [-1204   354   410  -225   367   -17  -814 -1173  -234   636]
+Offset time: 0.03933906555175781 ms
+Preemphasis time: 0.9710788726806641 ms
+Tiempo de procesamiento de la FFT del frame 20 es de 1.3813972473144531 ms
+Tiempo de procesamiento de la escala log del frame 20 es de 0.17547607421875 ms
+El tiempo de cálculo de los coeficientes fb es 0.000148773193359375
+El tiempo de cálculo de los coeficientes dct es 8.821487426757812e-06
+Tiempo de procesamiento de la FB MFCC del frame 20 es de 2.437114715576172 ms
+Tiempo de procesamiento de la normalización del frame 20 es de 0.40459632873535156 ms
+Move time to cuda: 0.152587890625 ms
+Inference time for 18 windows done at the same time is: 19.707441329956055 ms
+Time per window is 1.0948578516642253 ms
+Tiempo de procesamiento de la inferencia del frame 20 es de 23.229598999023438 ms
+Tiempo de procesamiento del frame 20 completo es de 28.231382369995117 ms
+
+21 frame de 80 --> [ 448  903  834 1147 1096   84 -990  463 1459  877]
+Offset time: 0.05221366882324219 ms
+Preemphasis time: 1.6140937805175781 ms
+Tiempo de procesamiento de la FFT del frame 21 es de 2.118349075317383 ms
+Tiempo de procesamiento de la escala log del frame 21 es de 0.16832351684570312 ms
+El tiempo de cálculo de los coeficientes fb es 6.079673767089844e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Tiempo de procesamiento de la FB MFCC del frame 21 es de 1.6498565673828125 ms
+Tiempo de procesamiento de la normalización del frame 21 es de 0.15664100646972656 ms
+Move time to cuda: 0.07128715515136719 ms
+Inference time for 19 windows done at the same time is: 21.127700805664062 ms
+Time per window is 1.1119842529296875 ms
+Tiempo de procesamiento de la inferencia del frame 21 es de 24.237871170043945 ms
+Tiempo de procesamiento del frame 21 completo es de 29.04796600341797 ms
+
+22 frame de 80 --> [-1841  -314  -255    75   370   618   354  -338 -1624 -1775]
+Offset time: 0.05340576171875 ms
+Preemphasis time: 2.095937728881836 ms
+El tiempo de cálculo de los coeficientes fb es 7.534027099609375e-05
+El tiempo de cálculo de los coeficientes dct es 6.198883056640625e-06
+Move time to cuda: 0.1220703125 ms
+Inference time for 20 windows done at the same time is: 22.14670181274414 ms
+Time per window is 1.107335090637207 ms
+Tiempo de procesamiento de la inferencia del frame 22 es de 26.06797218322754 ms
+Tiempo de procesamiento del frame 22 completo es de 32.28926658630371 ms
+
+23 frame de 80 --> [ -429 -1574  -961  -639  -142 -1230  -666   -23  -518    92]
+Offset time: 0.051021575927734375 ms
+Preemphasis time: 2.1317005157470703 ms
+El tiempo de cálculo de los coeficientes fb es 6.437301635742188e-05
+El tiempo de cálculo de los coeficientes dct es 4.0531158447265625e-06
+Tiempo de procesamiento de la inferencia del frame 23 es de 0.001430511474609375 ms
+Tiempo de procesamiento del frame 23 completo es de 5.259037017822266 ms
+
+24 frame de 80 --> [ 270  832  914  120  356 -270 -125 -741 -190  202]
+Offset time: 0.027179718017578125 ms
+Preemphasis time: 1.026153564453125 ms
+El tiempo de cálculo de los coeficientes fb es 0.0003075599670410156
+El tiempo de cálculo de los coeficientes dct es 2.384185791015625e-05
+Move time to cuda: 0.17786026000976562 ms
+Inference time for 20 windows done at the same time is: 27.846097946166992 ms
+Time per window is 1.3923048973083496 ms
+Tiempo de procesamiento de la inferencia del frame 24 es de 33.51116180419922 ms
+Tiempo de procesamiento del frame 24 completo es de 38.71774673461914 ms
+
+25 frame de 80 --> [ 415  713  -48 -129  324  -11  531  578  584  546]
+Offset time: 0.055789947509765625 ms
+Preemphasis time: 1.5094280242919922 ms
+El tiempo de cálculo de los coeficientes fb es 6.67572021484375e-05
+El tiempo de cálculo de los coeficientes dct es 4.76837158203125e-06
+Tiempo de procesamiento de la inferencia del frame 25 es de 0.0040531158447265625 ms
+Tiempo de procesamiento del frame 25 completo es de 5.137443542480469 ms
+
+26 frame de 80 --> [ 1966   895   761  -299  -160   -90 -1640 -1281 -1245  -768]
+Offset time: 0.09036064147949219 ms
+Preemphasis time: 2.2127628326416016 ms
+El tiempo de cálculo de los coeficientes fb es 6.556510925292969e-05
+El tiempo de cálculo de los coeficientes dct es 5.245208740234375e-06
+Move time to cuda: 0.1823902130126953 ms
+Inference time for 20 windows done at the same time is: 31.618356704711914 ms
+Time per window is 1.5809178352355957 ms
+Tiempo de procesamiento de la inferencia del frame 26 es de 35.362958908081055 ms
+Tiempo de procesamiento del frame 26 completo es de 41.63980484008789 ms
+
+27 frame de 80 --> [  -49  -744   356   889   192  -572 -1021 -1340 -1545 -1143]
+Offset time: 0.0457763671875 ms
+Preemphasis time: 1.7483234405517578 ms
+El tiempo de cálculo de los coeficientes fb es 8.0108642578125e-05
+El tiempo de cálculo de los coeficientes dct es 6.4373016357421875e-06
+Tiempo de procesamiento de la inferencia del frame 27 es de 0.003814697265625 ms
+Tiempo de procesamiento del frame 27 completo es de 6.209135055541992 ms
+
+28 frame de 80 --> [-648 -352  204 -219  142 1927 1308 1152  366 1266]
+Offset time: 0.057220458984375 ms
+Preemphasis time: 1.6489028930664062 ms
+El tiempo de cálculo de los coeficientes fb es 6.318092346191406e-05
+El tiempo de cálculo de los coeficientes dct es 5.0067901611328125e-06
+Move time to cuda: 0.34308433532714844 ms
+Inference time for 20 windows done at the same time is: 24.718046188354492 ms
+Time per window is 1.2359023094177246 ms
+Tiempo de procesamiento de la inferencia del frame 28 es de 27.73880958557129 ms
+Tiempo de procesamiento del frame 28 completo es de 33.48517417907715 ms
+
+29 frame de 80 --> [-321 -160 -647  647 1878  693 1101  784  794 1214]
+Offset time: 0.0457763671875 ms
+Preemphasis time: 2.0363330841064453 ms
+El tiempo de cálculo de los coeficientes fb es 6.723403930664062e-05
+El tiempo de cálculo de los coeficientes dct es 4.291534423828125e-06
+Tiempo de procesamiento de la inferencia del frame 29 es de 0.00095367431640625 ms
+Tiempo de procesamiento del frame 29 completo es de 5.635738372802734 ms
+
+30 frame de 80 --> [ 368 1117 1196  327  224  934 1167  920 1256 1719]
+Offset time: 0.025272369384765625 ms
+Preemphasis time: 1.5683174133300781 ms
+El tiempo de cálculo de los coeficientes fb es 5.745887756347656e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Move time to cuda: 0.08058547973632812 ms
+Inference time for 20 windows done at the same time is: 34.91044044494629 ms
+Time per window is 1.7455220222473145 ms
+Tiempo de procesamiento de la inferencia del frame 30 es de 37.54591941833496 ms
+Tiempo de procesamiento del frame 30 completo es de 46.8292236328125 ms
+
+31 frame de 80 --> [ 826 1122  422  677 1026  996  908 1438 1523 1344]
+Offset time: 0.0438690185546875 ms
+Preemphasis time: 1.7597675323486328 ms
+El tiempo de cálculo de los coeficientes fb es 6.747245788574219e-05
+El tiempo de cálculo de los coeficientes dct es 4.291534423828125e-06
+Tiempo de procesamiento de la inferencia del frame 31 es de 0.001430511474609375 ms
+Tiempo de procesamiento del frame 31 completo es de 9.434223175048828 ms
+
+32 frame de 80 --> [ -819  -885 -1923 -1556  -517  -758  -899  -819  -801  -780]
+Offset time: 0.030040740966796875 ms
+Preemphasis time: 1.6460418701171875 ms
+El tiempo de cálculo de los coeficientes fb es 7.176399230957031e-05
+El tiempo de cálculo de los coeficientes dct es 5.245208740234375e-06
+Move time to cuda: 0.16689300537109375 ms
+Inference time for 20 windows done at the same time is: 28.472900390625 ms
+Time per window is 1.42364501953125 ms
+Tiempo de procesamiento de la inferencia del frame 32 es de 32.196044921875 ms
+Tiempo de procesamiento del frame 32 completo es de 44.04020309448242 ms
+
+33 frame de 80 --> [ -407  -245  -808 -1039  -187   309   -64  -314  -640  -421]
+Offset time: 0.05626678466796875 ms
+Preemphasis time: 1.7559528350830078 ms
+El tiempo de cálculo de los coeficientes fb es 7.534027099609375e-05
+El tiempo de cálculo de los coeficientes dct es 5.4836273193359375e-06
+Tiempo de procesamiento de la inferencia del frame 33 es de 0.0019073486328125 ms
+Tiempo de procesamiento del frame 33 completo es de 6.600856781005859 ms
+
+34 frame de 80 --> [ 954  522  310  240   52  882 1150  -55  102  118]
+Offset time: 0.04506111145019531 ms
+Preemphasis time: 1.5535354614257812 ms
+El tiempo de cálculo de los coeficientes fb es 0.0001437664031982422
+El tiempo de cálculo de los coeficientes dct es 3.552436828613281e-05
+Move time to cuda: 0.19216537475585938 ms
+Inference time for 20 windows done at the same time is: 23.949861526489258 ms
+Time per window is 1.197493076324463 ms
+Tiempo de procesamiento de la inferencia del frame 34 es de 27.53281593322754 ms
+Tiempo de procesamiento del frame 34 completo es de 32.9742431640625 ms
+
+35 frame de 80 --> [-486  544  970  945 1479 1440 1786 1876 1751 1932]
+Offset time: 0.03838539123535156 ms
+Preemphasis time: 0.9214878082275391 ms
+El tiempo de cálculo de los coeficientes fb es 5.841255187988281e-05
+El tiempo de cálculo de los coeficientes dct es 4.5299530029296875e-06
+Tiempo de procesamiento de la inferencia del frame 35 es de 0.0019073486328125 ms
+Tiempo de procesamiento del frame 35 completo es de 3.1747817993164062 ms
+
+36 frame de 80 --> [-1141  -601  -201   301  1063   318  -382   469   355    78]
+Offset time: 0.027894973754882812 ms
+Preemphasis time: 0.8187294006347656 ms
+El tiempo de cálculo de los coeficientes fb es 5.245208740234375e-05
+El tiempo de cálculo de los coeficientes dct es 3.337860107421875e-06
+Move time to cuda: 0.13709068298339844 ms
+Inference time for 20 windows done at the same time is: 18.5701847076416 ms
+Time per window is 0.9285092353820801 ms
+Tiempo de procesamiento de la inferencia del frame 36 es de 21.10886573791504 ms
+Tiempo de procesamiento del frame 36 completo es de 24.17135238647461 ms
+
+37 frame de 80 --> [ -439  -372  1033  -473   485   365  -456  -949 -1288 -1197]
+Offset time: 0.03552436828613281 ms
+Preemphasis time: 0.8778572082519531 ms
+El tiempo de cálculo de los coeficientes fb es 5.7220458984375e-05
+El tiempo de cálculo de los coeficientes dct es 3.337860107421875e-06
+Tiempo de procesamiento de la inferencia del frame 37 es de 0.001430511474609375 ms
+Tiempo de procesamiento del frame 37 completo es de 3.183126449584961 ms
+
+38 frame de 80 --> [   18  1164  2189   924  -549 -1477 -1322  -567 -1162 -1130]
+Offset time: 0.034332275390625 ms
+Preemphasis time: 0.83160400390625 ms
+El tiempo de cálculo de los coeficientes fb es 5.2928924560546875e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Move time to cuda: 0.23746490478515625 ms
+Inference time for 20 windows done at the same time is: 17.86494255065918 ms
+Time per window is 0.893247127532959 ms
+Tiempo de procesamiento de la inferencia del frame 38 es de 20.981311798095703 ms
+Tiempo de procesamiento del frame 38 completo es de 24.145841598510742 ms
+
+39 frame de 80 --> [1721 1591 1741 1789   29  403 1247  495 1046  779]
+Offset time: 0.04410743713378906 ms
+Preemphasis time: 0.9133815765380859 ms
+El tiempo de cálculo de los coeficientes fb es 5.817413330078125e-05
+El tiempo de cálculo de los coeficientes dct es 3.337860107421875e-06
+Tiempo de procesamiento de la inferencia del frame 39 es de 0.0011920928955078125 ms
+Tiempo de procesamiento del frame 39 completo es de 3.1130313873291016 ms
+
+40 frame de 80 --> [-384  -78  277  624  475 -392  -75 -910 -840   53]
+Offset time: 0.025987625122070312 ms
+Preemphasis time: 0.8392333984375 ms
+El tiempo de cálculo de los coeficientes fb es 4.7206878662109375e-05
+El tiempo de cálculo de los coeficientes dct es 2.86102294921875e-06
+Move time to cuda: 0.09560585021972656 ms
+Inference time for 20 windows done at the same time is: 17.63772964477539 ms
+Time per window is 0.8818864822387695 ms
+Tiempo de procesamiento de la inferencia del frame 40 es de 22.629976272583008 ms
+Tiempo de procesamiento del frame 40 completo es de 26.52287483215332 ms
+
+41 frame de 80 --> [-1447 -1492  -772 -2032 -1508  -400 -1788 -1083  -533 -1490]
+Offset time: 0.08082389831542969 ms
+Preemphasis time: 1.4243125915527344 ms
+El tiempo de cálculo de los coeficientes fb es 5.626678466796875e-05
+El tiempo de cálculo de los coeficientes dct es 3.814697265625e-06
+Tiempo de procesamiento de la inferencia del frame 41 es de 0.0021457672119140625 ms
+Tiempo de procesamiento del frame 41 completo es de 3.854990005493164 ms
+
+42 frame de 80 --> [ -204  -824  -115  -216  -685  -593  -790  -751  -891 -1465]
+Offset time: 0.030994415283203125 ms
+Preemphasis time: 0.8561611175537109 ms
+El tiempo de cálculo de los coeficientes fb es 9.72747802734375e-05
+El tiempo de cálculo de los coeficientes dct es 7.62939453125e-06
+Move time to cuda: 0.19741058349609375 ms
+Inference time for 20 windows done at the same time is: 17.84205436706543 ms
+Time per window is 0.8921027183532715 ms
+Tiempo de procesamiento de la inferencia del frame 42 es de 20.987987518310547 ms
+Tiempo de procesamiento del frame 42 completo es de 24.59883689880371 ms
+
+43 frame de 80 --> [1194  499 1625 1565 1980 2111  113 -358  509  519]
+Offset time: 0.03814697265625 ms
+Preemphasis time: 0.8807182312011719 ms
+El tiempo de cálculo de los coeficientes fb es 9.441375732421875e-05
+El tiempo de cálculo de los coeficientes dct es 6.198883056640625e-06
+Tiempo de procesamiento de la inferencia del frame 43 es de 0.0016689300537109375 ms
+Tiempo de procesamiento del frame 43 completo es de 4.280805587768555 ms
+
+44 frame de 80 --> [ 900  723  733 1103  456 -154 -313   31  165  507]
+Offset time: 0.03981590270996094 ms
+Preemphasis time: 1.1751651763916016 ms
+El tiempo de cálculo de los coeficientes fb es 5.412101745605469e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Move time to cuda: 0.1533031463623047 ms
+Inference time for 20 windows done at the same time is: 19.260168075561523 ms
+Time per window is 0.9630084037780762 ms
+Tiempo de procesamiento de la inferencia del frame 44 es de 21.82483673095703 ms
+Tiempo de procesamiento del frame 44 completo es de 25.331735610961914 ms
+
+45 frame de 80 --> [-5328 -5106 -4182 -3019 -2095  -872  -533 -2330  -467  -284]
+Offset time: 0.03933906555175781 ms
+Preemphasis time: 0.9083747863769531 ms
+El tiempo de cálculo de los coeficientes fb es 6.67572021484375e-05
+El tiempo de cálculo de los coeficientes dct es 4.76837158203125e-06
+Tiempo de procesamiento de la inferencia del frame 45 es de 0.0026226043701171875 ms
+Tiempo de procesamiento del frame 45 completo es de 3.3185482025146484 ms
+
+46 frame de 80 --> [-3757 -4066 -3249 -2148  -919 -1203 -1650 -1013   -47  -420]
+Offset time: 0.026702880859375 ms
+Preemphasis time: 0.8423328399658203 ms
+El tiempo de cálculo de los coeficientes fb es 7.653236389160156e-05
+El tiempo de cálculo de los coeficientes dct es 5.245208740234375e-06
+Move time to cuda: 0.14328956604003906 ms
+Inference time for 20 windows done at the same time is: 22.454500198364258 ms
+Time per window is 1.122725009918213 ms
+Tiempo de procesamiento de la inferencia del frame 46 es de 28.418779373168945 ms
+Tiempo de procesamiento del frame 46 completo es de 32.65643119812012 ms
+
+47 frame de 80 --> [-670 -822 1056 1911 3357 4548 5329 8177 8853 8393]
+Offset time: 0.041961669921875 ms
+Preemphasis time: 1.6825199127197266 ms
+El tiempo de cálculo de los coeficientes fb es 8.225440979003906e-05
+El tiempo de cálculo de los coeficientes dct es 4.76837158203125e-06
+Tiempo de procesamiento de la inferencia del frame 47 es de 0.001430511474609375 ms
+Tiempo de procesamiento del frame 47 completo es de 5.309343338012695 ms
+
+48 frame de 80 --> [10716  9638  7718  5735  1979   344 -2093 -4694 -5276 -5508]
+Offset time: 0.027418136596679688 ms
+Preemphasis time: 1.5404224395751953 ms
+El tiempo de cálculo de los coeficientes fb es 6.246566772460938e-05
+El tiempo de cálculo de los coeficientes dct es 4.0531158447265625e-06
+Move time to cuda: 0.13017654418945312 ms
+Inference time for 20 windows done at the same time is: 34.073829650878906 ms
+Time per window is 1.7036914825439453 ms
+Tiempo de procesamiento de la inferencia del frame 48 es de 37.294864654541016 ms
+Tiempo de procesamiento del frame 48 completo es de 51.53369903564453 ms
+
+49 frame de 80 --> [-1062  1916  2058  1409  1781  3903  2224 -3377 -5752 -5116]
+Offset time: 0.04482269287109375 ms
+Preemphasis time: 1.6999244689941406 ms
+El tiempo de cálculo de los coeficientes fb es 7.152557373046875e-05
+El tiempo de cálculo de los coeficientes dct es 5.0067901611328125e-06
+Tiempo de procesamiento de la inferencia del frame 49 es de 0.0021457672119140625 ms
+Tiempo de procesamiento del frame 49 completo es de 12.55488395690918 ms
+
+50 frame de 80 --> [-5763 -5873 -5198 -4905 -7510 -5492 -2944 -3671 -4352  -866]
+Offset time: 0.03314018249511719 ms
+Preemphasis time: 1.6660690307617188 ms
+El tiempo de cálculo de los coeficientes fb es 6.818771362304688e-05
+El tiempo de cálculo de los coeficientes dct es 5.7220458984375e-06
+Move time to cuda: 0.2684593200683594 ms
+Inference time for 20 windows done at the same time is: 27.139663696289062 ms
+Time per window is 1.3569831848144531 ms
+Tiempo de procesamiento de la inferencia del frame 50 es de 31.061649322509766 ms
+Tiempo de procesamiento del frame 50 completo es de 36.8192195892334 ms
+
+51 frame de 80 --> [-1245 -2446 -2587 -2871 -3799 -4247 -3753 -3609  6737  4784]
+Offset time: 0.05030632019042969 ms
+Preemphasis time: 1.9907951354980469 ms
+El tiempo de cálculo de los coeficientes fb es 7.152557373046875e-05
+El tiempo de cálculo de los coeficientes dct es 6.4373016357421875e-06
+Tiempo de procesamiento de la inferencia del frame 51 es de 0.003337860107421875 ms
+Tiempo de procesamiento del frame 51 completo es de 6.9561004638671875 ms
+
+52 frame de 80 --> [ -205 10207  2186  9810 16507  8370  8699  9084  3792   118]
+Offset time: 0.05340576171875 ms
+Preemphasis time: 1.9598007202148438 ms
+El tiempo de cálculo de los coeficientes fb es 6.723403930664062e-05
+El tiempo de cálculo de los coeficientes dct es 5.9604644775390625e-06
+Move time to cuda: 0.2536773681640625 ms
+Inference time for 20 windows done at the same time is: 28.656005859375 ms
+Time per window is 1.43280029296875 ms
+Tiempo de procesamiento de la inferencia del frame 52 es de 33.110857009887695 ms
+Tiempo de procesamiento del frame 52 completo es de 39.81733322143555 ms
+
+53 frame de 80 --> [ 7614  1064 -2054 -3853 -3038 -4644 -4272  -463  1190  3129]
+Offset time: 0.04649162292480469 ms
+Preemphasis time: 1.6231536865234375 ms
+El tiempo de cálculo de los coeficientes fb es 0.0001361370086669922
+El tiempo de cálculo de los coeficientes dct es 1.33514404296875e-05
+Tiempo de procesamiento de la inferencia del frame 53 es de 0.0030994415283203125 ms
+Tiempo de procesamiento del frame 53 completo es de 6.174564361572266 ms
+
+54 frame de 80 --> [-1074 -1179  5491  4758  2926  4043   258 -3818 -6589 -6596]
+Offset time: 0.04482269287109375 ms
+Preemphasis time: 1.5850067138671875 ms
+El tiempo de cálculo de los coeficientes fb es 7.414817810058594e-05
+El tiempo de cálculo de los coeficientes dct es 5.9604644775390625e-06
+Move time to cuda: 0.26869773864746094 ms
+Inference time for 20 windows done at the same time is: 23.316383361816406 ms
+Time per window is 1.1658191680908203 ms
+Tiempo de procesamiento de la inferencia del frame 54 es de 26.922225952148438 ms
+Tiempo de procesamiento del frame 54 completo es de 32.59992599487305 ms
+
+55 frame de 80 --> [-4720 -8008 -6277 -7660 -8494 -3337 -4270 -5989  -734  -720]
+Offset time: 0.05698204040527344 ms
+Preemphasis time: 1.7046928405761719 ms
+El tiempo de cálculo de los coeficientes fb es 8.0108642578125e-05
+El tiempo de cálculo de los coeficientes dct es 9.775161743164062e-06
+Tiempo de procesamiento de la inferencia del frame 55 es de 0.0019073486328125 ms
+Tiempo de procesamiento del frame 55 completo es de 7.422924041748047 ms
+
+56 frame de 80 --> [-2156  -343 -2028 -3388  -697 -4308 -1988 11422  3933  8034]
+Offset time: 0.04267692565917969 ms
+Preemphasis time: 1.744985580444336 ms
+El tiempo de cálculo de los coeficientes fb es 8.821487426757812e-05
+El tiempo de cálculo de los coeficientes dct es 4.76837158203125e-06
+Move time to cuda: 0.18930435180664062 ms
+Inference time for 20 windows done at the same time is: 24.40333366394043 ms
+Time per window is 1.2201666831970215 ms
+Tiempo de procesamiento de la inferencia del frame 56 es de 27.972698211669922 ms
+Tiempo de procesamiento del frame 56 completo es de 34.375667572021484 ms
+
+57 frame de 80 --> [ 2128 13821 17662  7863 10539 10073  3217 -1538 -4170 -4321]
+Offset time: 0.05125999450683594 ms
+Preemphasis time: 1.6405582427978516 ms
+El tiempo de cálculo de los coeficientes fb es 7.748603820800781e-05
+El tiempo de cálculo de los coeficientes dct es 5.7220458984375e-06
+Tiempo de procesamiento de la inferencia del frame 57 es de 0.0026226043701171875 ms
+Tiempo de procesamiento del frame 57 completo es de 5.769014358520508 ms
+
+58 frame de 80 --> [-8431 -8956 -1497 -2836 -1734  5655  6180  5200  7697  6634]
+Offset time: 0.03743171691894531 ms
+Preemphasis time: 1.5316009521484375 ms
+El tiempo de cálculo de los coeficientes fb es 5.2928924560546875e-05
+El tiempo de cálculo de los coeficientes dct es 4.291534423828125e-06
+Move time to cuda: 0.14662742614746094 ms
+Inference time for 20 windows done at the same time is: 21.492958068847656 ms
+Time per window is 1.0746479034423828 ms
+Tiempo de procesamiento de la inferencia del frame 58 es de 24.419069290161133 ms
+Tiempo de procesamiento del frame 58 completo es de 29.797077178955078 ms
+
+59 frame de 80 --> [  2190  -3020  -3492  -9286 -15189 -12218 -12157 -11721  -8559  -4286]
+Offset time: 0.04410743713378906 ms
+Preemphasis time: 1.8138885498046875 ms
+El tiempo de cálculo de los coeficientes fb es 6.866455078125e-05
+El tiempo de cálculo de los coeficientes dct es 5.0067901611328125e-06
+Tiempo de procesamiento de la inferencia del frame 59 es de 0.001430511474609375 ms
+Tiempo de procesamiento del frame 59 completo es de 5.568504333496094 ms
+
+60 frame de 80 --> [-9995 -7893 -5008   977  6770  2475 11861 15577 11342 14441]
+Offset time: 0.03266334533691406 ms
+Preemphasis time: 1.6982555389404297 ms
+El tiempo de cálculo de los coeficientes fb es 5.91278076171875e-05
+El tiempo de cálculo de los coeficientes dct es 4.5299530029296875e-06
+Move time to cuda: 0.080108642578125 ms
+Inference time for 20 windows done at the same time is: 19.14191246032715 ms
+Time per window is 0.9570956230163574 ms
+Tiempo de procesamiento de la inferencia del frame 60 es de 22.223949432373047 ms
+Tiempo de procesamiento del frame 60 completo es de 27.598857879638672 ms
+
+61 frame de 80 --> [13370 14825 12105  8795  7898  4710  -876 -1927 -5191 -6409]
+Offset time: 0.04315376281738281 ms
+Preemphasis time: 1.7161369323730469 ms
+El tiempo de cálculo de los coeficientes fb es 6.818771362304688e-05
+El tiempo de cálculo de los coeficientes dct es 4.291534423828125e-06
+Tiempo de procesamiento de la inferencia del frame 61 es de 0.001430511474609375 ms
+Tiempo de procesamiento del frame 61 completo es de 5.467891693115234 ms
+
+62 frame de 80 --> [5395 4904 5797 5146 3923 4846 4300 3642 3692 3722]
+Offset time: 0.030279159545898438 ms
+Preemphasis time: 1.6727447509765625 ms
+El tiempo de cálculo de los coeficientes fb es 5.9604644775390625e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Move time to cuda: 0.09942054748535156 ms
+Inference time for 20 windows done at the same time is: 19.75274085998535 ms
+Time per window is 0.9876370429992676 ms
+Tiempo de procesamiento de la inferencia del frame 62 es de 22.716999053955078 ms
+Tiempo de procesamiento del frame 62 completo es de 28.035402297973633 ms
+
+63 frame de 80 --> [ 673   15 1498  540  863  858 1305  597  858 2078]
+Offset time: 0.03409385681152344 ms
+Preemphasis time: 1.7192363739013672 ms
+El tiempo de cálculo de los coeficientes fb es 6.198883056640625e-05
+El tiempo de cálculo de los coeficientes dct es 4.5299530029296875e-06
+Tiempo de procesamiento de la inferencia del frame 63 es de 0.00095367431640625 ms
+Tiempo de procesamiento del frame 63 completo es de 5.408287048339844 ms
+
+64 frame de 80 --> [-170  447  361  353  -97  854  631 1124 1626 -188]
+Offset time: 0.031232833862304688 ms
+Preemphasis time: 1.7426013946533203 ms
+El tiempo de cálculo de los coeficientes fb es 5.8650970458984375e-05
+El tiempo de cálculo de los coeficientes dct es 3.814697265625e-06
+Move time to cuda: 0.07891654968261719 ms
+Inference time for 20 windows done at the same time is: 17.21048355102539 ms
+Time per window is 0.8605241775512695 ms
+Tiempo de procesamiento de la inferencia del frame 64 es de 19.977092742919922 ms
+Tiempo de procesamiento del frame 64 completo es de 25.47621726989746 ms
+
+65 frame de 80 --> [-184 -545 -478  591  665  432 1455 1292  181  949]
+Offset time: 0.03504753112792969 ms
+Preemphasis time: 0.9043216705322266 ms
+El tiempo de cálculo de los coeficientes fb es 7.367134094238281e-05
+El tiempo de cálculo de los coeficientes dct es 3.337860107421875e-06
+Tiempo de procesamiento de la inferencia del frame 65 es de 0.0016689300537109375 ms
+Tiempo de procesamiento del frame 65 completo es de 3.3826828002929688 ms
+
+66 frame de 80 --> [ 609  -76 -222   68  521  308  789  332 -533  424]
+Offset time: 0.021696090698242188 ms
+Preemphasis time: 0.7991790771484375 ms
+El tiempo de cálculo de los coeficientes fb es 5.888938903808594e-05
+El tiempo de cálculo de los coeficientes dct es 3.337860107421875e-06
+Move time to cuda: 0.8034706115722656 ms
+Inference time for 20 windows done at the same time is: 17.838478088378906 ms
+Time per window is 0.8919239044189453 ms
+Tiempo de procesamiento de la inferencia del frame 66 es de 21.65842056274414 ms
+Tiempo de procesamiento del frame 66 completo es de 24.960994720458984 ms
+
+67 frame de 80 --> [ 701 -385   75 -295    2  437 -479 -323    8  770]
+Offset time: 0.033855438232421875 ms
+Preemphasis time: 0.90789794921875 ms
+El tiempo de cálculo de los coeficientes fb es 6.008148193359375e-05
+El tiempo de cálculo de los coeficientes dct es 0.00018525123596191406
+Tiempo de procesamiento de la inferencia del frame 67 es de 0.0019073486328125 ms
+Tiempo de procesamiento del frame 67 completo es de 4.806995391845703 ms
+
+68 frame de 80 --> [ 614  191 -204 -356 -228   34 -332 -498 -672  -13]
+Offset time: 0.03147125244140625 ms
+Preemphasis time: 0.8983612060546875 ms
+El tiempo de cálculo de los coeficientes fb es 5.507469177246094e-05
+El tiempo de cálculo de los coeficientes dct es 3.814697265625e-06
+Move time to cuda: 0.20599365234375 ms
+Inference time for 20 windows done at the same time is: 17.22264289855957 ms
+Time per window is 0.8611321449279785 ms
+Tiempo de procesamiento de la inferencia del frame 68 es de 19.919157028198242 ms
+Tiempo de procesamiento del frame 68 completo es de 23.500919342041016 ms
+
+69 frame de 80 --> [  -93   485  -363   -69   -47  -616  -557  -899 -1314  -684]
+Offset time: 0.03552436828613281 ms
+Preemphasis time: 0.9198188781738281 ms
+El tiempo de cálculo de los coeficientes fb es 5.6743621826171875e-05
+El tiempo de cálculo de los coeficientes dct es 3.814697265625e-06
+Tiempo de procesamiento de la inferencia del frame 69 es de 0.0019073486328125 ms
+Tiempo de procesamiento del frame 69 completo es de 3.5898685455322266 ms
+
+70 frame de 80 --> [ 968 1175  799  567  543 2294  841   -4  296  265]
+Offset time: 0.034332275390625 ms
+Preemphasis time: 0.8568763732910156 ms
+El tiempo de cálculo de los coeficientes fb es 6.747245788574219e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Move time to cuda: 0.14209747314453125 ms
+Inference time for 20 windows done at the same time is: 19.46425437927246 ms
+Time per window is 0.973212718963623 ms
+Tiempo de procesamiento de la inferencia del frame 70 es de 21.992921829223633 ms
+Tiempo de procesamiento del frame 70 completo es de 25.538921356201172 ms
+
+71 frame de 80 --> [-9237 -7664 -4013  2111  5555  7146  8841 10077  9090  5167]
+Offset time: 0.03814697265625 ms
+Preemphasis time: 0.9067058563232422 ms
+El tiempo de cálculo de los coeficientes fb es 5.91278076171875e-05
+El tiempo de cálculo de los coeficientes dct es 4.291534423828125e-06
+Tiempo de procesamiento de la inferencia del frame 71 es de 0.00095367431640625 ms
+Tiempo de procesamiento del frame 71 completo es de 3.692626953125 ms
+
+72 frame de 80 --> [-27365 -24814 -18738  -9268    114  12912  23521  26359  28440  28103]
+Offset time: 0.04863739013671875 ms
+Preemphasis time: 0.9267330169677734 ms
+El tiempo de cálculo de los coeficientes fb es 6.604194641113281e-05
+El tiempo de cálculo de los coeficientes dct es 5.245208740234375e-06
+Move time to cuda: 0.14352798461914062 ms
+Inference time for 20 windows done at the same time is: 17.352581024169922 ms
+Time per window is 0.8676290512084961 ms
+Tiempo de procesamiento de la inferencia del frame 72 es de 19.70076560974121 ms
+Tiempo de procesamiento del frame 72 completo es de 23.329734802246094 ms
+
+73 frame de 80 --> [   423  -6098 -10617 -13911 -18149 -18698 -13879  -7264    631   6922]
+Offset time: 0.04601478576660156 ms
+Preemphasis time: 1.7690658569335938 ms
+El tiempo de cálculo de los coeficientes fb es 6.747245788574219e-05
+El tiempo de cálculo de los coeficientes dct es 5.0067901611328125e-06
+Tiempo de procesamiento de la inferencia del frame 73 es de 0.0011920928955078125 ms
+Tiempo de procesamiento del frame 73 completo es de 5.489349365234375 ms
+
+74 frame de 80 --> [  9295  13311  14165  14143  10982   4419  -2259  -7272 -12162 -14409]
+Offset time: 0.030040740966796875 ms
+Preemphasis time: 1.7383098602294922 ms
+El tiempo de cálculo de los coeficientes fb es 5.745887756347656e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Move time to cuda: 0.072479248046875 ms
+Inference time for 20 windows done at the same time is: 19.525766372680664 ms
+Time per window is 0.9762883186340332 ms
+Tiempo de procesamiento de la inferencia del frame 74 es de 22.196054458618164 ms
+Tiempo de procesamiento del frame 74 completo es de 27.494430541992188 ms
+
+75 frame de 80 --> [-11218 -12616 -12491 -11071  -8797  -5668  -2434    707   2803   5673]
+Offset time: 0.03743171691894531 ms
+Preemphasis time: 1.692056655883789 ms
+El tiempo de cálculo de los coeficientes fb es 5.054473876953125e-05
+El tiempo de cálculo de los coeficientes dct es 4.291534423828125e-06
+Tiempo de procesamiento de la inferencia del frame 75 es de 0.001430511474609375 ms
+Tiempo de procesamiento del frame 75 completo es de 5.410194396972656 ms
+
+76 frame de 80 --> [-4028 -5048 -5836 -4883 -3479  -862  1239  3336  4983  6882]
+Offset time: 0.026941299438476562 ms
+Preemphasis time: 1.6968250274658203 ms
+El tiempo de cálculo de los coeficientes fb es 5.793571472167969e-05
+El tiempo de cálculo de los coeficientes dct es 3.337860107421875e-06
+Move time to cuda: 0.06532669067382812 ms
+Inference time for 20 windows done at the same time is: 19.358396530151367 ms
+Time per window is 0.9679198265075684 ms
+Tiempo de procesamiento de la inferencia del frame 76 es de 21.872282028198242 ms
+Tiempo de procesamiento del frame 76 completo es de 27.266263961791992 ms
+
+77 frame de 80 --> [-1027  -635  1918  3556  5271  7296  8173  6920  4638  2563]
+Offset time: 0.03170967102050781 ms
+Preemphasis time: 1.7189979553222656 ms
+El tiempo de cálculo de los coeficientes fb es 5.91278076171875e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Tiempo de procesamiento de la inferencia del frame 77 es de 0.00095367431640625 ms
+Tiempo de procesamiento del frame 77 completo es de 5.3157806396484375 ms
+
+78 frame de 80 --> [ 7329  7791  6981  4867  2649  1133  -479 -2078 -2942 -2577]
+Offset time: 0.02956390380859375 ms
+Preemphasis time: 1.7421245574951172 ms
+El tiempo de cálculo de los coeficientes fb es 6.437301635742188e-05
+El tiempo de cálculo de los coeficientes dct es 3.814697265625e-06
+Move time to cuda: 0.12969970703125 ms
+Inference time for 20 windows done at the same time is: 21.477699279785156 ms
+Time per window is 1.0738849639892578 ms
+Tiempo de procesamiento de la inferencia del frame 78 es de 24.773836135864258 ms
+Tiempo de procesamiento del frame 78 completo es de 30.291318893432617 ms
+
+79 frame de 80 --> [-2075 -2331 -3001 -2857 -2061 -1867 -1312  -979  -491   -77]
+Offset time: 0.049114227294921875 ms
+Preemphasis time: 1.068115234375 ms
+El tiempo de cálculo de los coeficientes fb es 6.008148193359375e-05
+El tiempo de cálculo de los coeficientes dct es 3.814697265625e-06
+Tiempo de procesamiento de la inferencia del frame 79 es de 0.0021457672119140625 ms
+Tiempo de procesamiento del frame 79 completo es de 3.674030303955078 ms
+
+80 frame de 80 --> [-1848 -1675  -883   156  -443 -1046 -1416  -857  -855 -1553]
+Offset time: 0.034332275390625 ms
+Preemphasis time: 0.9214878082275391 ms
+El tiempo de cálculo de los coeficientes fb es 5.9604644775390625e-05
+El tiempo de cálculo de los coeficientes dct es 5.4836273193359375e-06
+Move time to cuda: 0.14901161193847656 ms
+Inference time for 20 windows done at the same time is: 24.674654006958008 ms
+Time per window is 1.2337327003479004 ms
+Tiempo de procesamiento de la inferencia del frame 80 es de 28.167009353637695 ms
+Tiempo de procesamiento del frame 80 completo es de 31.658172607421875 ms
+
+81 frame de 80 --> [-1109 -2117 -3397 -3194 -2349 -3063 -3629 -3988 -3098  -857]
+Offset time: 0.03504753112792969 ms
+Preemphasis time: 1.0840892791748047 ms
+El tiempo de cálculo de los coeficientes fb es 7.700920104980469e-05
+El tiempo de cálculo de los coeficientes dct es 5.245208740234375e-06
+Tiempo de procesamiento de la inferencia del frame 81 es de 0.0021457672119140625 ms
+Tiempo de procesamiento del frame 81 completo es de 4.523277282714844 ms
+
+82 frame de 80 --> [-3773  -995   846  2111  2796  5499  7414  8634  7381  5832]
+Offset time: 0.042438507080078125 ms
+Preemphasis time: 1.2176036834716797 ms
+El tiempo de cálculo de los coeficientes fb es 5.984306335449219e-05
+El tiempo de cálculo de los coeficientes dct es 4.0531158447265625e-06
+Move time to cuda: 0.15997886657714844 ms
+Inference time for 20 windows done at the same time is: 29.593229293823242 ms
+Time per window is 1.479661464691162 ms
+Tiempo de procesamiento de la inferencia del frame 82 es de 33.33115577697754 ms
+Tiempo de procesamiento del frame 82 completo es de 38.092613220214844 ms
+
+83 frame de 80 --> [ 1119  1688   675 -1428 -1296 -1245  -493   464   857  -546]
+Offset time: 0.07319450378417969 ms
+Preemphasis time: 1.7888545989990234 ms
+El tiempo de cálculo de los coeficientes fb es 9.250640869140625e-05
+El tiempo de cálculo de los coeficientes dct es 5.9604644775390625e-06
+Tiempo de procesamiento de la inferencia del frame 83 es de 0.0021457672119140625 ms
+Tiempo de procesamiento del frame 83 completo es de 6.061077117919922 ms
+
+84 frame de 80 --> [ 2826 -1141 -2216   198  3233  2598 -1678 -6257 -6044 -3199]
+Offset time: 0.042438507080078125 ms
+Preemphasis time: 1.6601085662841797 ms
+El tiempo de cálculo de los coeficientes fb es 5.340576171875e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Move time to cuda: 0.2713203430175781 ms
+Inference time for 20 windows done at the same time is: 26.144027709960938 ms
+Time per window is 1.3072013854980469 ms
+Tiempo de procesamiento de la inferencia del frame 84 es de 29.883861541748047 ms
+Tiempo de procesamiento del frame 84 completo es de 35.6903076171875 ms
+
+85 frame de 80 --> [-4718 -6376 -2822  1410  1424  1655   -37  -183   464  -700]
+Offset time: 0.049114227294921875 ms
+Preemphasis time: 1.6636848449707031 ms
+El tiempo de cálculo de los coeficientes fb es 6.699562072753906e-05
+El tiempo de cálculo de los coeficientes dct es 4.0531158447265625e-06
+Tiempo de procesamiento de la inferencia del frame 85 es de 0.0011920928955078125 ms
+Tiempo de procesamiento del frame 85 completo es de 5.362510681152344 ms
+
+86 frame de 80 --> [   34   955  1282  -862 -5064 -8207 -8744 -6932 -3874 -3698]
+Offset time: 0.030040740966796875 ms
+Preemphasis time: 1.7399787902832031 ms
+El tiempo de cálculo de los coeficientes fb es 5.602836608886719e-05
+El tiempo de cálculo de los coeficientes dct es 3.814697265625e-06
+Move time to cuda: 0.06771087646484375 ms
+Inference time for 20 windows done at the same time is: 18.4786319732666 ms
+Time per window is 0.9239315986633301 ms
+Tiempo de procesamiento de la inferencia del frame 86 es de 21.160125732421875 ms
+Tiempo de procesamiento del frame 86 completo es de 26.526689529418945 ms
+
+87 frame de 80 --> [-5498 -5992 -8560 -8757 -6045 -3595 -2747 -2746   120 17376]
+Offset time: 0.03647804260253906 ms
+Preemphasis time: 1.739501953125 ms
+El tiempo de cálculo de los coeficientes fb es 6.794929504394531e-05
+El tiempo de cálculo de los coeficientes dct es 4.76837158203125e-06
+Tiempo de procesamiento de la inferencia del frame 87 es de 0.001430511474609375 ms
+Tiempo de procesamiento del frame 87 completo es de 5.455970764160156 ms
+
+88 frame de 80 --> [-6875 -3504 -1522 -1731 -2736  2795 22252 26373  9670 -7549]
+Offset time: 0.030279159545898438 ms
+Preemphasis time: 1.7447471618652344 ms
+El tiempo de cálculo de los coeficientes fb es 5.888938903808594e-05
+El tiempo de cálculo de los coeficientes dct es 4.0531158447265625e-06
+Move time to cuda: 0.07700920104980469 ms
+Inference time for 20 windows done at the same time is: 18.459796905517578 ms
+Time per window is 0.9229898452758789 ms
+Tiempo de procesamiento de la inferencia del frame 88 es de 21.77906036376953 ms
+Tiempo de procesamiento del frame 88 completo es de 27.01091766357422 ms
+
+89 frame de 80 --> [ -774   113 13206 27723 18171  3949 -5387 -5077 -2070 -6858]
+Offset time: 0.03409385681152344 ms
+Preemphasis time: 0.8993148803710938 ms
+El tiempo de cálculo de los coeficientes fb es 7.748603820800781e-05
+El tiempo de cálculo de los coeficientes dct es 9.775161743164062e-06
+Tiempo de procesamiento de la inferencia del frame 89 es de 0.0016689300537109375 ms
+Tiempo de procesamiento del frame 89 completo es de 4.482746124267578 ms
+
+90 frame de 80 --> [ 17254   7058   1123  -2271  -2888  -9449 -10334   -333   6149   7963]
+Offset time: 0.03838539123535156 ms
+Preemphasis time: 1.2574195861816406 ms
+El tiempo de cálculo de los coeficientes fb es 7.343292236328125e-05
+El tiempo de cálculo de los coeficientes dct es 5.0067901611328125e-06
+Move time to cuda: 0.20694732666015625 ms
+Inference time for 20 windows done at the same time is: 25.295734405517578 ms
+Time per window is 1.264786720275879 ms
+Tiempo de procesamiento de la inferencia del frame 90 es de 29.896974563598633 ms
+Tiempo de procesamiento del frame 90 completo es de 35.019636154174805 ms
+
+91 frame de 80 --> [  -230  -4887 -11752 -10071  -2867   2014   3615   2837   4250   7331]
+Offset time: 0.045299530029296875 ms
+Preemphasis time: 1.4164447784423828 ms
+El tiempo de cálculo de los coeficientes fb es 7.224082946777344e-05
+El tiempo de cálculo de los coeficientes dct es 5.9604644775390625e-06
+Tiempo de procesamiento de la inferencia del frame 91 es de 0.001430511474609375 ms
+Tiempo de procesamiento del frame 91 completo es de 5.159616470336914 ms
+
+92 frame de 80 --> [-9139 -6773 -4295 -2857 -2263  1553  5896  6332  4353  2025]
+Offset time: 0.06079673767089844 ms
+Preemphasis time: 1.3203620910644531 ms
+El tiempo de cálculo de los coeficientes fb es 0.0005080699920654297
+El tiempo de cálculo de los coeficientes dct es 0.0002357959747314453
+Move time to cuda: 0.21910667419433594 ms
+Inference time for 20 windows done at the same time is: 23.65565299987793 ms
+Time per window is 1.1827826499938965 ms
+Tiempo de procesamiento de la inferencia del frame 92 es de 26.64470672607422 ms
+Tiempo de procesamiento del frame 92 completo es de 33.09440612792969 ms
+
+93 frame de 80 --> [-3438 -4927 -4890 -2407  -451  1156  1511  2374  4109  3880]
+Offset time: 0.034332275390625 ms
+Preemphasis time: 0.8966922760009766 ms
+El tiempo de cálculo de los coeficientes fb es 4.6253204345703125e-05
+El tiempo de cálculo de los coeficientes dct es 3.337860107421875e-06
+Tiempo de procesamiento de la inferencia del frame 93 es de 0.001430511474609375 ms
+Tiempo de procesamiento del frame 93 completo es de 3.2281875610351562 ms
+
+94 frame de 80 --> [-4077 -3691 -2379 -1702  -921   759  2899  3553  2840  1233]
+Offset time: 0.03552436828613281 ms
+Preemphasis time: 0.7829666137695312 ms
+El tiempo de cálculo de los coeficientes fb es 5.14984130859375e-05
+El tiempo de cálculo de los coeficientes dct es 3.0994415283203125e-06
+Move time to cuda: 0.5898475646972656 ms
+Inference time for 20 windows done at the same time is: 23.942947387695312 ms
+Time per window is 1.1971473693847656 ms
+Tiempo de procesamiento de la inferencia del frame 94 es de 27.867794036865234 ms
+Tiempo de procesamiento del frame 94 completo es de 31.24856948852539 ms
+
+95 frame de 80 --> [-5085 -3752 -3118 -1071  1322  2666  3581  3022  1777  -280]
+Offset time: 0.0362396240234375 ms
+Preemphasis time: 0.8614063262939453 ms
+El tiempo de cálculo de los coeficientes fb es 5.507469177246094e-05
+El tiempo de cálculo de los coeficientes dct es 3.814697265625e-06
+Tiempo de procesamiento de la inferencia del frame 95 es de 0.00095367431640625 ms
+Tiempo de procesamiento del frame 95 completo es de 3.382444381713867 ms
+
+96 frame de 80 --> [-2552  -331  1206  2731  3718  4133  3048    21 -3030 -3974]
+Offset time: 0.05745887756347656 ms
+Preemphasis time: 0.7910728454589844 ms
+El tiempo de cálculo de los coeficientes fb es 8.869171142578125e-05
+El tiempo de cálculo de los coeficientes dct es 5.0067901611328125e-06
+Move time to cuda: 0.13494491577148438 ms
+Inference time for 20 windows done at the same time is: 18.975019454956055 ms
+Time per window is 0.9487509727478027 ms
+Tiempo de procesamiento de la inferencia del frame 96 es de 21.51656150817871 ms
+Tiempo de procesamiento del frame 96 completo es de 25.01654624938965 ms
+
+97 frame de 80 --> [ 1625  3486  3271  3630  3334  1505  -468 -2878 -3484 -3212]
+Offset time: 0.0400543212890625 ms
+Preemphasis time: 1.6918182373046875 ms
+El tiempo de cálculo de los coeficientes fb es 7.033348083496094e-05
+El tiempo de cálculo de los coeficientes dct es 5.245208740234375e-06
+Tiempo de procesamiento de la inferencia del frame 97 es de 0.0011920928955078125 ms
+Tiempo de procesamiento del frame 97 completo es de 5.228757858276367 ms
+
+98 frame de 80 --> [ 2409  2736  2769  1542   627  -574 -2531 -3083 -2590 -1707]
+Offset time: 0.031948089599609375 ms
+Preemphasis time: 1.6827583312988281 ms
+El tiempo de cálculo de los coeficientes fb es 6.461143493652344e-05
+El tiempo de cálculo de los coeficientes dct es 4.0531158447265625e-06
+Move time to cuda: 0.08630752563476562 ms
+Inference time for 20 windows done at the same time is: 17.67420768737793 ms
+Time per window is 0.8837103843688965 ms
+Tiempo de procesamiento de la inferencia del frame 98 es de 20.689725875854492 ms
+Tiempo de procesamiento del frame 98 completo es de 26.172399520874023 ms
+
+99 frame de 80 --> [ 1941   377 -1550 -1843 -2021 -2697 -1761 -1722  -876  -878]
+Offset time: 0.04458427429199219 ms
+Preemphasis time: 1.5230178833007812 ms
+El tiempo de cálculo de los coeficientes fb es 7.343292236328125e-05
+El tiempo de cálculo de los coeficientes dct es 4.5299530029296875e-06
+Tiempo de procesamiento de la inferencia del frame 99 es de 0.0016689300537109375 ms
+Tiempo de procesamiento del frame 99 completo es de 5.05518913269043 ms
+
+100 frame de 80 --> [-1663 -2299 -2531 -1931 -1675 -1527 -1017  -285  -128  -539]
+Offset time: 0.030755996704101562 ms
+Preemphasis time: 1.0890960693359375 ms
+El tiempo de cálculo de los coeficientes fb es 5.459785461425781e-05
+El tiempo de cálculo de los coeficientes dct es 3.337860107421875e-06
+Move time to cuda: 0.1285076141357422 ms
+Inference time for 20 windows done at the same time is: 18.525123596191406 ms
+Time per window is 0.9262561798095703 ms
+Tiempo de procesamiento de la inferencia del frame 100 es de 21.788358688354492 ms
+Tiempo de procesamiento del frame 100 completo es de 25.846242904663086 ms
+
+101 frame de 80 --> [-2246 -1314  -589 -1001  -604   405  -138  -623  -525   -97]
+Offset time: 0.038623809814453125 ms
+Preemphasis time: 0.92315673828125 ms
+El tiempo de cálculo de los coeficientes fb es 5.4836273193359375e-05
+El tiempo de cálculo de los coeficientes dct es 4.0531158447265625e-06
+Tiempo de procesamiento de la inferencia del frame 101 es de 0.00095367431640625 ms
+Tiempo de procesamiento del frame 101 completo es de 4.284858703613281 ms
+
+102 frame de 80 --> [ 495  579  -53  671  868 1493  931  320 1259  801]
+Offset time: 0.02765655517578125 ms
+Preemphasis time: 1.0497570037841797 ms
+El tiempo de cálculo de los coeficientes fb es 5.316734313964844e-05
+El tiempo de cálculo de los coeficientes dct es 3.0994415283203125e-06
+Move time to cuda: 0.07009506225585938 ms
+Inference time for 20 windows done at the same time is: 19.719839096069336 ms
+Time per window is 0.9859919548034668 ms
+Tiempo de procesamiento de la inferencia del frame 102 es de 22.11737632751465 ms
+Tiempo de procesamiento del frame 102 completo es de 25.909900665283203 ms
+
+103 frame de 80 --> [ 607  317  460 1424  442 -143  688  538  646  -97]
+Offset time: 0.033855438232421875 ms
+Preemphasis time: 0.8802413940429688 ms
+El tiempo de cálculo de los coeficientes fb es 5.626678466796875e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Tiempo de procesamiento de la inferencia del frame 103 es de 0.0019073486328125 ms
+Tiempo de procesamiento del frame 103 completo es de 3.425121307373047 ms
+
+104 frame de 80 --> [-1912 -1463 -1870 -1730 -1357 -1418 -1435 -2137 -1673  -748]
+Offset time: 0.0247955322265625 ms
+Preemphasis time: 0.7889270782470703 ms
+El tiempo de cálculo de los coeficientes fb es 5.078315734863281e-05
+El tiempo de cálculo de los coeficientes dct es 3.0994415283203125e-06
+Move time to cuda: 0.18477439880371094 ms
+Inference time for 20 windows done at the same time is: 28.28836441040039 ms
+Time per window is 1.4144182205200195 ms
+Tiempo de procesamiento de la inferencia del frame 104 es de 31.664609909057617 ms
+Tiempo de procesamiento del frame 104 completo es de 34.97314453125 ms
+
+105 frame de 80 --> [ 493  -10  245  766  776  559  288 -256  472   72]
+Offset time: 0.037670135498046875 ms
+Preemphasis time: 0.9453296661376953 ms
+El tiempo de cálculo de los coeficientes fb es 6.413459777832031e-05
+El tiempo de cálculo de los coeficientes dct es 3.0994415283203125e-06
+Tiempo de procesamiento de la inferencia del frame 105 es de 0.0016689300537109375 ms
+Tiempo de procesamiento del frame 105 completo es de 3.558635711669922 ms
+
+106 frame de 80 --> [ -830  -509  -419 -1076 -1095  -643  -413    33   128   755]
+Offset time: 0.027894973754882812 ms
+Preemphasis time: 0.9150505065917969 ms
+El tiempo de cálculo de los coeficientes fb es 6.031990051269531e-05
+El tiempo de cálculo de los coeficientes dct es 4.5299530029296875e-06
+Move time to cuda: 0.1761913299560547 ms
+Inference time for 20 windows done at the same time is: 17.730236053466797 ms
+Time per window is 0.8865118026733398 ms
+Tiempo de procesamiento de la inferencia del frame 106 es de 20.55835723876953 ms
+Tiempo de procesamiento del frame 106 completo es de 24.2459774017334 ms
+
+107 frame de 80 --> [1060  663  472  351  121  -86  619 1292 1027  555]
+Offset time: 0.040531158447265625 ms
+Preemphasis time: 0.9183883666992188 ms
+El tiempo de cálculo de los coeficientes fb es 5.698204040527344e-05
+El tiempo de cálculo de los coeficientes dct es 4.0531158447265625e-06
+Tiempo de procesamiento de la inferencia del frame 107 es de 0.001430511474609375 ms
+Tiempo de procesamiento del frame 107 completo es de 3.5598278045654297 ms
+
+108 frame de 80 --> [-325 -490  -80  167  405  -44 -612 -587  170  371]
+Offset time: 0.025510787963867188 ms
+Preemphasis time: 0.8161067962646484 ms
+El tiempo de cálculo de los coeficientes fb es 7.081031799316406e-05
+El tiempo de cálculo de los coeficientes dct es 8.106231689453125e-06
+Move time to cuda: 0.21219253540039062 ms
+Inference time for 20 windows done at the same time is: 18.323659896850586 ms
+Time per window is 0.9161829948425293 ms
+Tiempo de procesamiento de la inferencia del frame 108 es de 21.49176597595215 ms
+Tiempo de procesamiento del frame 108 completo es de 24.7647762298584 ms
+
+109 frame de 80 --> [ -963  -324 -1206 -1386  -472  -423 -1051  -756  -569 -1086]
+Offset time: 0.04839897155761719 ms
+Preemphasis time: 0.9300708770751953 ms
+El tiempo de cálculo de los coeficientes fb es 5.6743621826171875e-05
+El tiempo de cálculo de los coeficientes dct es 4.291534423828125e-06
+Tiempo de procesamiento de la inferencia del frame 109 es de 0.00095367431640625 ms
+Tiempo de procesamiento del frame 109 completo es de 3.3578872680664062 ms
+
+110 frame de 80 --> [-7560 -5611  2710  5616  1736 -2557  -395  6059  4540   458]
+Offset time: 0.022172927856445312 ms
+Preemphasis time: 0.8218288421630859 ms
+El tiempo de cálculo de los coeficientes fb es 0.00010991096496582031
+El tiempo de cálculo de los coeficientes dct es 5.7220458984375e-06
+Move time to cuda: 0.1575946807861328 ms
+Inference time for 20 windows done at the same time is: 23.250341415405273 ms
+Time per window is 1.1625170707702637 ms
+Tiempo de procesamiento de la inferencia del frame 110 es de 26.74245834350586 ms
+Tiempo de procesamiento del frame 110 completo es de 30.50065040588379 ms
+
+111 frame de 80 --> [1807 1272 1440 1414 1794 2053  811  837  263  893]
+Offset time: 0.046253204345703125 ms
+Preemphasis time: 1.6779899597167969 ms
+El tiempo de cálculo de los coeficientes fb es 7.104873657226562e-05
+El tiempo de cálculo de los coeficientes dct es 4.76837158203125e-06
+Tiempo de procesamiento de la inferencia del frame 111 es de 0.001430511474609375 ms
+Tiempo de procesamiento del frame 111 completo es de 5.408763885498047 ms
+
+112 frame de 80 --> [ 8891  7501  5706  4373  2311  -372 -2938 -3539 -3010 -2808]
+Offset time: 0.03409385681152344 ms
+Preemphasis time: 1.6512870788574219 ms
+El tiempo de cálculo de los coeficientes fb es 6.031990051269531e-05
+El tiempo de cálculo de los coeficientes dct es 4.0531158447265625e-06
+Move time to cuda: 0.14472007751464844 ms
+Inference time for 20 windows done at the same time is: 20.185470581054688 ms
+Time per window is 1.0092735290527344 ms
+Tiempo de procesamiento de la inferencia del frame 112 es de 23.52428436279297 ms
+Tiempo de procesamiento del frame 112 completo es de 28.8698673248291 ms
+
+113 frame de 80 --> [ 16431  15629  11265   3880  -3443  -7061 -10468 -14060 -14143  -8666]
+Offset time: 0.043392181396484375 ms
+Preemphasis time: 1.676797866821289 ms
+El tiempo de cálculo de los coeficientes fb es 7.295608520507812e-05
+El tiempo de cálculo de los coeficientes dct es 4.291534423828125e-06
+Tiempo de procesamiento de la inferencia del frame 113 es de 0.0011920928955078125 ms
+Tiempo de procesamiento del frame 113 completo es de 5.456447601318359 ms
+
+114 frame de 80 --> [   664  -7069 -10469 -10441  -7136  -1761   1965   2698   3332   5407]
+Offset time: 0.03147125244140625 ms
+Preemphasis time: 1.7194747924804688 ms
+El tiempo de cálculo de los coeficientes fb es 5.698204040527344e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Move time to cuda: 0.28443336486816406 ms
+Inference time for 20 windows done at the same time is: 19.625186920166016 ms
+Time per window is 0.9812593460083008 ms
+Tiempo de procesamiento de la inferencia del frame 114 es de 23.049354553222656 ms
+Tiempo de procesamiento del frame 114 completo es de 28.35702896118164 ms
+
+115 frame de 80 --> [ -872 -1256 -2909 -4061 -3451 -1498   325  3236  4733  2961]
+Offset time: 0.04029273986816406 ms
+Preemphasis time: 1.6932487487792969 ms
+El tiempo de cálculo de los coeficientes fb es 6.651878356933594e-05
+El tiempo de cálculo de los coeficientes dct es 4.76837158203125e-06
+Tiempo de procesamiento de la inferencia del frame 115 es de 0.0016689300537109375 ms
+Tiempo de procesamiento del frame 115 completo es de 5.590915679931641 ms
+
+116 frame de 80 --> [ 8943  3845  -881 -1885 -2451 -3000 -1953  -438    78  2366]
+Offset time: 0.04267692565917969 ms
+Preemphasis time: 2.099752426147461 ms
+El tiempo de cálculo de los coeficientes fb es 7.104873657226562e-05
+El tiempo de cálculo de los coeficientes dct es 6.4373016357421875e-06
+Move time to cuda: 0.232696533203125 ms
+Inference time for 20 windows done at the same time is: 25.406837463378906 ms
+Time per window is 1.2703418731689453 ms
+Tiempo de procesamiento de la inferencia del frame 116 es de 29.302358627319336 ms
+Tiempo de procesamiento del frame 116 completo es de 36.682844161987305 ms
+
+117 frame de 80 --> [  -31  4020  5845  4814  1512  -671 -2267 -2609 -2018 -1327]
+Offset time: 0.04172325134277344 ms
+Preemphasis time: 1.237630844116211 ms
+El tiempo de cálculo de los coeficientes fb es 7.2479248046875e-05
+El tiempo de cálculo de los coeficientes dct es 5.7220458984375e-06
+Tiempo de procesamiento de la inferencia del frame 117 es de 0.002384185791015625 ms
+Tiempo de procesamiento del frame 117 completo es de 5.068778991699219 ms
+
+118 frame de 80 --> [-1380 -2822 -3875 -2891   109  1932  1654   924    51  -430]
+Offset time: 0.049591064453125 ms
+Preemphasis time: 1.7611980438232422 ms
+El tiempo de cálculo de los coeficientes fb es 0.00010585784912109375
+El tiempo de cálculo de los coeficientes dct es 3.814697265625e-06
+Move time to cuda: 0.17118453979492188 ms
+Inference time for 20 windows done at the same time is: 27.283668518066406 ms
+Time per window is 1.3641834259033203 ms
+Tiempo de procesamiento de la inferencia del frame 118 es de 31.349658966064453 ms
+Tiempo de procesamiento del frame 118 completo es de 36.87572479248047 ms
+
+119 frame de 80 --> [2424 3076 2670 2221 2783 4233 4008 3157 2039 1523]
+Offset time: 0.05245208740234375 ms
+Preemphasis time: 1.6906261444091797 ms
+El tiempo de cálculo de los coeficientes fb es 7.009506225585938e-05
+El tiempo de cálculo de los coeficientes dct es 5.245208740234375e-06
+Tiempo de procesamiento de la inferencia del frame 119 es de 0.0019073486328125 ms
+Tiempo de procesamiento del frame 119 completo es de 6.229400634765625 ms
+
+120 frame de 80 --> [-661 -562 -493 -672 -965 -654 -731 -749 -169  276]
+Offset time: 0.03910064697265625 ms
+Preemphasis time: 1.7101764678955078 ms
+El tiempo de cálculo de los coeficientes fb es 6.890296936035156e-05
+El tiempo de cálculo de los coeficientes dct es 5.9604644775390625e-06
+Move time to cuda: 0.2574920654296875 ms
+Inference time for 20 windows done at the same time is: 30.094385147094727 ms
+Time per window is 1.5047192573547363 ms
+Tiempo de procesamiento de la inferencia del frame 120 es de 34.35564041137695 ms
+Tiempo de procesamiento del frame 120 completo es de 40.36355018615723 ms
+
+121 frame de 80 --> [ 160  -67  140  177 -410 -459   -6 -334  -81 -112]
+Offset time: 0.07772445678710938 ms
+Preemphasis time: 1.8155574798583984 ms
+El tiempo de cálculo de los coeficientes fb es 7.05718994140625e-05
+El tiempo de cálculo de los coeficientes dct es 6.198883056640625e-06
+Tiempo de procesamiento de la inferencia del frame 121 es de 0.002384185791015625 ms
+Tiempo de procesamiento del frame 121 completo es de 6.801605224609375 ms
+
+122 frame de 80 --> [ 116 -472  714  778  100  845  713  619  896 1158]
+Offset time: 0.04363059997558594 ms
+Preemphasis time: 1.6689300537109375 ms
+El tiempo de cálculo de los coeficientes fb es 8.845329284667969e-05
+El tiempo de cálculo de los coeficientes dct es 6.4373016357421875e-06
+Move time to cuda: 0.22912025451660156 ms
+Inference time for 20 windows done at the same time is: 26.432514190673828 ms
+Time per window is 1.3216257095336914 ms
+Tiempo de procesamiento de la inferencia del frame 122 es de 29.71196174621582 ms
+Tiempo de procesamiento del frame 122 completo es de 35.97140312194824 ms
+
+123 frame de 80 --> [ -887 -1144  -429  -236  -716  -362  -370  -614 -1110 -1307]
+Offset time: 0.042438507080078125 ms
+Preemphasis time: 1.1408329010009766 ms
+El tiempo de cálculo de los coeficientes fb es 5.555152893066406e-05
+El tiempo de cálculo de los coeficientes dct es 3.814697265625e-06
+Tiempo de procesamiento de la inferencia del frame 123 es de 0.0016689300537109375 ms
+Tiempo de procesamiento del frame 123 completo es de 3.875732421875 ms
+
+124 frame de 80 --> [ -641  -230  -162 -1094  -921  -440  -484  -346  -420  -970]
+Offset time: 0.026464462280273438 ms
+Preemphasis time: 0.8051395416259766 ms
+El tiempo de cálculo de los coeficientes fb es 5.7697296142578125e-05
+El tiempo de cálculo de los coeficientes dct es 4.291534423828125e-06
+Move time to cuda: 0.06794929504394531 ms
+Inference time for 20 windows done at the same time is: 17.831802368164062 ms
+Time per window is 0.8915901184082031 ms
+Tiempo de procesamiento de la inferencia del frame 124 es de 20.50614356994629 ms
+Tiempo de procesamiento del frame 124 completo es de 24.119853973388672 ms
+
+125 frame de 80 --> [ 399  285  383  696  787  673  671  626  353 1005]
+Offset time: 0.0400543212890625 ms
+Preemphasis time: 1.1410713195800781 ms
+El tiempo de cálculo de los coeficientes fb es 6.246566772460938e-05
+El tiempo de cálculo de los coeficientes dct es 3.0994415283203125e-06
+Tiempo de procesamiento de la inferencia del frame 125 es de 0.0016689300537109375 ms
+Tiempo de procesamiento del frame 125 completo es de 4.064798355102539 ms
+
+126 frame de 80 --> [1018  726 1008  355  674  723  321  711 -441 -238]
+Offset time: 0.02288818359375 ms
+Preemphasis time: 1.0695457458496094 ms
+El tiempo de cálculo de los coeficientes fb es 5.507469177246094e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Move time to cuda: 0.07390975952148438 ms
+Inference time for 20 windows done at the same time is: 17.59958267211914 ms
+Time per window is 0.879979133605957 ms
+Tiempo de procesamiento de la inferencia del frame 126 es de 19.835233688354492 ms
+Tiempo de procesamiento del frame 126 completo es de 23.790836334228516 ms
+
+127 frame de 80 --> [-1439  -471 -1008  -837 -1498 -1136   -89  -440   171   113]
+Offset time: 0.025987625122070312 ms
+Preemphasis time: 0.9331703186035156 ms
+El tiempo de cálculo de los coeficientes fb es 5.7220458984375e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Tiempo de procesamiento de la inferencia del frame 127 es de 0.00095367431640625 ms
+Tiempo de procesamiento del frame 127 completo es de 3.559589385986328 ms
+
+128 frame de 80 --> [ -838  -752   153  -507  -841  -535  -791 -1040  -843   -14]
+Offset time: 0.02384185791015625 ms
+Preemphasis time: 1.0905265808105469 ms
+El tiempo de cálculo de los coeficientes fb es 4.2438507080078125e-05
+El tiempo de cálculo de los coeficientes dct es 3.337860107421875e-06
+Move time to cuda: 0.0629425048828125 ms
+Inference time for 20 windows done at the same time is: 21.664142608642578 ms
+Time per window is 1.083207130432129 ms
+Tiempo de procesamiento de la inferencia del frame 128 es de 25.44999122619629 ms
+Tiempo de procesamiento del frame 128 completo es de 29.869556427001953 ms
+
+129 frame de 80 --> [   -9  -562    95  -369 -1001  -669  -669  -216  -255  -296]
+Offset time: 0.044345855712890625 ms
+Preemphasis time: 1.8134117126464844 ms
+El tiempo de cálculo de los coeficientes fb es 6.365776062011719e-05
+El tiempo de cálculo de los coeficientes dct es 4.5299530029296875e-06
+Tiempo de procesamiento de la inferencia del frame 129 es de 0.0011920928955078125 ms
+Tiempo de procesamiento del frame 129 completo es de 6.021261215209961 ms
+
+130 frame de 80 --> [ 799   -5  824 1201  734 1428 1315 1159 1019 1019]
+Offset time: 0.03695487976074219 ms
+Preemphasis time: 1.0886192321777344 ms
+El tiempo de cálculo de los coeficientes fb es 5.602836608886719e-05
+El tiempo de cálculo de los coeficientes dct es 4.0531158447265625e-06
+Move time to cuda: 0.14591217041015625 ms
+Inference time for 20 windows done at the same time is: 21.678924560546875 ms
+Time per window is 1.0839462280273438 ms
+Tiempo de procesamiento de la inferencia del frame 130 es de 24.542570114135742 ms
+Tiempo de procesamiento del frame 130 completo es de 28.48958969116211 ms
+
+131 frame de 80 --> [-2420 -2281 -1832 -2152 -1686 -1573 -2128  -964 -1289 -1689]
+Offset time: 0.03719329833984375 ms
+Preemphasis time: 0.9512901306152344 ms
+El tiempo de cálculo de los coeficientes fb es 0.0001857280731201172
+El tiempo de cálculo de los coeficientes dct es 5.7220458984375e-06
+Tiempo de procesamiento de la inferencia del frame 131 es de 0.00095367431640625 ms
+Tiempo de procesamiento del frame 131 completo es de 4.104852676391602 ms
+
+132 frame de 80 --> [ 11130  11735  17160  17819  11820   7317   4614  -1773  -9318 -12660]
+Offset time: 0.0286102294921875 ms
+Preemphasis time: 0.8842945098876953 ms
+El tiempo de cálculo de los coeficientes fb es 5.9604644775390625e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Move time to cuda: 0.156402587890625 ms
+Inference time for 20 windows done at the same time is: 18.216848373413086 ms
+Time per window is 0.9108424186706543 ms
+Tiempo de procesamiento de la inferencia del frame 132 es de 20.67399024963379 ms
+Tiempo de procesamiento del frame 132 completo es de 24.355649948120117 ms
+
+133 frame de 80 --> [-14336 -11929  -6806  -1518   3955   9933  13547  14546  13125  10117]
+Offset time: 0.03337860107421875 ms
+Preemphasis time: 0.9021759033203125 ms
+El tiempo de cálculo de los coeficientes fb es 6.151199340820312e-05
+El tiempo de cálculo de los coeficientes dct es 4.76837158203125e-06
+Tiempo de procesamiento de la inferencia del frame 133 es de 0.0045299530029296875 ms
+Tiempo de procesamiento del frame 133 completo es de 3.651142120361328 ms
+
+134 frame de 80 --> [  2671  -2693  -6939 -12271 -15291 -15011 -13411 -12917  -8600  -3092]
+Offset time: 0.05245208740234375 ms
+Preemphasis time: 0.8487701416015625 ms
+El tiempo de cálculo de los coeficientes fb es 9.72747802734375e-05
+El tiempo de cálculo de los coeficientes dct es 5.4836273193359375e-06
+Move time to cuda: 0.1418590545654297 ms
+Inference time for 20 windows done at the same time is: 16.90840721130371 ms
+Time per window is 0.8454203605651855 ms
+Tiempo de procesamiento de la inferencia del frame 134 es de 19.49167251586914 ms
+Tiempo de procesamiento del frame 134 completo es de 22.99666404724121 ms
+
+135 frame de 80 --> [-2485  1275  7052 12843 13572 13612 18464 17225 10567  9588]
+Offset time: 0.03457069396972656 ms
+Preemphasis time: 0.8966922760009766 ms
+El tiempo de cálculo de los coeficientes fb es 5.53131103515625e-05
+El tiempo de cálculo de los coeficientes dct es 3.0994415283203125e-06
+Tiempo de procesamiento de la inferencia del frame 135 es de 0.00286102294921875 ms
+Tiempo de procesamiento del frame 135 completo es de 3.3991336822509766 ms
+
+136 frame de 80 --> [  7697   1911  -2574  -8745 -13639 -13894 -14011 -14195 -11335  -5805]
+Offset time: 0.031948089599609375 ms
+Preemphasis time: 0.8275508880615234 ms
+El tiempo de cálculo de los coeficientes fb es 5.459785461425781e-05
+El tiempo de cálculo de los coeficientes dct es 3.0994415283203125e-06
+Move time to cuda: 0.1347064971923828 ms
+Inference time for 20 windows done at the same time is: 18.195152282714844 ms
+Time per window is 0.9097576141357422 ms
+Tiempo de procesamiento de la inferencia del frame 136 es de 20.619630813598633 ms
+Tiempo de procesamiento del frame 136 completo es de 23.95319938659668 ms
+
+137 frame de 80 --> [-5449 -3979 -1579  -422   695   554  1672  1852  -119  -720]
+Offset time: 0.03409385681152344 ms
+Preemphasis time: 0.8862018585205078 ms
+El tiempo de cálculo de los coeficientes fb es 7.104873657226562e-05
+El tiempo de cálculo de los coeficientes dct es 4.76837158203125e-06
+Tiempo de procesamiento de la inferencia del frame 137 es de 0.0011920928955078125 ms
+Tiempo de procesamiento del frame 137 completo es de 3.4160614013671875 ms
+
+138 frame de 80 --> [  523  -562 -1932 -1175 -1565 -1542 -1050  -534 -1201 -1663]
+Offset time: 0.023365020751953125 ms
+Preemphasis time: 0.81634521484375 ms
+El tiempo de cálculo de los coeficientes fb es 5.1975250244140625e-05
+El tiempo de cálculo de los coeficientes dct es 3.337860107421875e-06
+Move time to cuda: 0.1518726348876953 ms
+Inference time for 20 windows done at the same time is: 17.726659774780273 ms
+Time per window is 0.8863329887390137 ms
+Tiempo de procesamiento de la inferencia del frame 138 es de 20.574331283569336 ms
+Tiempo de procesamiento del frame 138 completo es de 23.998022079467773 ms
+
+139 frame de 80 --> [1468  331 1077 1016 1140 1273 1004 1013  451  371]
+Offset time: 0.04601478576660156 ms
+Preemphasis time: 1.020669937133789 ms
+El tiempo de cálculo de los coeficientes fb es 7.343292236328125e-05
+El tiempo de cálculo de los coeficientes dct es 5.7220458984375e-06
+Tiempo de procesamiento de la inferencia del frame 139 es de 0.001430511474609375 ms
+Tiempo de procesamiento del frame 139 completo es de 3.593921661376953 ms
+
+140 frame de 80 --> [ 852  675  406 1497 1046   -2  433  663 -575 -424]
+Offset time: 0.027894973754882812 ms
+Preemphasis time: 0.8857250213623047 ms
+El tiempo de cálculo de los coeficientes fb es 6.008148193359375e-05
+El tiempo de cálculo de los coeficientes dct es 3.814697265625e-06
+Move time to cuda: 0.1513957977294922 ms
+Inference time for 20 windows done at the same time is: 20.423173904418945 ms
+Time per window is 1.0211586952209473 ms
+Tiempo de procesamiento de la inferencia del frame 140 es de 26.094675064086914 ms
+Tiempo de procesamiento del frame 140 completo es de 29.677152633666992 ms
+
+141 frame de 80 --> [-1525 -1692  -789 -1407 -1265 -1131  -942  -387  -442  -762]
+Offset time: 0.10704994201660156 ms
+Preemphasis time: 0.8823871612548828 ms
+El tiempo de cálculo de los coeficientes fb es 6.461143493652344e-05
+El tiempo de cálculo de los coeficientes dct es 3.814697265625e-06
+Tiempo de procesamiento de la inferencia del frame 141 es de 0.002384185791015625 ms
+Tiempo de procesamiento del frame 141 completo es de 3.5398006439208984 ms
+
+142 frame de 80 --> [ -570 -1194 -1370  -859  -456   340   169   154  -484  -566]
+Offset time: 0.028133392333984375 ms
+Preemphasis time: 0.86212158203125 ms
+El tiempo de cálculo de los coeficientes fb es 7.915496826171875e-05
+El tiempo de cálculo de los coeficientes dct es 4.5299530029296875e-06
+Move time to cuda: 0.15354156494140625 ms
+Inference time for 20 windows done at the same time is: 30.402421951293945 ms
+Time per window is 1.5201210975646973 ms
+Tiempo de procesamiento de la inferencia del frame 142 es de 34.06786918640137 ms
+Tiempo de procesamiento del frame 142 completo es de 37.53089904785156 ms
+
+143 frame de 80 --> [ 234  613 1639  505  637  153   36  701  701 1653]
+Offset time: 0.041961669921875 ms
+Preemphasis time: 1.7087459564208984 ms
+El tiempo de cálculo de los coeficientes fb es 7.224082946777344e-05
+El tiempo de cálculo de los coeficientes dct es 4.5299530029296875e-06
+Tiempo de procesamiento de la inferencia del frame 143 es de 0.0019073486328125 ms
+Tiempo de procesamiento del frame 143 completo es de 5.3806304931640625 ms
+
+144 frame de 80 --> [ -29  129 -105  146  327  934  855  875 1768  792]
+Offset time: 0.030755996704101562 ms
+Preemphasis time: 14.322996139526367 ms
+El tiempo de cálculo de los coeficientes fb es 6.365776062011719e-05
+El tiempo de cálculo de los coeficientes dct es 3.814697265625e-06
+Move time to cuda: 0.1609325408935547 ms
+Inference time for 20 windows done at the same time is: 29.699325561523438 ms
+Time per window is 1.4849662780761719 ms
+Tiempo de procesamiento de la inferencia del frame 144 es de 32.668113708496094 ms
+Tiempo de procesamiento del frame 144 completo es de 49.967050552368164 ms
+
+145 frame de 80 --> [1706 2095 2411 1103  483  280  642 -851 -502 -455]
+Offset time: 0.041961669921875 ms
+Preemphasis time: 1.741647720336914 ms
+El tiempo de cálculo de los coeficientes fb es 4.982948303222656e-05
+El tiempo de cálculo de los coeficientes dct es 4.0531158447265625e-06
+Tiempo de procesamiento de la inferencia del frame 145 es de 0.001430511474609375 ms
+Tiempo de procesamiento del frame 145 completo es de 4.893302917480469 ms
+
+146 frame de 80 --> [-4407 -6681 -7624 -8421 -6818 -4356 -2716  -326  1936  1534]
+Offset time: 0.025510787963867188 ms
+Preemphasis time: 1.0576248168945312 ms
+El tiempo de cálculo de los coeficientes fb es 4.029273986816406e-05
+El tiempo de cálculo de los coeficientes dct es 3.337860107421875e-06
+Move time to cuda: 0.08296966552734375 ms
+Inference time for 20 windows done at the same time is: 17.712831497192383 ms
+Time per window is 0.8856415748596191 ms
+Tiempo de procesamiento de la inferencia del frame 146 es de 20.307302474975586 ms
+Tiempo de procesamiento del frame 146 completo es de 24.046659469604492 ms
+
+147 frame de 80 --> [  7315   5930   2635  -1457  -5806  -8703 -10275 -10686  -9269  -7822]
+Offset time: 0.03361701965332031 ms
+Preemphasis time: 0.8726119995117188 ms
+El tiempo de cálculo de los coeficientes fb es 0.00015497207641601562
+El tiempo de cálculo de los coeficientes dct es 6.198883056640625e-06
+Tiempo de procesamiento de la inferencia del frame 147 es de 0.0016689300537109375 ms
+Tiempo de procesamiento del frame 147 completo es de 4.1217803955078125 ms
+
+148 frame de 80 --> [-9301 -9293 -7348 -6205 -5130 -4526 -2462 -1210   875  2891]
+Offset time: 0.03719329833984375 ms
+Preemphasis time: 1.1928081512451172 ms
+El tiempo de cálculo de los coeficientes fb es 5.626678466796875e-05
+El tiempo de cálculo de los coeficientes dct es 4.0531158447265625e-06
+Move time to cuda: 0.34165382385253906 ms
+Inference time for 20 windows done at the same time is: 18.763303756713867 ms
+Time per window is 0.9381651878356934 ms
+Tiempo de procesamiento de la inferencia del frame 148 es de 21.894216537475586 ms
+Tiempo de procesamiento del frame 148 completo es de 26.20220184326172 ms
+
+149 frame de 80 --> [-6397 -5527 -4476 -2193 -1577    63    58  -481   117  3263]
+Offset time: 0.0362396240234375 ms
+Preemphasis time: 0.9043216705322266 ms
+El tiempo de cálculo de los coeficientes fb es 8.940696716308594e-05
+El tiempo de cálculo de los coeficientes dct es 1.0967254638671875e-05
+Tiempo de procesamiento de la inferencia del frame 149 es de 0.0019073486328125 ms
+Tiempo de procesamiento del frame 149 completo es de 3.6115646362304688 ms
+
+150 frame de 80 --> [-6857 -4637 -3324 -2367 -2330 -2202 -2474 -1588   824  1560]
+Offset time: 0.026226043701171875 ms
+Preemphasis time: 0.8244514465332031 ms
+El tiempo de cálculo de los coeficientes fb es 6.580352783203125e-05
+El tiempo de cálculo de los coeficientes dct es 4.5299530029296875e-06
+Move time to cuda: 0.4687309265136719 ms
+Inference time for 20 windows done at the same time is: 21.032333374023438 ms
+Time per window is 1.0516166687011719 ms
+Tiempo de procesamiento de la inferencia del frame 150 es de 25.212764739990234 ms
+Tiempo de procesamiento del frame 150 completo es de 28.51581573486328 ms
+
+151 frame de 80 --> [-6214 -5580 -5361 -4677 -3889 -4116 -1828  -796  -901  -438]
+Offset time: 0.05245208740234375 ms
+Preemphasis time: 0.9555816650390625 ms
+El tiempo de cálculo de los coeficientes fb es 5.698204040527344e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Tiempo de procesamiento de la inferencia del frame 151 es de 0.001430511474609375 ms
+Tiempo de procesamiento del frame 151 completo es de 3.5963058471679688 ms
+
+152 frame de 80 --> [-1031 -2193 -2858 -3083 -2238 -1487 -2811 -3865 -4308 -2846]
+Offset time: 0.030040740966796875 ms
+Preemphasis time: 1.0471343994140625 ms
+El tiempo de cálculo de los coeficientes fb es 5.984306335449219e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Move time to cuda: 0.22554397583007812 ms
+Inference time for 20 windows done at the same time is: 19.01412010192871 ms
+Time per window is 0.9507060050964355 ms
+Tiempo de procesamiento de la inferencia del frame 152 es de 22.01986312866211 ms
+Tiempo de procesamiento del frame 152 completo es de 25.548696517944336 ms
+
+153 frame de 80 --> [  479    28 -1469 -1981  -330  -636 -1312 -1830 -1296 -2129]
+Offset time: 0.059604644775390625 ms
+Preemphasis time: 1.1112689971923828 ms
+El tiempo de cálculo de los coeficientes fb es 7.462501525878906e-05
+El tiempo de cálculo de los coeficientes dct es 5.0067901611328125e-06
+Tiempo de procesamiento de la inferencia del frame 153 es de 0.0011920928955078125 ms
+Tiempo de procesamiento del frame 153 completo es de 4.626035690307617 ms
+
+154 frame de 80 --> [-1424 -1547  -697 -1442  -807 -1269 -2550 -2844 -2726 -2771]
+Offset time: 0.03504753112792969 ms
+Preemphasis time: 0.8561611175537109 ms
+El tiempo de cálculo de los coeficientes fb es 5.4836273193359375e-05
+El tiempo de cálculo de los coeficientes dct es 3.0994415283203125e-06
+Move time to cuda: 0.14352798461914062 ms
+Inference time for 20 windows done at the same time is: 30.009984970092773 ms
+Time per window is 1.5004992485046387 ms
+Tiempo de procesamiento de la inferencia del frame 154 es de 32.6390266418457 ms
+Tiempo de procesamiento del frame 154 completo es de 35.76970100402832 ms
+
+155 frame de 80 --> [-1113 -1113 -1414  -812 -1666 -1245 -1809 -2123 -3071 -3247]
+Offset time: 0.03719329833984375 ms
+Preemphasis time: 0.9291172027587891 ms
+El tiempo de cálculo de los coeficientes fb es 5.7220458984375e-05
+El tiempo de cálculo de los coeficientes dct es 4.0531158447265625e-06
+Tiempo de procesamiento de la inferencia del frame 155 es de 0.0011920928955078125 ms
+Tiempo de procesamiento del frame 155 completo es de 3.6187171936035156 ms
+
+156 frame de 80 --> [-1872  -410    46  -569 -1463 -1014  -650 -2652 -2707 -2835]
+Offset time: 0.02384185791015625 ms
+Preemphasis time: 0.8280277252197266 ms
+El tiempo de cálculo de los coeficientes fb es 5.7697296142578125e-05
+El tiempo de cálculo de los coeficientes dct es 2.86102294921875e-06
+Move time to cuda: 0.28133392333984375 ms
+Inference time for 20 windows done at the same time is: 27.80008316040039 ms
+Time per window is 1.3900041580200195 ms
+Tiempo de procesamiento de la inferencia del frame 156 es de 30.269384384155273 ms
+Tiempo de procesamiento del frame 156 completo es de 33.537864685058594 ms
+
+157 frame de 80 --> [-1196  -202    21  -323   -96   517   179  -525  -568  -357]
+Offset time: 0.035762786865234375 ms
+Preemphasis time: 0.9913444519042969 ms
+El tiempo de cálculo de los coeficientes fb es 5.650520324707031e-05
+El tiempo de cálculo de los coeficientes dct es 3.0994415283203125e-06
+Tiempo de procesamiento de la inferencia del frame 157 es de 0.001430511474609375 ms
+Tiempo de procesamiento del frame 157 completo es de 3.489971160888672 ms
+
+158 frame de 80 --> [ -151   444   773  1135  -355  -525   653  -902  -421 -1084]
+Offset time: 0.021219253540039062 ms
+Preemphasis time: 1.1305809020996094 ms
+El tiempo de cálculo de los coeficientes fb es 5.173683166503906e-05
+El tiempo de cálculo de los coeficientes dct es 3.0994415283203125e-06
+Move time to cuda: 0.0705718994140625 ms
+Inference time for 20 windows done at the same time is: 20.99895477294922 ms
+Time per window is 1.049947738647461 ms
+Tiempo de procesamiento de la inferencia del frame 158 es de 23.233890533447266 ms
+Tiempo de procesamiento del frame 158 completo es de 27.048587799072266 ms
+
+159 frame de 80 --> [-1079  -324   -71  -377 -1054 -1301 -1694 -1484 -2398 -2850]
+Offset time: 0.0286102294921875 ms
+Preemphasis time: 4.791498184204102 ms
+El tiempo de cálculo de los coeficientes fb es 5.793571472167969e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Tiempo de procesamiento de la inferencia del frame 159 es de 0.00095367431640625 ms
+Tiempo de procesamiento del frame 159 completo es de 7.588863372802734 ms
+
+160 frame de 80 --> [ -496   385  -355 -1285 -1666 -1164 -1266 -2087 -1784 -3140]
+Offset time: 0.023603439331054688 ms
+Preemphasis time: 1.0945796966552734 ms
+El tiempo de cálculo de los coeficientes fb es 5.602836608886719e-05
+El tiempo de cálculo de los coeficientes dct es 3.337860107421875e-06
+Move time to cuda: 0.09679794311523438 ms
+Inference time for 20 windows done at the same time is: 30.566692352294922 ms
+Time per window is 1.528334617614746 ms
+Tiempo de procesamiento de la inferencia del frame 160 es de 34.69562530517578 ms
+Tiempo de procesamiento del frame 160 completo es de 38.6965274810791 ms
+
+161 frame de 80 --> [-1562 -2238 -2181 -1913 -1791 -1987 -2214 -2207 -2105 -2892]
+Offset time: 0.04220008850097656 ms
+Preemphasis time: 1.8382072448730469 ms
+El tiempo de cálculo de los coeficientes fb es 5.364418029785156e-05
+El tiempo de cálculo de los coeficientes dct es 4.0531158447265625e-06
+Tiempo de procesamiento de la inferencia del frame 161 es de 0.0019073486328125 ms
+Tiempo de procesamiento del frame 161 completo es de 6.000280380249023 ms
+
+162 frame de 80 --> [ -737   993 -1710 -2062  -782  1691  4462  2176  6659 10426]
+Offset time: 0.046253204345703125 ms
+Preemphasis time: 1.6510486602783203 ms
+El tiempo de cálculo de los coeficientes fb es 5.340576171875e-05
+El tiempo de cálculo de los coeficientes dct es 3.814697265625e-06
+Move time to cuda: 0.1888275146484375 ms
+Inference time for 20 windows done at the same time is: 27.911901473999023 ms
+Time per window is 1.3955950736999512 ms
+Tiempo de procesamiento de la inferencia del frame 162 es de 32.04154968261719 ms
+Tiempo de procesamiento del frame 162 completo es de 37.909507751464844 ms
+
+163 frame de 80 --> [ 4857   708  7144  8822  4820  4983  4354  1539 -2197 -5954]
+Offset time: 0.04982948303222656 ms
+Preemphasis time: 1.65557861328125 ms
+El tiempo de cálculo de los coeficientes fb es 6.890296936035156e-05
+El tiempo de cálculo de los coeficientes dct es 4.76837158203125e-06
+Tiempo de procesamiento de la inferencia del frame 163 es de 0.0021457672119140625 ms
+Tiempo de procesamiento del frame 163 completo es de 5.620002746582031 ms
+
+164 frame de 80 --> [-2350 -6390 -5423 -5343 -7745 -2698  -518 -1268  2261  3589]
+Offset time: 0.03266334533691406 ms
+Preemphasis time: 1.7490386962890625 ms
+El tiempo de cálculo de los coeficientes fb es 5.173683166503906e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Move time to cuda: 0.16808509826660156 ms
+Inference time for 20 windows done at the same time is: 21.01874351501465 ms
+Time per window is 1.0509371757507324 ms
+Tiempo de procesamiento de la inferencia del frame 164 es de 24.35612678527832 ms
+Tiempo de procesamiento del frame 164 completo es de 30.00164031982422 ms
+
+165 frame de 80 --> [ 5501  4682  6116  3031  1099 -1241 -6013 -4477 -6297 -7544]
+Offset time: 0.03814697265625 ms
+Preemphasis time: 1.4736652374267578 ms
+El tiempo de cálculo de los coeficientes fb es 0.0003674030303955078
+El tiempo de cálculo de los coeficientes dct es 0.00013566017150878906
+Tiempo de procesamiento de la inferencia del frame 165 es de 0.0016689300537109375 ms
+Tiempo de procesamiento del frame 165 completo es de 7.339000701904297 ms
+
+166 frame de 80 --> [-7435 -6332 -5464 -3560 -2006   599   958   434  7106  8827]
+Offset time: 0.053882598876953125 ms
+Preemphasis time: 1.087188720703125 ms
+El tiempo de cálculo de los coeficientes fb es 7.82012939453125e-05
+El tiempo de cálculo de los coeficientes dct es 5.9604644775390625e-06
+Move time to cuda: 0.20623207092285156 ms
+Inference time for 20 windows done at the same time is: 26.043415069580078 ms
+Time per window is 1.302170753479004 ms
+Tiempo de procesamiento de la inferencia del frame 166 es de 29.567241668701172 ms
+Tiempo de procesamiento del frame 166 completo es de 36.138296127319336 ms
+
+167 frame de 80 --> [ 4390  9548 13508 11827 12479 12872 11188  7227  1698   146]
+Offset time: 0.03886222839355469 ms
+Preemphasis time: 1.1749267578125 ms
+El tiempo de cálculo de los coeficientes fb es 5.5789947509765625e-05
+El tiempo de cálculo de los coeficientes dct es 3.814697265625e-06
+Tiempo de procesamiento de la inferencia del frame 167 es de 0.00095367431640625 ms
+Tiempo de procesamiento del frame 167 completo es de 4.021883010864258 ms
+
+168 frame de 80 --> [-3484 -5109 -5299 -5163 -5329 -3272 -1337  -364  1585    84]
+Offset time: 0.021219253540039062 ms
+Preemphasis time: 0.9229183197021484 ms
+El tiempo de cálculo de los coeficientes fb es 5.602836608886719e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Move time to cuda: 0.06628036499023438 ms
+Inference time for 20 windows done at the same time is: 18.001556396484375 ms
+Time per window is 0.9000778198242188 ms
+Tiempo de procesamiento de la inferencia del frame 168 es de 20.39027214050293 ms
+Tiempo de procesamiento del frame 168 completo es de 24.153709411621094 ms
+
+169 frame de 80 --> [  -51 -1085 -1656 -1849 -2096 -1851 -1018 -1346 -1075 -1547]
+Offset time: 0.030755996704101562 ms
+Preemphasis time: 1.0752677917480469 ms
+El tiempo de cálculo de los coeficientes fb es 5.340576171875e-05
+El tiempo de cálculo de los coeficientes dct es 3.337860107421875e-06
+Tiempo de procesamiento de la inferencia del frame 169 es de 0.00095367431640625 ms
+Tiempo de procesamiento del frame 169 completo es de 3.999948501586914 ms
+
+170 frame de 80 --> [ 1282  1042  1953  1485   728  -618    82     3 -1102   392]
+Offset time: 0.023603439331054688 ms
+Preemphasis time: 1.0960102081298828 ms
+El tiempo de cálculo de los coeficientes fb es 5.698204040527344e-05
+El tiempo de cálculo de los coeficientes dct es 4.291534423828125e-06
+Move time to cuda: 0.07224082946777344 ms
+Inference time for 20 windows done at the same time is: 26.65090560913086 ms
+Time per window is 1.332545280456543 ms
+Tiempo de procesamiento de la inferencia del frame 170 es de 29.538869857788086 ms
+Tiempo de procesamiento del frame 170 completo es de 33.811092376708984 ms
+
+171 frame de 80 --> [ 618  899  662  369  606  291  800  646 -139 1032]
+Offset time: 0.04029273986816406 ms
+Preemphasis time: 1.3577938079833984 ms
+El tiempo de cálculo de los coeficientes fb es 7.033348083496094e-05
+El tiempo de cálculo de los coeficientes dct es 6.198883056640625e-06
+Tiempo de procesamiento de la inferencia del frame 171 es de 0.0016689300537109375 ms
+Tiempo de procesamiento del frame 171 completo es de 6.691694259643555 ms
+
+172 frame de 80 --> [1355 1309  911  492  596 1160  517  -10  159  141]
+Offset time: 0.05030632019042969 ms
+Preemphasis time: 1.4371871948242188 ms
+El tiempo de cálculo de los coeficientes fb es 5.173683166503906e-05
+El tiempo de cálculo de los coeficientes dct es 4.0531158447265625e-06
+Move time to cuda: 0.1678466796875 ms
+Inference time for 20 windows done at the same time is: 28.889179229736328 ms
+Time per window is 1.4444589614868164 ms
+Tiempo de procesamiento de la inferencia del frame 172 es de 33.19525718688965 ms
+Tiempo de procesamiento del frame 172 completo es de 38.38372230529785 ms
+
+173 frame de 80 --> [ -365 -1381 -1488  -683  -899 -1100  -107 -1216 -1713   -70]
+Offset time: 0.041961669921875 ms
+Preemphasis time: 1.6825199127197266 ms
+El tiempo de cálculo de los coeficientes fb es 6.67572021484375e-05
+El tiempo de cálculo de los coeficientes dct es 4.76837158203125e-06
+Tiempo de procesamiento de la inferencia del frame 173 es de 0.0019073486328125 ms
+Tiempo de procesamiento del frame 173 completo es de 5.789279937744141 ms
+
+174 frame de 80 --> [ -953 -1089 -1293  -958 -1766 -1920 -1836 -1084    78  -204]
+Offset time: 0.056743621826171875 ms
+Preemphasis time: 1.7049312591552734 ms
+El tiempo de cálculo de los coeficientes fb es 7.343292236328125e-05
+El tiempo de cálculo de los coeficientes dct es 5.4836273193359375e-06
+Move time to cuda: 0.232696533203125 ms
+Inference time for 20 windows done at the same time is: 27.398347854614258 ms
+Time per window is 1.369917392730713 ms
+Tiempo de procesamiento de la inferencia del frame 174 es de 30.791044235229492 ms
+Tiempo de procesamiento del frame 174 completo es de 36.551713943481445 ms
+
+175 frame de 80 --> [-930  -69 1013 1165  352  827   -8 -417 -104 -369]
+Offset time: 0.03886222839355469 ms
+Preemphasis time: 0.8709430694580078 ms
+El tiempo de cálculo de los coeficientes fb es 5.435943603515625e-05
+El tiempo de cálculo de los coeficientes dct es 4.291534423828125e-06
+Tiempo de procesamiento de la inferencia del frame 175 es de 0.001430511474609375 ms
+Tiempo de procesamiento del frame 175 completo es de 3.679990768432617 ms
+
+176 frame de 80 --> [-218 1043 1326 1365 1367  818 1406 2235 1432  421]
+Offset time: 0.027894973754882812 ms
+Preemphasis time: 0.8554458618164062 ms
+El tiempo de cálculo de los coeficientes fb es 5.6743621826171875e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Move time to cuda: 0.1735687255859375 ms
+Inference time for 20 windows done at the same time is: 33.10656547546387 ms
+Time per window is 1.6553282737731934 ms
+Tiempo de procesamiento de la inferencia del frame 176 es de 38.376808166503906 ms
+Tiempo de procesamiento del frame 176 completo es de 42.177438735961914 ms
+
+177 frame de 80 --> [  702   855  -162   688   785  -381  -252 -1760  -650   119]
+Offset time: 0.06604194641113281 ms
+Preemphasis time: 1.5895366668701172 ms
+El tiempo de cálculo de los coeficientes fb es 6.580352783203125e-05
+El tiempo de cálculo de los coeficientes dct es 5.4836273193359375e-06
+Tiempo de procesamiento de la inferencia del frame 177 es de 0.0019073486328125 ms
+Tiempo de procesamiento del frame 177 completo es de 6.669282913208008 ms
+
+178 frame de 80 --> [-1448 -1034 -1410 -1999  -346 -1788 -2078   126  -295  -540]
+Offset time: 0.041961669921875 ms
+Preemphasis time: 1.1668205261230469 ms
+El tiempo de cálculo de los coeficientes fb es 6.389617919921875e-05
+El tiempo de cálculo de los coeficientes dct es 4.291534423828125e-06
+Move time to cuda: 0.22482872009277344 ms
+Inference time for 20 windows done at the same time is: 20.048856735229492 ms
+Time per window is 1.0024428367614746 ms
+Tiempo de procesamiento de la inferencia del frame 178 es de 23.36597442626953 ms
+Tiempo de procesamiento del frame 178 completo es de 27.961254119873047 ms
+
+179 frame de 80 --> [ -335  -275 -1931  -598  -219  -898  1428   387    39  1311]
+Offset time: 0.04291534423828125 ms
+Preemphasis time: 1.6982555389404297 ms
+El tiempo de cálculo de los coeficientes fb es 6.604194641113281e-05
+El tiempo de cálculo de los coeficientes dct es 4.5299530029296875e-06
+Tiempo de procesamiento de la inferencia del frame 179 es de 0.001430511474609375 ms
+Tiempo de procesamiento del frame 179 completo es de 5.3558349609375 ms
+
+180 frame de 80 --> [-1266   461  1278 -1418 -1108 -1109 -1367   616   213   565]
+Offset time: 0.02956390380859375 ms
+Preemphasis time: 1.6651153564453125 ms
+El tiempo de cálculo de los coeficientes fb es 5.936622619628906e-05
+El tiempo de cálculo de los coeficientes dct es 3.814697265625e-06
+Move time to cuda: 0.07081031799316406 ms
+Inference time for 20 windows done at the same time is: 18.767356872558594 ms
+Time per window is 0.9383678436279297 ms
+Tiempo de procesamiento de la inferencia del frame 180 es de 21.27838134765625 ms
+Tiempo de procesamiento del frame 180 completo es de 26.484251022338867 ms
+
+181 frame de 80 --> [1610  908 1132  294 -253 1662 1180 2073 1690  917]
+Offset time: 0.0476837158203125 ms
+Preemphasis time: 1.7402172088623047 ms
+El tiempo de cálculo de los coeficientes fb es 5.91278076171875e-05
+El tiempo de cálculo de los coeficientes dct es 4.0531158447265625e-06
+Tiempo de procesamiento de la inferencia del frame 181 es de 0.0011920928955078125 ms
+Tiempo de procesamiento del frame 181 completo es de 5.442619323730469 ms
+
+182 frame de 80 --> [ 2665  2775  4675  5380  5818  6468  5998  4275  2454 -1008]
+Offset time: 0.02956390380859375 ms
+Preemphasis time: 1.7139911651611328 ms
+El tiempo de cálculo de los coeficientes fb es 5.435943603515625e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Move time to cuda: 0.0667572021484375 ms
+Inference time for 20 windows done at the same time is: 18.87822151184082 ms
+Time per window is 0.943911075592041 ms
+Tiempo de procesamiento de la inferencia del frame 182 es de 21.49200439453125 ms
+Tiempo de procesamiento del frame 182 completo es de 26.726245880126953 ms
+
+183 frame de 80 --> [  5195   6181   7960   5875   3573   1211  -3274  -7327 -10762 -11961]
+Offset time: 0.03600120544433594 ms
+Preemphasis time: 1.6887187957763672 ms
+El tiempo de cálculo de los coeficientes fb es 7.867813110351562e-05
+El tiempo de cálculo de los coeficientes dct es 9.5367431640625e-06
+Tiempo de procesamiento de la inferencia del frame 183 es de 0.00095367431640625 ms
+Tiempo de procesamiento del frame 183 completo es de 4.829883575439453 ms
+
+184 frame de 80 --> [ 16979  16504  15202  14058   9201   1648  -4036  -6770 -11458 -14305]
+Offset time: 0.028133392333984375 ms
+Preemphasis time: 1.3287067413330078 ms
+El tiempo de cálculo de los coeficientes fb es 4.8160552978515625e-05
+El tiempo de cálculo de los coeficientes dct es 3.814697265625e-06
+Move time to cuda: 0.5450248718261719 ms
+Inference time for 20 windows done at the same time is: 30.832767486572266 ms
+Time per window is 1.5416383743286133 ms
+Tiempo de procesamiento de la inferencia del frame 184 es de 35.6602668762207 ms
+Tiempo de procesamiento del frame 184 completo es de 40.78555107116699 ms
+
+185 frame de 80 --> [ 6757  9819  9918  7819  5980  1015 -1456 -4466 -7908 -8192]
+Offset time: 0.05936622619628906 ms
+Preemphasis time: 1.730203628540039 ms
+El tiempo de cálculo de los coeficientes fb es 5.984306335449219e-05
+El tiempo de cálculo de los coeficientes dct es 4.291534423828125e-06
+Tiempo de procesamiento de la inferencia del frame 185 es de 0.0040531158447265625 ms
+Tiempo de procesamiento del frame 185 completo es de 6.051778793334961 ms
+
+186 frame de 80 --> [4564 3784 3121 4123 3938 2640 2082 3428 2297  229]
+Offset time: 0.049591064453125 ms
+Preemphasis time: 1.6846656799316406 ms
+El tiempo de cálculo de los coeficientes fb es 0.0001354217529296875
+El tiempo de cálculo de los coeficientes dct es 0.00014543533325195312
+Move time to cuda: 0.16951560974121094 ms
+Inference time for 20 windows done at the same time is: 30.181884765625 ms
+Time per window is 1.50909423828125 ms
+Tiempo de procesamiento de la inferencia del frame 186 es de 34.97719764709473 ms
+Tiempo de procesamiento del frame 186 completo es de 41.59688949584961 ms
+
+187 frame de 80 --> [ 2502  2169   769 -1395 -3016 -3643 -2891 -4236 -3868 -2967]
+Offset time: 0.04291534423828125 ms
+Preemphasis time: 1.8658638000488281 ms
+El tiempo de cálculo de los coeficientes fb es 6.246566772460938e-05
+El tiempo de cálculo de los coeficientes dct es 4.5299530029296875e-06
+Tiempo de procesamiento de la inferencia del frame 187 es de 0.002384185791015625 ms
+Tiempo de procesamiento del frame 187 completo es de 5.9261322021484375 ms
+
+188 frame de 80 --> [  672   178  -228   473    57  -769 -1879 -2658 -2570  -513]
+Offset time: 0.07009506225585938 ms
+Preemphasis time: 1.8124580383300781 ms
+El tiempo de cálculo de los coeficientes fb es 7.009506225585938e-05
+El tiempo de cálculo de los coeficientes dct es 5.7220458984375e-06
+Move time to cuda: 0.2536773681640625 ms
+Inference time for 20 windows done at the same time is: 23.12016487121582 ms
+Time per window is 1.156008243560791 ms
+Tiempo de procesamiento de la inferencia del frame 188 es de 26.158809661865234 ms
+Tiempo de procesamiento del frame 188 completo es de 32.189369201660156 ms
+
+189 frame de 80 --> [1040 1415  249  607  934 1423 2473 3508 4090 3982]
+Offset time: 0.03695487976074219 ms
+Preemphasis time: 0.9412765502929688 ms
+El tiempo de cálculo de los coeficientes fb es 7.724761962890625e-05
+El tiempo de cálculo de los coeficientes dct es 5.4836273193359375e-06
+Tiempo de procesamiento de la inferencia del frame 189 es de 0.0019073486328125 ms
+Tiempo de procesamiento del frame 189 completo es de 12.427330017089844 ms
+
+190 frame de 80 --> [ 4011  5179  5734  5213  3704  3110  1102 -1358 -3064 -3106]
+Offset time: 0.04124641418457031 ms
+Preemphasis time: 1.478433609008789 ms
+El tiempo de cálculo de los coeficientes fb es 5.650520324707031e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Move time to cuda: 0.12183189392089844 ms
+Inference time for 20 windows done at the same time is: 29.050588607788086 ms
+Time per window is 1.4525294303894043 ms
+Tiempo de procesamiento de la inferencia del frame 190 es de 31.97002410888672 ms
+Tiempo de procesamiento del frame 190 completo es de 36.82899475097656 ms
+
+191 frame de 80 --> [-4502 -6094 -5643 -3474 -1680   -94  -180  -906  -428   -69]
+Offset time: 0.04172325134277344 ms
+Preemphasis time: 1.70135498046875 ms
+El tiempo de cálculo de los coeficientes fb es 7.867813110351562e-05
+El tiempo de cálculo de los coeficientes dct es 4.5299530029296875e-06
+Tiempo de procesamiento de la inferencia del frame 191 es de 0.0016689300537109375 ms
+Tiempo de procesamiento del frame 191 completo es de 5.357265472412109 ms
+
+192 frame de 80 --> [ -374 -2221 -3291 -3275 -1765 -2329 -1928 -1917 -2210  -577]
+Offset time: 0.028133392333984375 ms
+Preemphasis time: 1.623392105102539 ms
+El tiempo de cálculo de los coeficientes fb es 5.8650970458984375e-05
+El tiempo de cálculo de los coeficientes dct es 7.3909759521484375e-06
+Move time to cuda: 0.09012222290039062 ms
+Inference time for 20 windows done at the same time is: 19.411563873291016 ms
+Time per window is 0.9705781936645508 ms
+Tiempo de procesamiento de la inferencia del frame 192 es de 22.508859634399414 ms
+Tiempo de procesamiento del frame 192 completo es de 27.680397033691406 ms
+
+193 frame de 80 --> [  -4 -828 -686  725 1799 3065 1205  262 -595 -762]
+Offset time: 0.04267692565917969 ms
+Preemphasis time: 1.7275810241699219 ms
+El tiempo de cálculo de los coeficientes fb es 7.271766662597656e-05
+El tiempo de cálculo de los coeficientes dct es 5.0067901611328125e-06
+Tiempo de procesamiento de la inferencia del frame 193 es de 0.0019073486328125 ms
+Tiempo de procesamiento del frame 193 completo es de 5.393505096435547 ms
+
+194 frame de 80 --> [ 2961   333 -1634 -1499 -1205   121  2772  3523  5193  6535]
+Offset time: 0.031948089599609375 ms
+Preemphasis time: 1.6515254974365234 ms
+El tiempo de cálculo de los coeficientes fb es 6.723403930664062e-05
+El tiempo de cálculo de los coeficientes dct es 5.245208740234375e-06
+Move time to cuda: 0.1628398895263672 ms
+Inference time for 20 windows done at the same time is: 18.368959426879883 ms
+Time per window is 0.9184479713439941 ms
+Tiempo de procesamiento de la inferencia del frame 194 es de 21.260976791381836 ms
+Tiempo de procesamiento del frame 194 completo es de 26.40223503112793 ms
+
+195 frame de 80 --> [-496 -907 -260 1306 3436 3438 5422 5942 4432 3124]
+Offset time: 0.03528594970703125 ms
+Preemphasis time: 0.8971691131591797 ms
+El tiempo de cálculo de los coeficientes fb es 6.842613220214844e-05
+El tiempo de cálculo de los coeficientes dct es 3.814697265625e-06
+Tiempo de procesamiento de la inferencia del frame 195 es de 0.0016689300537109375 ms
+Tiempo de procesamiento del frame 195 completo es de 3.345489501953125 ms
+
+196 frame de 80 --> [-944  435 1656 3903 5141 4490 3477 3873 3541 1029]
+Offset time: 0.024318695068359375 ms
+Preemphasis time: 0.7958412170410156 ms
+El tiempo de cálculo de los coeficientes fb es 5.3882598876953125e-05
+El tiempo de cálculo de los coeficientes dct es 3.337860107421875e-06
+Move time to cuda: 0.13685226440429688 ms
+Inference time for 20 windows done at the same time is: 20.514726638793945 ms
+Time per window is 1.0257363319396973 ms
+Tiempo de procesamiento de la inferencia del frame 196 es de 23.316144943237305 ms
+Tiempo de procesamiento del frame 196 completo es de 26.417970657348633 ms
+
+197 frame de 80 --> [-1819     3  1950  3023  5188  4601  4916  3641  3424  3737]
+Offset time: 0.03409385681152344 ms
+Preemphasis time: 0.9424686431884766 ms
+El tiempo de cálculo de los coeficientes fb es 5.2928924560546875e-05
+El tiempo de cálculo de los coeficientes dct es 3.0994415283203125e-06
+Tiempo de procesamiento de la inferencia del frame 197 es de 0.0016689300537109375 ms
+Tiempo de procesamiento del frame 197 completo es de 3.262758255004883 ms
+
+198 frame de 80 --> [1746 3156 4114 5414 5999 5183 5670 4053 4094 3834]
+Offset time: 0.02765655517578125 ms
+Preemphasis time: 0.9608268737792969 ms
+El tiempo de cálculo de los coeficientes fb es 5.5789947509765625e-05
+El tiempo de cálculo de los coeficientes dct es 4.0531158447265625e-06
+Move time to cuda: 0.13589859008789062 ms
+Inference time for 20 windows done at the same time is: 17.293214797973633 ms
+Time per window is 0.8646607398986816 ms
+Tiempo de procesamiento de la inferencia del frame 198 es de 20.084381103515625 ms
+Tiempo de procesamiento del frame 198 completo es de 23.357629776000977 ms
+
+199 frame de 80 --> [-686 2005 3636 4959 4122 3782 5231 5212 4332 2814]
+Offset time: 0.0400543212890625 ms
+Preemphasis time: 0.9992122650146484 ms
+El tiempo de cálculo de los coeficientes fb es 7.367134094238281e-05
+El tiempo de cálculo de los coeficientes dct es 5.4836273193359375e-06
+Tiempo de procesamiento de la inferencia del frame 199 es de 0.0026226043701171875 ms
+Tiempo de procesamiento del frame 199 completo es de 3.7012100219726562 ms
+
+200 frame de 80 --> [-2529 -1879  -356  2078  2942  2768  2818  2470  3977  3220]
+Offset time: 0.025033950805664062 ms
+Preemphasis time: 0.9143352508544922 ms
+El tiempo de cálculo de los coeficientes fb es 7.128715515136719e-05
+El tiempo de cálculo de los coeficientes dct es 4.5299530029296875e-06
+Move time to cuda: 0.1742839813232422 ms
+Inference time for 20 windows done at the same time is: 18.126487731933594 ms
+Time per window is 0.9063243865966797 ms
+Tiempo de procesamiento de la inferencia del frame 200 es de 21.0874080657959 ms
+Tiempo de procesamiento del frame 200 completo es de 24.80316162109375 ms
+
+201 frame de 80 --> [-2968 -2764 -3074 -1433   730  2479  3499  2296  4286  5148]
+Offset time: 0.06628036499023438 ms
+Preemphasis time: 1.7337799072265625 ms
+El tiempo de cálculo de los coeficientes fb es 5.698204040527344e-05
+El tiempo de cálculo de los coeficientes dct es 4.76837158203125e-06
+Tiempo de procesamiento de la inferencia del frame 201 es de 0.001430511474609375 ms
+Tiempo de procesamiento del frame 201 completo es de 6.1492919921875 ms
+
+202 frame de 80 --> [ -740   392   394 -1025 -2109 -2647  -497   974  2405  3683]
+Offset time: 0.053882598876953125 ms
+Preemphasis time: 1.729726791381836 ms
+El tiempo de cálculo de los coeficientes fb es 7.605552673339844e-05
+El tiempo de cálculo de los coeficientes dct es 5.245208740234375e-06
+Move time to cuda: 0.3750324249267578 ms
+Inference time for 20 windows done at the same time is: 26.401758193969727 ms
+Time per window is 1.3200879096984863 ms
+Tiempo de procesamiento de la inferencia del frame 202 es de 29.662370681762695 ms
+Tiempo de procesamiento del frame 202 completo es de 35.28904914855957 ms
+
+203 frame de 80 --> [  354   440  1184   786  1282  -639    29  -185 -1498  -792]
+Offset time: 0.04267692565917969 ms
+Preemphasis time: 1.407623291015625 ms
+El tiempo de cálculo de los coeficientes fb es 6.890296936035156e-05
+El tiempo de cálculo de los coeficientes dct es 4.76837158203125e-06
+Tiempo de procesamiento de la inferencia del frame 203 es de 0.0016689300537109375 ms
+Tiempo de procesamiento del frame 203 completo es de 4.508018493652344 ms
+
+204 frame de 80 --> [  183  1099  1080   718  1582  1779  1855  1292    24 -1753]
+Offset time: 0.029325485229492188 ms
+Preemphasis time: 1.1239051818847656 ms
+El tiempo de cálculo de los coeficientes fb es 5.364418029785156e-05
+El tiempo de cálculo de los coeficientes dct es 3.0994415283203125e-06
+Move time to cuda: 0.07009506225585938 ms
+Inference time for 20 windows done at the same time is: 17.193078994750977 ms
+Time per window is 0.8596539497375488 ms
+Tiempo de procesamiento de la inferencia del frame 204 es de 19.66094970703125 ms
+Tiempo de procesamiento del frame 204 completo es de 23.74124526977539 ms
+
+205 frame de 80 --> [-4949 -4462 -4105 -4406 -3411 -2449 -1611  -822  -383   177]
+Offset time: 0.03337860107421875 ms
+Preemphasis time: 1.1606216430664062 ms
+El tiempo de cálculo de los coeficientes fb es 5.602836608886719e-05
+El tiempo de cálculo de los coeficientes dct es 5.4836273193359375e-06
+Tiempo de procesamiento de la inferencia del frame 205 es de 0.0011920928955078125 ms
+Tiempo de procesamiento del frame 205 completo es de 3.7903785705566406 ms
+
+206 frame de 80 --> [ 2279   629  -395 -1993 -2296 -2412 -1667 -2800 -4210 -3613]
+Offset time: 0.028371810913085938 ms
+Preemphasis time: 1.0495185852050781 ms
+El tiempo de cálculo de los coeficientes fb es 5.435943603515625e-05
+El tiempo de cálculo de los coeficientes dct es 4.0531158447265625e-06
+Move time to cuda: 0.08630752563476562 ms
+Inference time for 20 windows done at the same time is: 18.245458602905273 ms
+Time per window is 0.9122729301452637 ms
+Tiempo de procesamiento de la inferencia del frame 206 es de 20.538806915283203 ms
+Tiempo de procesamiento del frame 206 completo es de 24.211645126342773 ms
+
+207 frame de 80 --> [-586   94 1114 3681 5645 5646 6255 6664 7790 6615]
+Offset time: 0.02765655517578125 ms
+Preemphasis time: 1.3856887817382812 ms
+El tiempo de cálculo de los coeficientes fb es 5.817413330078125e-05
+El tiempo de cálculo de los coeficientes dct es 4.0531158447265625e-06
+Tiempo de procesamiento de la inferencia del frame 207 es de 0.0007152557373046875 ms
+Tiempo de procesamiento del frame 207 completo es de 4.036903381347656 ms
+
+208 frame de 80 --> [  659   974  -595  -794  -472  -670 -1964 -2986 -1973 -2672]
+Offset time: 0.037670135498046875 ms
+Preemphasis time: 1.0368824005126953 ms
+El tiempo de cálculo de los coeficientes fb es 5.316734313964844e-05
+El tiempo de cálculo de los coeficientes dct es 4.0531158447265625e-06
+Move time to cuda: 0.11420249938964844 ms
+Inference time for 20 windows done at the same time is: 19.458532333374023 ms
+Time per window is 0.9729266166687012 ms
+Tiempo de procesamiento de la inferencia del frame 208 es de 22.058725357055664 ms
+Tiempo de procesamiento del frame 208 completo es de 25.696992874145508 ms
+
+209 frame de 80 --> [-2374 -3145 -3130 -2522 -2697 -2098 -1925 -1940 -1304 -1853]
+Offset time: 0.036716461181640625 ms
+Preemphasis time: 0.8950233459472656 ms
+El tiempo de cálculo de los coeficientes fb es 0.0005307197570800781
+El tiempo de cálculo de los coeficientes dct es 3.600120544433594e-05
+Tiempo de procesamiento de la inferencia del frame 209 es de 0.00286102294921875 ms
+Tiempo de procesamiento del frame 209 completo es de 5.1422119140625 ms
+
+210 frame de 80 --> [1034 1651 1813 3021 3890 5610 6381 6693 6137 4272]
+Offset time: 0.030279159545898438 ms
+Preemphasis time: 1.2447834014892578 ms
+El tiempo de cálculo de los coeficientes fb es 0.00033473968505859375
+El tiempo de cálculo de los coeficientes dct es 2.6226043701171875e-05
+Move time to cuda: 0.19598007202148438 ms
+Inference time for 20 windows done at the same time is: 29.279232025146484 ms
+Time per window is 1.4639616012573242 ms
+Tiempo de procesamiento de la inferencia del frame 210 es de 34.47604179382324 ms
+Tiempo de procesamiento del frame 210 completo es de 41.895389556884766 ms
+
+211 frame de 80 --> [-2056 -1946 -2224 -2972 -3161 -1397 -1728 -2296 -2354 -2934]
+Offset time: 0.046253204345703125 ms
+Preemphasis time: 1.0921955108642578 ms
+El tiempo de cálculo de los coeficientes fb es 4.792213439941406e-05
+El tiempo de cálculo de los coeficientes dct es 5.4836273193359375e-06
+Tiempo de procesamiento de la inferencia del frame 211 es de 0.008106231689453125 ms
+Tiempo de procesamiento del frame 211 completo es de 4.845380783081055 ms
+
+212 frame de 80 --> [ 2587  2389  1868  -806 -3025 -3907 -1543   708  1346  1028]
+Offset time: 0.034332275390625 ms
+Preemphasis time: 2.027273178100586 ms
+El tiempo de cálculo de los coeficientes fb es 6.914138793945312e-05
+El tiempo de cálculo de los coeficientes dct es 5.9604644775390625e-06
+Move time to cuda: 0.16355514526367188 ms
+Inference time for 20 windows done at the same time is: 28.107881546020508 ms
+Time per window is 1.4053940773010254 ms
+Tiempo de procesamiento de la inferencia del frame 212 es de 31.345605850219727 ms
+Tiempo de procesamiento del frame 212 completo es de 38.510799407958984 ms
+
+213 frame de 80 --> [ 3530  -624 -2147 -3957 -5780 -4621 -1945   953  2989  4857]
+Offset time: 0.04696846008300781 ms
+Preemphasis time: 1.5289783477783203 ms
+El tiempo de cálculo de los coeficientes fb es 8.749961853027344e-05
+El tiempo de cálculo de los coeficientes dct es 6.9141387939453125e-06
+Tiempo de procesamiento de la inferencia del frame 213 es de 0.0021457672119140625 ms
+Tiempo de procesamiento del frame 213 completo es de 5.953311920166016 ms
+
+214 frame de 80 --> [-4563 -5640 -5829 -3804 -2187 -3390 -4228 -1975  3189  5862]
+Offset time: 0.03695487976074219 ms
+Preemphasis time: 1.5571117401123047 ms
+El tiempo de cálculo de los coeficientes fb es 5.459785461425781e-05
+El tiempo de cálculo de los coeficientes dct es 3.814697265625e-06
+Move time to cuda: 0.16498565673828125 ms
+Inference time for 20 windows done at the same time is: 31.756162643432617 ms
+Time per window is 1.5878081321716309 ms
+Tiempo de procesamiento de la inferencia del frame 214 es de 35.66741943359375 ms
+Tiempo de procesamiento del frame 214 completo es de 41.61715507507324 ms
+
+215 frame de 80 --> [ 1068   625  -533 -2155 -2191 -1889  -434  2682  -262 -3886]
+Offset time: 0.04220008850097656 ms
+Preemphasis time: 1.8284320831298828 ms
+El tiempo de cálculo de los coeficientes fb es 0.00010609626770019531
+El tiempo de cálculo de los coeficientes dct es 8.106231689453125e-06
+Tiempo de procesamiento de la inferencia del frame 215 es de 0.001430511474609375 ms
+Tiempo de procesamiento del frame 215 completo es de 6.267070770263672 ms
+
+216 frame de 80 --> [  -28 -3339 -5202 -3401 -2437 -1783  2675  7194  7662  3612]
+Offset time: 0.04982948303222656 ms
+Preemphasis time: 1.6884803771972656 ms
+El tiempo de cálculo de los coeficientes fb es 7.081031799316406e-05
+El tiempo de cálculo de los coeficientes dct es 2.7894973754882812e-05
+Move time to cuda: 0.21409988403320312 ms
+Inference time for 20 windows done at the same time is: 22.507429122924805 ms
+Time per window is 1.1253714561462402 ms
+Tiempo de procesamiento de la inferencia del frame 216 es de 26.024341583251953 ms
+Tiempo de procesamiento del frame 216 completo es de 32.32932090759277 ms
+
+217 frame de 80 --> [-2298 -5553 -4382 -3462 -3754 -5228 -5620 -2453  -553   772]
+Offset time: 0.03719329833984375 ms
+Preemphasis time: 1.1565685272216797 ms
+El tiempo de cálculo de los coeficientes fb es 5.53131103515625e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Tiempo de procesamiento de la inferencia del frame 217 es de 0.0016689300537109375 ms
+Tiempo de procesamiento del frame 217 completo es de 3.6814212799072266 ms
+
+218 frame de 80 --> [-2349  -492  1108  2981  2550  -416 -3134 -3928 -3382 -2502]
+Offset time: 0.021696090698242188 ms
+Preemphasis time: 1.046895980834961 ms
+El tiempo de cálculo de los coeficientes fb es 5.245208740234375e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Move time to cuda: 0.07271766662597656 ms
+Inference time for 20 windows done at the same time is: 18.54872703552246 ms
+Time per window is 0.927436351776123 ms
+Tiempo de procesamiento de la inferencia del frame 218 es de 20.964622497558594 ms
+Tiempo de procesamiento del frame 218 completo es de 24.858713150024414 ms
+
+219 frame de 80 --> [ 7880 12488 14275 11765  5920  1171 -2409 -5437 -5833 -3501]
+Offset time: 0.0400543212890625 ms
+Preemphasis time: 1.1258125305175781 ms
+El tiempo de cálculo de los coeficientes fb es 5.8650970458984375e-05
+El tiempo de cálculo de los coeficientes dct es 3.337860107421875e-06
+Tiempo de procesamiento de la inferencia del frame 219 es de 0.001430511474609375 ms
+Tiempo de procesamiento del frame 219 completo es de 3.956317901611328 ms
+
+220 frame de 80 --> [  878   390 -1297 -1314 -1253 -1778 -2583 -3909 -3486 -2626]
+Offset time: 0.022411346435546875 ms
+Preemphasis time: 1.065969467163086 ms
+El tiempo de cálculo de los coeficientes fb es 5.269050598144531e-05
+El tiempo de cálculo de los coeficientes dct es 3.814697265625e-06
+Move time to cuda: 0.0705718994140625 ms
+Inference time for 20 windows done at the same time is: 17.525672912597656 ms
+Time per window is 0.8762836456298828 ms
+Tiempo de procesamiento de la inferencia del frame 220 es de 19.936561584472656 ms
+Tiempo de procesamiento del frame 220 completo es de 23.74577522277832 ms
+
+221 frame de 80 --> [ 5644  4614  1441  -162 -1453 -3343 -4511 -2802 -1012  2220]
+Offset time: 0.034809112548828125 ms
+Preemphasis time: 0.9639263153076172 ms
+El tiempo de cálculo de los coeficientes fb es 5.269050598144531e-05
+El tiempo de cálculo de los coeficientes dct es 3.337860107421875e-06
+Tiempo de procesamiento de la inferencia del frame 221 es de 0.00095367431640625 ms
+Tiempo de procesamiento del frame 221 completo es de 3.3521652221679688 ms
+
+222 frame de 80 --> [-2123  -710   661  1942  4313  5527  6965 10094 14420 13928]
+Offset time: 0.025987625122070312 ms
+Preemphasis time: 0.9293556213378906 ms
+El tiempo de cálculo de los coeficientes fb es 6.031990051269531e-05
+El tiempo de cálculo de los coeficientes dct es 4.0531158447265625e-06
+Move time to cuda: 0.07104873657226562 ms
+Inference time for 20 windows done at the same time is: 18.004655838012695 ms
+Time per window is 0.9002327919006348 ms
+Tiempo de procesamiento de la inferencia del frame 222 es de 20.740985870361328 ms
+Tiempo de procesamiento del frame 222 completo es de 24.194002151489258 ms
+
+223 frame de 80 --> [  525  -208 -1289 -1838 -2345 -3258 -3116 -3541 -3184 -2845]
+Offset time: 0.03457069396972656 ms
+Preemphasis time: 0.9036064147949219 ms
+El tiempo de cálculo de los coeficientes fb es 8.988380432128906e-05
+El tiempo de cálculo de los coeficientes dct es 4.5299530029296875e-06
+Tiempo de procesamiento de la inferencia del frame 223 es de 0.0016689300537109375 ms
+Tiempo de procesamiento del frame 223 completo es de 3.6754608154296875 ms
+
+224 frame de 80 --> [ 6044  2903  1949   721  -375 -2437 -4070 -1963   104  -267]
+Offset time: 0.06866455078125 ms
+Preemphasis time: 0.8573532104492188 ms
+El tiempo de cálculo de los coeficientes fb es 5.841255187988281e-05
+El tiempo de cálculo de los coeficientes dct es 3.337860107421875e-06
+Move time to cuda: 0.17499923706054688 ms
+Inference time for 20 windows done at the same time is: 16.957759857177734 ms
+Time per window is 0.8478879928588867 ms
+Tiempo de procesamiento de la inferencia del frame 224 es de 20.122051239013672 ms
+Tiempo de procesamiento del frame 224 completo es de 24.157285690307617 ms
+
+225 frame de 80 --> [ -828 -2128 -1511   -24   642   955   357   501   836   731]
+Offset time: 0.06890296936035156 ms
+Preemphasis time: 1.2974739074707031 ms
+El tiempo de cálculo de los coeficientes fb es 5.173683166503906e-05
+El tiempo de cálculo de los coeficientes dct es 1.5974044799804688e-05
+Tiempo de procesamiento de la inferencia del frame 225 es de 0.001430511474609375 ms
+Tiempo de procesamiento del frame 225 completo es de 4.6749114990234375 ms
+
+226 frame de 80 --> [1341  842 1263  854  569 1070  896  289  282  593]
+Offset time: 0.046253204345703125 ms
+Preemphasis time: 0.8740425109863281 ms
+El tiempo de cálculo de los coeficientes fb es 6.461143493652344e-05
+El tiempo de cálculo de los coeficientes dct es 3.337860107421875e-06
+Move time to cuda: 0.31065940856933594 ms
+Inference time for 20 windows done at the same time is: 18.695592880249023 ms
+Time per window is 0.9347796440124512 ms
+Tiempo de procesamiento de la inferencia del frame 226 es de 22.902488708496094 ms
+Tiempo de procesamiento del frame 226 completo es de 26.94988250732422 ms
+
+227 frame de 80 --> [ 1942  -468 -1609 -1212  -952  -557  -989  -210   516   720]
+Offset time: 0.11467933654785156 ms
+Preemphasis time: 0.8251667022705078 ms
+El tiempo de cálculo de los coeficientes fb es 6.031990051269531e-05
+El tiempo de cálculo de los coeficientes dct es 4.291534423828125e-06
+Tiempo de procesamiento de la inferencia del frame 227 es de 0.0016689300537109375 ms
+Tiempo de procesamiento del frame 227 completo es de 3.6084651947021484 ms
+
+228 frame de 80 --> [ 1098   590  -725 -2846 -3367 -2275 -2176 -2402 -1835 -1891]
+Offset time: 0.027418136596679688 ms
+Preemphasis time: 0.9138584136962891 ms
+El tiempo de cálculo de los coeficientes fb es 5.555152893066406e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Move time to cuda: 0.1494884490966797 ms
+Inference time for 20 windows done at the same time is: 17.521381378173828 ms
+Time per window is 0.8760690689086914 ms
+Tiempo de procesamiento de la inferencia del frame 228 es de 20.321369171142578 ms
+Tiempo de procesamiento del frame 228 completo es de 23.88596534729004 ms
+
+229 frame de 80 --> [ -534  -769 -1476 -1341  -608  -627   960   967   340    76]
+Offset time: 0.08559226989746094 ms
+Preemphasis time: 0.8945465087890625 ms
+El tiempo de cálculo de los coeficientes fb es 5.3882598876953125e-05
+El tiempo de cálculo de los coeficientes dct es 4.0531158447265625e-06
+Tiempo de procesamiento de la inferencia del frame 229 es de 0.0019073486328125 ms
+Tiempo de procesamiento del frame 229 completo es de 3.6215782165527344 ms
+
+230 frame de 80 --> [750 -86 742 408 370 918  54 804 133 246]
+Offset time: 0.026226043701171875 ms
+Preemphasis time: 0.8838176727294922 ms
+El tiempo de cálculo de los coeficientes fb es 6.389617919921875e-05
+El tiempo de cálculo de los coeficientes dct es 4.5299530029296875e-06
+Move time to cuda: 0.1895427703857422 ms
+Inference time for 20 windows done at the same time is: 17.794132232666016 ms
+Time per window is 0.8897066116333008 ms
+Tiempo de procesamiento de la inferencia del frame 230 es de 20.41316032409668 ms
+Tiempo de procesamiento del frame 230 completo es de 23.93484115600586 ms
+
+231 frame de 80 --> [ 1270  1383  1191  1359   495   108    31  -645  -126 -1136]
+Offset time: 0.03457069396972656 ms
+Preemphasis time: 0.8893013000488281 ms
+El tiempo de cálculo de los coeficientes fb es 5.626678466796875e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Tiempo de procesamiento de la inferencia del frame 231 es de 0.0019073486328125 ms
+Tiempo de procesamiento del frame 231 completo es de 3.6377906799316406 ms
+
+232 frame de 80 --> [  345  -144   115  -634  -796  -542 -1491  -477 -1356 -1208]
+Offset time: 0.034809112548828125 ms
+Preemphasis time: 0.9191036224365234 ms
+El tiempo de cálculo de los coeficientes fb es 5.4836273193359375e-05
+El tiempo de cálculo de los coeficientes dct es 3.337860107421875e-06
+Move time to cuda: 0.14591217041015625 ms
+Inference time for 20 windows done at the same time is: 28.605222702026367 ms
+Time per window is 1.4302611351013184 ms
+Tiempo de procesamiento de la inferencia del frame 232 es de 31.78548812866211 ms
+Tiempo de procesamiento del frame 232 completo es de 35.3085994720459 ms
+
+233 frame de 80 --> [ -275  -921  -149  -446  -639  -627  -768  -884 -1591 -1076]
+Offset time: 0.04220008850097656 ms
+Preemphasis time: 1.7619132995605469 ms
+El tiempo de cálculo de los coeficientes fb es 5.53131103515625e-05
+El tiempo de cálculo de los coeficientes dct es 4.5299530029296875e-06
+Tiempo de procesamiento de la inferencia del frame 233 es de 0.0011920928955078125 ms
+Tiempo de procesamiento del frame 233 completo es de 5.4931640625 ms
+
+234 frame de 80 --> [ 407  372  730  -79 -169  181 -181 -801 -756 -195]
+Offset time: 0.031232833862304688 ms
+Preemphasis time: 1.6350746154785156 ms
+El tiempo de cálculo de los coeficientes fb es 5.793571472167969e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Move time to cuda: 0.09989738464355469 ms
+Inference time for 20 windows done at the same time is: 19.537687301635742 ms
+Time per window is 0.9768843650817871 ms
+Tiempo de procesamiento de la inferencia del frame 234 es de 22.543668746948242 ms
+Tiempo de procesamiento del frame 234 completo es de 27.81391143798828 ms
+
+235 frame de 80 --> [1121  807 1431 1088  819  781  877 1080 1828 2046]
+Offset time: 0.04029273986816406 ms
+Preemphasis time: 1.6674995422363281 ms
+El tiempo de cálculo de los coeficientes fb es 6.67572021484375e-05
+El tiempo de cálculo de los coeficientes dct es 4.5299530029296875e-06
+Tiempo de procesamiento de la inferencia del frame 235 es de 0.001430511474609375 ms
+Tiempo de procesamiento del frame 235 completo es de 5.421161651611328 ms
+
+236 frame de 80 --> [-165 -817  685  621  579 1599 1203 1254  852  285]
+Offset time: 0.029325485229492188 ms
+Preemphasis time: 1.6598701477050781 ms
+El tiempo de cálculo de los coeficientes fb es 5.745887756347656e-05
+El tiempo de cálculo de los coeficientes dct es 1.5735626220703125e-05
+Move time to cuda: 0.15211105346679688 ms
+Inference time for 20 windows done at the same time is: 24.68276023864746 ms
+Time per window is 1.234138011932373 ms
+Tiempo de procesamiento de la inferencia del frame 236 es de 28.75542640686035 ms
+Tiempo de procesamiento del frame 236 completo es de 35.861968994140625 ms
+
+237 frame de 80 --> [-1356  -846 -1187  -165  -860  -441  -276  -148   216  -219]
+Offset time: 0.0400543212890625 ms
+Preemphasis time: 1.138448715209961 ms
+El tiempo de cálculo de los coeficientes fb es 0.00017786026000976562
+El tiempo de cálculo de los coeficientes dct es 1.0967254638671875e-05
+Tiempo de procesamiento de la inferencia del frame 237 es de 0.0064373016357421875 ms
+Tiempo de procesamiento del frame 237 completo es de 6.360769271850586 ms
+
+238 frame de 80 --> [ -425  -516 -1334  -776 -1407 -1141  -627 -1466  -864  -414]
+Offset time: 0.051021575927734375 ms
+Preemphasis time: 1.169443130493164 ms
+El tiempo de cálculo de los coeficientes fb es 6.437301635742188e-05
+El tiempo de cálculo de los coeficientes dct es 4.0531158447265625e-06
+Move time to cuda: 0.28395652770996094 ms
+Inference time for 20 windows done at the same time is: 18.892526626586914 ms
+Time per window is 0.9446263313293457 ms
+Tiempo de procesamiento de la inferencia del frame 238 es de 21.52228355407715 ms
+Tiempo de procesamiento del frame 238 completo es de 25.616884231567383 ms
+
+239 frame de 80 --> [ 258  344  334  401  400   90 1024  819  880 1547]
+Offset time: 0.036716461181640625 ms
+Preemphasis time: 0.8902549743652344 ms
+El tiempo de cálculo de los coeficientes fb es 5.793571472167969e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Tiempo de procesamiento de la inferencia del frame 239 es de 0.0021457672119140625 ms
+Tiempo de procesamiento del frame 239 completo es de 3.528594970703125 ms
+
+240 frame de 80 --> [1195 1204  651 1061 1097  610 1597 1865 1555 1985]
+Offset time: 0.023365020751953125 ms
+Preemphasis time: 0.7970333099365234 ms
+El tiempo de cálculo de los coeficientes fb es 5.555152893066406e-05
+El tiempo de cálculo de los coeficientes dct es 5.0067901611328125e-06
+Move time to cuda: 0.1442432403564453 ms
+Inference time for 20 windows done at the same time is: 19.728422164916992 ms
+Time per window is 0.9864211082458496 ms
+Tiempo de procesamiento de la inferencia del frame 240 es de 22.166728973388672 ms
+Tiempo de procesamiento del frame 240 completo es de 25.597095489501953 ms
+
+241 frame de 80 --> [  54 -251 -520 -234   55 -104  784  372 -229  159]
+Offset time: 0.034332275390625 ms
+Preemphasis time: 0.8707046508789062 ms
+El tiempo de cálculo de los coeficientes fb es 7.605552673339844e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Tiempo de procesamiento de la inferencia del frame 241 es de 0.00095367431640625 ms
+Tiempo de procesamiento del frame 241 completo es de 3.823995590209961 ms
+
+242 frame de 80 --> [-1851 -1674 -2105 -2150 -1421 -1165 -1296 -1445  -517  -533]
+Offset time: 0.0457763671875 ms
+Preemphasis time: 0.8490085601806641 ms
+El tiempo de cálculo de los coeficientes fb es 6.127357482910156e-05
+El tiempo de cálculo de los coeficientes dct es 4.291534423828125e-06
+Move time to cuda: 0.1475811004638672 ms
+Inference time for 20 windows done at the same time is: 18.481731414794922 ms
+Time per window is 0.9240865707397461 ms
+Tiempo de procesamiento de la inferencia del frame 242 es de 21.90375328063965 ms
+Tiempo de procesamiento del frame 242 completo es de 25.496482849121094 ms
+
+243 frame de 80 --> [ -67  -18  931  934  101 -435 -260 -496   56  213]
+Offset time: 0.03695487976074219 ms
+Preemphasis time: 0.9253025054931641 ms
+El tiempo de cálculo de los coeficientes fb es 6.031990051269531e-05
+El tiempo de cálculo de los coeficientes dct es 4.291534423828125e-06
+Tiempo de procesamiento de la inferencia del frame 243 es de 0.0016689300537109375 ms
+Tiempo de procesamiento del frame 243 completo es de 3.6275386810302734 ms
+
+244 frame de 80 --> [705 507 913 577  98 658 496 162  56 424]
+Offset time: 0.030040740966796875 ms
+Preemphasis time: 1.0733604431152344 ms
+El tiempo de cálculo de los coeficientes fb es 4.124641418457031e-05
+El tiempo de cálculo de los coeficientes dct es 3.0994415283203125e-06
+Move time to cuda: 0.1480579376220703 ms
+Inference time for 20 windows done at the same time is: 17.7762508392334 ms
+Time per window is 0.8888125419616699 ms
+Tiempo de procesamiento de la inferencia del frame 244 es de 20.724058151245117 ms
+Tiempo de procesamiento del frame 244 completo es de 24.07979965209961 ms
+
+245 frame de 80 --> [1051   48 1058  942  741 1265  274  608  399  297]
+Offset time: 0.035762786865234375 ms
+Preemphasis time: 0.8778572082519531 ms
+El tiempo de cálculo de los coeficientes fb es 5.888938903808594e-05
+El tiempo de cálculo de los coeficientes dct es 3.337860107421875e-06
+Tiempo de procesamiento de la inferencia del frame 245 es de 0.0011920928955078125 ms
+Tiempo de procesamiento del frame 245 completo es de 3.3910274505615234 ms
+
+246 frame de 80 --> [-617 -210 -342  268  -70 -180  -41 -492 -764 -738]
+Offset time: 0.028371810913085938 ms
+Preemphasis time: 0.858306884765625 ms
+El tiempo de cálculo de los coeficientes fb es 7.343292236328125e-05
+El tiempo de cálculo de los coeficientes dct es 4.0531158447265625e-06
+Move time to cuda: 0.14448165893554688 ms
+Inference time for 20 windows done at the same time is: 18.125057220458984 ms
+Time per window is 0.9062528610229492 ms
+Tiempo de procesamiento de la inferencia del frame 246 es de 21.251916885375977 ms
+Tiempo de procesamiento del frame 246 completo es de 24.923086166381836 ms
+
+247 frame de 80 --> [  -71  -300   471   198  -289     0  -374  -153 -1130  -743]
+Offset time: 0.0400543212890625 ms
+Preemphasis time: 0.9119510650634766 ms
+El tiempo de cálculo de los coeficientes fb es 6.151199340820312e-05
+El tiempo de cálculo de los coeficientes dct es 4.5299530029296875e-06
+Tiempo de procesamiento de la inferencia del frame 247 es de 0.0011920928955078125 ms
+Tiempo de procesamiento del frame 247 completo es de 3.4942626953125 ms
+
+248 frame de 80 --> [116 833 327 158  -6 -14 930 -54 921 338]
+Offset time: 0.0247955322265625 ms
+Preemphasis time: 0.8046627044677734 ms
+El tiempo de cálculo de los coeficientes fb es 6.175041198730469e-05
+El tiempo de cálculo de los coeficientes dct es 4.0531158447265625e-06
+Move time to cuda: 0.13947486877441406 ms
+Inference time for 20 windows done at the same time is: 23.90122413635254 ms
+Time per window is 1.195061206817627 ms
+Tiempo de procesamiento de la inferencia del frame 248 es de 28.833627700805664 ms
+Tiempo de procesamiento del frame 248 completo es de 32.67264366149902 ms
+
+249 frame de 80 --> [1619  929  928 1357  955 -102  -27  -61  418 1024]
+Offset time: 0.10323524475097656 ms
+Preemphasis time: 3.1812191009521484 ms
+El tiempo de cálculo de los coeficientes fb es 0.0001926422119140625
+El tiempo de cálculo de los coeficientes dct es 9.5367431640625e-06
+Tiempo de procesamiento de la inferencia del frame 249 es de 0.003814697265625 ms
+Tiempo de procesamiento del frame 249 completo es de 8.892297744750977 ms
+
+250 frame de 80 --> [-292 -276  189  431  -57   13   50   -3 -474 -504]
+Offset time: 0.057220458984375 ms
+Preemphasis time: 2.0787715911865234 ms
+El tiempo de cálculo de los coeficientes fb es 7.2479248046875e-05
+El tiempo de cálculo de los coeficientes dct es 4.5299530029296875e-06
+Move time to cuda: 0.3674030303955078 ms
+Inference time for 20 windows done at the same time is: 22.24278450012207 ms
+Time per window is 1.1121392250061035 ms
+Tiempo de procesamiento de la inferencia del frame 250 es de 26.706457138061523 ms
+Tiempo de procesamiento del frame 250 completo es de 32.98068046569824 ms
+
+251 frame de 80 --> [-1332  -742  -587  -717  -864  -470  -633  -639  -212  -178]
+Offset time: 0.05626678466796875 ms
+Preemphasis time: 1.4026165008544922 ms
+El tiempo de cálculo de los coeficientes fb es 7.557868957519531e-05
+El tiempo de cálculo de los coeficientes dct es 4.76837158203125e-06
+Tiempo de procesamiento de la inferencia del frame 251 es de 0.0011920928955078125 ms
+Tiempo de procesamiento del frame 251 completo es de 5.150079727172852 ms
+
+252 frame de 80 --> [ -560  -543  -585  -957 -1071  -939  -926  -794  -460  -522]
+Offset time: 0.03266334533691406 ms
+Preemphasis time: 1.10626220703125 ms
+El tiempo de cálculo de los coeficientes fb es 5.1021575927734375e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Move time to cuda: 0.15401840209960938 ms
+Inference time for 20 windows done at the same time is: 39.69573974609375 ms
+Time per window is 1.9847869873046875 ms
+Tiempo de procesamiento de la inferencia del frame 252 es de 46.254634857177734 ms
+Tiempo de procesamiento del frame 252 completo es de 49.79968070983887 ms
+
+253 frame de 80 --> [ 861 1284 1344 1136  924  778 1044  391  365 1152]
+Offset time: 0.041961669921875 ms
+Preemphasis time: 1.680135726928711 ms
+El tiempo de cálculo de los coeficientes fb es 6.937980651855469e-05
+El tiempo de cálculo de los coeficientes dct es 4.5299530029296875e-06
+Tiempo de procesamiento de la inferencia del frame 253 es de 0.0019073486328125 ms
+Tiempo de procesamiento del frame 253 completo es de 9.038686752319336 ms
+
+254 frame de 80 --> [ 781 1016 1541 1132 1517  943 1024 1056  622  727]
+Offset time: 0.026464462280273438 ms
+Preemphasis time: 1.5673637390136719 ms
+El tiempo de cálculo de los coeficientes fb es 6.937980651855469e-05
+El tiempo de cálculo de los coeficientes dct es 4.76837158203125e-06
+Move time to cuda: 0.1499652862548828 ms
+Inference time for 20 windows done at the same time is: 25.17390251159668 ms
+Time per window is 1.258695125579834 ms
+Tiempo de procesamiento de la inferencia del frame 254 es de 28.253793716430664 ms
+Tiempo de procesamiento del frame 254 completo es de 38.81573677062988 ms
+
+255 frame de 80 --> [ 307  137   41 -420  182  148  151  316 -100 -207]
+Offset time: 0.03981590270996094 ms
+Preemphasis time: 0.8900165557861328 ms
+El tiempo de cálculo de los coeficientes fb es 5.698204040527344e-05
+El tiempo de cálculo de los coeficientes dct es 4.76837158203125e-06
+Tiempo de procesamiento de la inferencia del frame 255 es de 0.001430511474609375 ms
+Tiempo de procesamiento del frame 255 completo es de 3.240346908569336 ms
+
+256 frame de 80 --> [ -856  -680  -528  -282  -432  -638  -673  -585 -1041  -960]
+Offset time: 0.03170967102050781 ms
+Preemphasis time: 0.8234977722167969 ms
+El tiempo de cálculo de los coeficientes fb es 6.008148193359375e-05
+El tiempo de cálculo de los coeficientes dct es 4.0531158447265625e-06
+Move time to cuda: 0.35262107849121094 ms
+Inference time for 20 windows done at the same time is: 28.1674861907959 ms
+Time per window is 1.408374309539795 ms
+Tiempo de procesamiento de la inferencia del frame 256 es de 32.04011917114258 ms
+Tiempo de procesamiento del frame 256 completo es de 35.414695739746094 ms
+
+257 frame de 80 --> [-726 -302 -493 -664   84 -153 -119  -78 -490  -89]
+Offset time: 0.0476837158203125 ms
+Preemphasis time: 1.3613700866699219 ms
+El tiempo de cálculo de los coeficientes fb es 7.414817810058594e-05
+El tiempo de cálculo de los coeficientes dct es 6.198883056640625e-06
+Tiempo de procesamiento de la inferencia del frame 257 es de 0.0016689300537109375 ms
+Tiempo de procesamiento del frame 257 completo es de 5.177736282348633 ms
+
+258 frame de 80 --> [ 304  290  432  546  376 1220  723  759  609  620]
+Offset time: 0.05888938903808594 ms
+Preemphasis time: 1.3315677642822266 ms
+El tiempo de cálculo de los coeficientes fb es 7.033348083496094e-05
+El tiempo de cálculo de los coeficientes dct es 5.0067901611328125e-06
+Move time to cuda: 0.21004676818847656 ms
+Inference time for 20 windows done at the same time is: 25.886058807373047 ms
+Time per window is 1.2943029403686523 ms
+Tiempo de procesamiento de la inferencia del frame 258 es de 30.47800064086914 ms
+Tiempo de procesamiento del frame 258 completo es de 35.247802734375 ms
+
+259 frame de 80 --> [ 629  420 -546   28 -307 -456  168  768  204 -130]
+Offset time: 0.064849853515625 ms
+Preemphasis time: 1.4460086822509766 ms
+El tiempo de cálculo de los coeficientes fb es 9.465217590332031e-05
+El tiempo de cálculo de los coeficientes dct es 5.4836273193359375e-06
+Tiempo de procesamiento de la inferencia del frame 259 es de 0.0019073486328125 ms
+Tiempo de procesamiento del frame 259 completo es de 5.374670028686523 ms
+
+260 frame de 80 --> [-282 -656 -723   36 -667 -383 -135 -104 -164 -118]
+Offset time: 0.042438507080078125 ms
+Preemphasis time: 1.6248226165771484 ms
+El tiempo de cálculo de los coeficientes fb es 7.319450378417969e-05
+El tiempo de cálculo de los coeficientes dct es 5.4836273193359375e-06
+Move time to cuda: 0.17070770263671875 ms
+Inference time for 20 windows done at the same time is: 23.841381072998047 ms
+Time per window is 1.1920690536499023 ms
+Tiempo de procesamiento de la inferencia del frame 260 es de 27.98008918762207 ms
+Tiempo de procesamiento del frame 260 completo es de 33.452510833740234 ms
+
+261 frame de 80 --> [-581 -463 -112 -293 -892 -516 -427 -486 -950 -381]
+Offset time: 0.05459785461425781 ms
+Preemphasis time: 1.424551010131836 ms
+El tiempo de cálculo de los coeficientes fb es 7.152557373046875e-05
+El tiempo de cálculo de los coeficientes dct es 4.291534423828125e-06
+Tiempo de procesamiento de la inferencia del frame 261 es de 0.0019073486328125 ms
+Tiempo de procesamiento del frame 261 completo es de 5.045652389526367 ms
+
+262 frame de 80 --> [ 666  263  540  918  568  576  328  536  870 1042]
+Offset time: 0.030755996704101562 ms
+Preemphasis time: 1.3856887817382812 ms
+El tiempo de cálculo de los coeficientes fb es 6.079673767089844e-05
+El tiempo de cálculo de los coeficientes dct es 4.0531158447265625e-06
+Move time to cuda: 0.13780593872070312 ms
+Inference time for 20 windows done at the same time is: 26.092529296875 ms
+Time per window is 1.30462646484375 ms
+Tiempo de procesamiento de la inferencia del frame 262 es de 29.497385025024414 ms
+Tiempo de procesamiento del frame 262 completo es de 34.48963165283203 ms
+
+263 frame de 80 --> [625 692 547 464 671 363 673 308 571 207]
+Offset time: 0.047206878662109375 ms
+Preemphasis time: 1.4204978942871094 ms
+El tiempo de cálculo de los coeficientes fb es 0.00013065338134765625
+El tiempo de cálculo de los coeficientes dct es 9.298324584960938e-06
+Tiempo de procesamiento de la inferencia del frame 263 es de 0.002384185791015625 ms
+Tiempo de procesamiento del frame 263 completo es de 5.879402160644531 ms
+
+264 frame de 80 --> [383 241 239 619 414 422 490 622 986 436]
+Offset time: 0.04410743713378906 ms
+Preemphasis time: 1.4829635620117188 ms
+El tiempo de cálculo de los coeficientes fb es 6.818771362304688e-05
+El tiempo de cálculo de los coeficientes dct es 4.5299530029296875e-06
+Move time to cuda: 0.36072731018066406 ms
+Inference time for 20 windows done at the same time is: 22.880077362060547 ms
+Time per window is 1.1440038681030273 ms
+Tiempo de procesamiento de la inferencia del frame 264 es de 26.505708694458008 ms
+Tiempo de procesamiento del frame 264 completo es de 31.62217140197754 ms
+
+265 frame de 80 --> [  223  -663  -342  -480  -818  -623  -847 -1248 -1522  -893]
+Offset time: 0.0400543212890625 ms
+Preemphasis time: 1.7018318176269531 ms
+El tiempo de cálculo de los coeficientes fb es 7.081031799316406e-05
+El tiempo de cálculo de los coeficientes dct es 4.291534423828125e-06
+Tiempo de procesamiento de la inferencia del frame 265 es de 0.001430511474609375 ms
+Tiempo de procesamiento del frame 265 completo es de 5.364656448364258 ms
+
+266 frame de 80 --> [-688 -661 -679 -957 -965 -880 -657 -795 -291 -300]
+Offset time: 0.03409385681152344 ms
+Preemphasis time: 1.7728805541992188 ms
+El tiempo de cálculo de los coeficientes fb es 7.796287536621094e-05
+El tiempo de cálculo de los coeficientes dct es 5.4836273193359375e-06
+Move time to cuda: 0.20694732666015625 ms
+Inference time for 20 windows done at the same time is: 20.267963409423828 ms
+Time per window is 1.0133981704711914 ms
+Tiempo de procesamiento de la inferencia del frame 266 es de 23.717403411865234 ms
+Tiempo de procesamiento del frame 266 completo es de 29.402971267700195 ms
+
+267 frame de 80 --> [737 850 440 903 639 318 328 251 263 511]
+Offset time: 0.04124641418457031 ms
+Preemphasis time: 1.7137527465820312 ms
+El tiempo de cálculo de los coeficientes fb es 7.224082946777344e-05
+El tiempo de cálculo de los coeficientes dct es 5.4836273193359375e-06
+Tiempo de procesamiento de la inferencia del frame 267 es de 0.001430511474609375 ms
+Tiempo de procesamiento del frame 267 completo es de 5.5389404296875 ms
+
+268 frame de 80 --> [ 795  115  404  552  444 1026  719  176  656  320]
+Offset time: 0.031232833862304688 ms
+Preemphasis time: 1.6713142395019531 ms
+El tiempo de cálculo de los coeficientes fb es 6.389617919921875e-05
+El tiempo de cálculo de los coeficientes dct es 4.76837158203125e-06
+Move time to cuda: 0.15354156494140625 ms
+Inference time for 20 windows done at the same time is: 22.996187210083008 ms
+Time per window is 1.1498093605041504 ms
+Tiempo de procesamiento de la inferencia del frame 268 es de 28.78594398498535 ms
+Tiempo de procesamiento del frame 268 completo es de 34.07859802246094 ms
+
+269 frame de 80 --> [-935 -400 -456 -724  350 -541 -882 -764 -580  -46]
+Offset time: 0.04172325134277344 ms
+Preemphasis time: 1.088857650756836 ms
+El tiempo de cálculo de los coeficientes fb es 5.3882598876953125e-05
+El tiempo de cálculo de los coeficientes dct es 3.0994415283203125e-06
+Tiempo de procesamiento de la inferencia del frame 269 es de 0.00095367431640625 ms
+Tiempo de procesamiento del frame 269 completo es de 3.5948753356933594 ms
+
+270 frame de 80 --> [-1218 -1137  -877 -1258 -1408  -787 -1200 -1331  -692  -865]
+Offset time: 0.027894973754882812 ms
+Preemphasis time: 1.1572837829589844 ms
+El tiempo de cálculo de los coeficientes fb es 7.2479248046875e-05
+El tiempo de cálculo de los coeficientes dct es 1.0967254638671875e-05
+Move time to cuda: 0.2715587615966797 ms
+Inference time for 20 windows done at the same time is: 28.80692481994629 ms
+Time per window is 1.4403462409973145 ms
+Tiempo de procesamiento de la inferencia del frame 270 es de 34.33966636657715 ms
+Tiempo de procesamiento del frame 270 completo es de 41.66293144226074 ms
+
+271 frame de 80 --> [-316 -402  434 -433 -403   67 -188  -10 -300   87]
+Offset time: 0.05245208740234375 ms
+Preemphasis time: 1.5273094177246094 ms
+El tiempo de cálculo de los coeficientes fb es 0.00010275840759277344
+El tiempo de cálculo de los coeficientes dct es 7.3909759521484375e-06
+Tiempo de procesamiento de la inferencia del frame 271 es de 0.0026226043701171875 ms
+Tiempo de procesamiento del frame 271 completo es de 5.744457244873047 ms
+
+272 frame de 80 --> [1050  744 1196  962 1066  860 1005 1047  752  577]
+Offset time: 0.03886222839355469 ms
+Preemphasis time: 1.5420913696289062 ms
+El tiempo de cálculo de los coeficientes fb es 5.650520324707031e-05
+El tiempo de cálculo de los coeficientes dct es 4.76837158203125e-06
+Move time to cuda: 0.18072128295898438 ms
+Inference time for 20 windows done at the same time is: 30.734777450561523 ms
+Time per window is 1.5367388725280762 ms
+Tiempo de procesamiento de la inferencia del frame 272 es de 36.5748405456543 ms
+Tiempo de procesamiento del frame 272 completo es de 42.372941970825195 ms
+
+273 frame de 80 --> [ 289  647   21  -75  580  449  157  566   97 -405]
+Offset time: 0.09608268737792969 ms
+Preemphasis time: 1.9636154174804688 ms
+El tiempo de cálculo de los coeficientes fb es 7.2479248046875e-05
+El tiempo de cálculo de los coeficientes dct es 8.106231689453125e-06
+Tiempo de procesamiento de la inferencia del frame 273 es de 0.0016689300537109375 ms
+Tiempo de procesamiento del frame 273 completo es de 6.220817565917969 ms
+
+274 frame de 80 --> [-1043  -278  -341  -668  -693 -1081  -907  -284  -391  -916]
+Offset time: 0.04291534423828125 ms
+Preemphasis time: 1.5997886657714844 ms
+El tiempo de cálculo de los coeficientes fb es 6.365776062011719e-05
+El tiempo de cálculo de los coeficientes dct es 5.7220458984375e-06
+Move time to cuda: 0.22983551025390625 ms
+Inference time for 20 windows done at the same time is: 49.61800575256348 ms
+Time per window is 2.480900287628174 ms
+Tiempo de procesamiento de la inferencia del frame 274 es de 53.30538749694824 ms
+Tiempo de procesamiento del frame 274 completo es de 58.92372131347656 ms
+
+275 frame de 80 --> [ -443  -665  -647  -942 -1059  -457  -533  -699  -229  -888]
+Offset time: 0.04482269287109375 ms
+Preemphasis time: 1.6570091247558594 ms
+El tiempo de cálculo de los coeficientes fb es 6.937980651855469e-05
+El tiempo de cálculo de los coeficientes dct es 5.0067901611328125e-06
+Tiempo de procesamiento de la inferencia del frame 275 es de 0.0019073486328125 ms
+Tiempo de procesamiento del frame 275 completo es de 19.877195358276367 ms
+
+276 frame de 80 --> [682 343 304 526 765 398 561 612 294 405]
+Offset time: 0.031232833862304688 ms
+Preemphasis time: 1.5439987182617188 ms
+El tiempo de cálculo de los coeficientes fb es 6.461143493652344e-05
+El tiempo de cálculo de los coeficientes dct es 4.291534423828125e-06
+Move time to cuda: 0.1888275146484375 ms
+Inference time for 20 windows done at the same time is: 30.088186264038086 ms
+Time per window is 1.5044093132019043 ms
+Tiempo de procesamiento de la inferencia del frame 276 es de 39.31999206542969 ms
+Tiempo de procesamiento del frame 276 completo es de 56.37073516845703 ms
+
+277 frame de 80 --> [538 699 593 700 694 432 223 459 817 550]
+Offset time: 0.08702278137207031 ms
+Preemphasis time: 1.7588138580322266 ms
+El tiempo de cálculo de los coeficientes fb es 5.745887756347656e-05
+El tiempo de cálculo de los coeficientes dct es 3.814697265625e-06
+Tiempo de procesamiento de la inferencia del frame 277 es de 0.0019073486328125 ms
+Tiempo de procesamiento del frame 277 completo es de 6.761312484741211 ms
+
+278 frame de 80 --> [-224 -172 -485 -432 -175 -419 -500 -318 -271 -444]
+Offset time: 0.07104873657226562 ms
+Preemphasis time: 1.7786026000976562 ms
+El tiempo de cálculo de los coeficientes fb es 7.557868957519531e-05
+El tiempo de cálculo de los coeficientes dct es 7.3909759521484375e-06
+Move time to cuda: 0.20813941955566406 ms
+Inference time for 20 windows done at the same time is: 32.29331970214844 ms
+Time per window is 1.6146659851074219 ms
+Tiempo de procesamiento de la inferencia del frame 278 es de 36.04841232299805 ms
+Tiempo de procesamiento del frame 278 completo es de 42.984962463378906 ms
+
+279 frame de 80 --> [-532 -622 -291 -397 -578 -898 -855 -353 -460 -442]
+Offset time: 0.08130073547363281 ms
+Preemphasis time: 1.7843246459960938 ms
+El tiempo de cálculo de los coeficientes fb es 7.891654968261719e-05
+El tiempo de cálculo de los coeficientes dct es 6.9141387939453125e-06
+Tiempo de procesamiento de la inferencia del frame 279 es de 0.0016689300537109375 ms
+Tiempo de procesamiento del frame 279 completo es de 6.2007904052734375 ms
+
+280 frame de 80 --> [-667 -959 -685 -547 -647 -554 -923 -392 -193 -606]
+Offset time: 0.041484832763671875 ms
+Preemphasis time: 1.5223026275634766 ms
+El tiempo de cálculo de los coeficientes fb es 6.318092346191406e-05
+El tiempo de cálculo de los coeficientes dct es 4.76837158203125e-06
+Move time to cuda: 0.3490447998046875 ms
+Inference time for 20 windows done at the same time is: 27.298450469970703 ms
+Time per window is 1.3649225234985352 ms
+Tiempo de procesamiento de la inferencia del frame 280 es de 31.316280364990234 ms
+Tiempo de procesamiento del frame 280 completo es de 36.86237335205078 ms
+
+281 frame de 80 --> [381 381 431 611 822 781 319 582 872 588]
+Offset time: 0.03337860107421875 ms
+Preemphasis time: 0.904083251953125 ms
+El tiempo de cálculo de los coeficientes fb es 5.364418029785156e-05
+El tiempo de cálculo de los coeficientes dct es 3.0994415283203125e-06
+Tiempo de procesamiento de la inferencia del frame 281 es de 0.0019073486328125 ms
+Tiempo de procesamiento del frame 281 completo es de 3.1418800354003906 ms
+
+282 frame de 80 --> [605 548 405 370 605 397 264 370 750 601]
+Offset time: 0.03361701965332031 ms
+Preemphasis time: 1.789093017578125 ms
+El tiempo de cálculo de los coeficientes fb es 0.00017690658569335938
+El tiempo de cálculo de los coeficientes dct es 1.3113021850585938e-05
+Move time to cuda: 0.17952919006347656 ms
+Inference time for 20 windows done at the same time is: 37.81867027282715 ms
+Time per window is 1.8909335136413574 ms
+Tiempo de procesamiento de la inferencia del frame 282 es de 65.90485572814941 ms
+Tiempo de procesamiento del frame 282 completo es de 83.81772041320801 ms
+
+283 frame de 80 --> [-617 -129 -451 -640 -508 -359 -572 -652 -713 -332]
+Offset time: 0.044345855712890625 ms
+Preemphasis time: 1.7349720001220703 ms
+El tiempo de cálculo de los coeficientes fb es 7.05718994140625e-05
+El tiempo de cálculo de los coeficientes dct es 4.291534423828125e-06
+Tiempo de procesamiento de la inferencia del frame 283 es de 0.0016689300537109375 ms
+Tiempo de procesamiento del frame 283 completo es de 5.508184432983398 ms
+
+284 frame de 80 --> [-897 -508  -33 -387 -380 -739 -294 -186 -615 -180]
+Offset time: 0.031948089599609375 ms
+Preemphasis time: 1.6689300537109375 ms
+El tiempo de cálculo de los coeficientes fb es 5.173683166503906e-05
+El tiempo de cálculo de los coeficientes dct es 1.0251998901367188e-05
+Move time to cuda: 0.16117095947265625 ms
+Inference time for 20 windows done at the same time is: 18.847227096557617 ms
+Time per window is 0.9423613548278809 ms
+Tiempo de procesamiento de la inferencia del frame 284 es de 22.19533920288086 ms
+Tiempo de procesamiento del frame 284 completo es de 26.84473991394043 ms
+
+285 frame de 80 --> [542 160 519 356 305 372 292 653 508 143]
+Offset time: 0.0362396240234375 ms
+Preemphasis time: 1.0018348693847656 ms
+El tiempo de cálculo de los coeficientes fb es 5.8650970458984375e-05
+El tiempo de cálculo de los coeficientes dct es 3.814697265625e-06
+Tiempo de procesamiento de la inferencia del frame 285 es de 0.001430511474609375 ms
+Tiempo de procesamiento del frame 285 completo es de 3.3731460571289062 ms
+
+286 frame de 80 --> [371 334 804 621 578 835 764 620 712 679]
+Offset time: 0.03457069396972656 ms
+Preemphasis time: 0.8490085601806641 ms
+El tiempo de cálculo de los coeficientes fb es 5.340576171875e-05
+El tiempo de cálculo de los coeficientes dct es 3.814697265625e-06
+Move time to cuda: 0.14066696166992188 ms
+Inference time for 20 windows done at the same time is: 18.12267303466797 ms
+Time per window is 0.9061336517333984 ms
+Tiempo de procesamiento de la inferencia del frame 286 es de 21.161556243896484 ms
+Tiempo de procesamiento del frame 286 completo es de 24.29032325744629 ms
+
+287 frame de 80 --> [ 446  -46 -505 -224  123 -255  -68   56  -91 -172]
+Offset time: 0.03552436828613281 ms
+Preemphasis time: 0.9744167327880859 ms
+El tiempo de cálculo de los coeficientes fb es 7.724761962890625e-05
+El tiempo de cálculo de los coeficientes dct es 4.5299530029296875e-06
+Tiempo de procesamiento de la inferencia del frame 287 es de 0.001430511474609375 ms
+Tiempo de procesamiento del frame 287 completo es de 3.938436508178711 ms
+
+288 frame de 80 --> [ -578 -1155 -1054  -810 -1316 -1416 -1128  -631  -899  -822]
+Offset time: 0.027418136596679688 ms
+Preemphasis time: 0.8425712585449219 ms
+El tiempo de cálculo de los coeficientes fb es 5.125999450683594e-05
+El tiempo de cálculo de los coeficientes dct es 3.814697265625e-06
+Move time to cuda: 0.2810955047607422 ms
+Inference time for 20 windows done at the same time is: 19.321680068969727 ms
+Time per window is 0.9660840034484863 ms
+Tiempo de procesamiento de la inferencia del frame 288 es de 22.157907485961914 ms
+Tiempo de procesamiento del frame 288 completo es de 25.33125877380371 ms
+
+289 frame de 80 --> [ 263  162  -68  140  -48 -243  -71   -9 -214 -281]
+Offset time: 0.044345855712890625 ms
+Preemphasis time: 1.5785694122314453 ms
+El tiempo de cálculo de los coeficientes fb es 7.605552673339844e-05
+El tiempo de cálculo de los coeficientes dct es 5.0067901611328125e-06
+Tiempo de procesamiento de la inferencia del frame 289 es de 0.0016689300537109375 ms
+Tiempo de procesamiento del frame 289 completo es de 5.364894866943359 ms
+
+290 frame de 80 --> [438 687 433 303  87 260 453 493 534 474]
+Offset time: 0.03314018249511719 ms
+Preemphasis time: 1.3818740844726562 ms
+El tiempo de cálculo de los coeficientes fb es 0.00011038780212402344
+El tiempo de cálculo de los coeficientes dct es 6.198883056640625e-06
+Move time to cuda: 0.14638900756835938 ms
+Inference time for 20 windows done at the same time is: 17.488718032836914 ms
+Time per window is 0.8744359016418457 ms
+Tiempo de procesamiento de la inferencia del frame 290 es de 20.77794075012207 ms
+Tiempo de procesamiento del frame 290 completo es de 26.16262435913086 ms
+
+291 frame de 80 --> [ 496  525  456  654  996  685 1018  969  794  982]
+Offset time: 0.033855438232421875 ms
+Preemphasis time: 0.9140968322753906 ms
+El tiempo de cálculo de los coeficientes fb es 4.696846008300781e-05
+El tiempo de cálculo de los coeficientes dct es 5.245208740234375e-06
+Tiempo de procesamiento de la inferencia del frame 291 es de 0.0019073486328125 ms
+Tiempo de procesamiento del frame 291 completo es de 3.291606903076172 ms
+
+292 frame de 80 --> [-234  227 -138 -400 -459 -191    4 -475 -440  -79]
+Offset time: 0.031948089599609375 ms
+Preemphasis time: 0.8308887481689453 ms
+El tiempo de cálculo de los coeficientes fb es 6.389617919921875e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Move time to cuda: 0.16164779663085938 ms
+Inference time for 20 windows done at the same time is: 19.756317138671875 ms
+Time per window is 0.9878158569335938 ms
+Tiempo de procesamiento de la inferencia del frame 292 es de 22.461891174316406 ms
+Tiempo de procesamiento del frame 292 completo es de 25.819778442382812 ms
+
+293 frame de 80 --> [ -892  -892 -1124 -1003 -1165 -1343  -803  -915  -891  -954]
+Offset time: 0.04792213439941406 ms
+Preemphasis time: 1.6551017761230469 ms
+El tiempo de cálculo de los coeficientes fb es 6.866455078125e-05
+El tiempo de cálculo de los coeficientes dct es 4.291534423828125e-06
+Tiempo de procesamiento de la inferencia del frame 293 es de 0.0016689300537109375 ms
+Tiempo de procesamiento del frame 293 completo es de 5.29789924621582 ms
+
+294 frame de 80 --> [ 164 -187 -262 -574 -289 -153 -502 -482 -318 -969]
+Offset time: 0.026702880859375 ms
+Preemphasis time: 1.5592575073242188 ms
+El tiempo de cálculo de los coeficientes fb es 6.580352783203125e-05
+El tiempo de cálculo de los coeficientes dct es 4.76837158203125e-06
+Move time to cuda: 0.1354217529296875 ms
+Inference time for 20 windows done at the same time is: 19.60587501525879 ms
+Time per window is 0.9802937507629395 ms
+Tiempo de procesamiento de la inferencia del frame 294 es de 22.536754608154297 ms
+Tiempo de procesamiento del frame 294 completo es de 27.75263786315918 ms
+
+295 frame de 80 --> [477 832 760 158 760 967 916 631  24 370]
+Offset time: 0.044345855712890625 ms
+Preemphasis time: 1.6489028930664062 ms
+El tiempo de cálculo de los coeficientes fb es 6.699562072753906e-05
+El tiempo de cálculo de los coeficientes dct es 4.291534423828125e-06
+Tiempo de procesamiento de la inferencia del frame 295 es de 0.0021457672119140625 ms
+Tiempo de procesamiento del frame 295 completo es de 5.208492279052734 ms
+
+296 frame de 80 --> [820 221 404 842 560 434 304 106 409  85]
+Offset time: 0.027418136596679688 ms
+Preemphasis time: 1.5308856964111328 ms
+El tiempo de cálculo de los coeficientes fb es 5.793571472167969e-05
+El tiempo de cálculo de los coeficientes dct es 3.814697265625e-06
+Move time to cuda: 0.08749961853027344 ms
+Inference time for 20 windows done at the same time is: 19.788026809692383 ms
+Time per window is 0.9894013404846191 ms
+Tiempo de procesamiento de la inferencia del frame 296 es de 23.158550262451172 ms
+Tiempo de procesamiento del frame 296 completo es de 28.261899948120117 ms
+
+297 frame de 80 --> [-948 -958 -828 -467 -846 -758 -530 -628 -815 -197]
+Offset time: 0.056743621826171875 ms
+Preemphasis time: 1.6918182373046875 ms
+El tiempo de cálculo de los coeficientes fb es 5.793571472167969e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Tiempo de procesamiento de la inferencia del frame 297 es de 0.001430511474609375 ms
+Tiempo de procesamiento del frame 297 completo es de 5.297183990478516 ms
+
+298 frame de 80 --> [-1043  -918  -859  -796  -772  -895 -1025 -1305  -909  -653]
+Offset time: 0.029325485229492188 ms
+Preemphasis time: 0.9868144989013672 ms
+El tiempo de cálculo de los coeficientes fb es 6.198883056640625e-05
+El tiempo de cálculo de los coeficientes dct es 1.1444091796875e-05
+Move time to cuda: 0.17261505126953125 ms
+Inference time for 20 windows done at the same time is: 19.85311508178711 ms
+Time per window is 0.9926557540893555 ms
+Tiempo de procesamiento de la inferencia del frame 298 es de 22.815465927124023 ms
+Tiempo de procesamiento del frame 298 completo es de 26.51834487915039 ms
+
+299 frame de 80 --> [402 297 190 599 401 656 323 162 199 590]
+Offset time: 0.03600120544433594 ms
+Preemphasis time: 0.9586811065673828 ms
+El tiempo de cálculo de los coeficientes fb es 6.937980651855469e-05
+El tiempo de cálculo de los coeficientes dct es 5.4836273193359375e-06
+Tiempo de procesamiento de la inferencia del frame 299 es de 0.0011920928955078125 ms
+Tiempo de procesamiento del frame 299 completo es de 3.3614635467529297 ms
+
+300 frame de 80 --> [1086 1040 1244 1212  752  442  630  624  843  826]
+Offset time: 0.026464462280273438 ms
+Preemphasis time: 0.8416175842285156 ms
+El tiempo de cálculo de los coeficientes fb es 4.982948303222656e-05
+El tiempo de cálculo de los coeficientes dct es 2.86102294921875e-06
+Move time to cuda: 0.14925003051757812 ms
+Inference time for 20 windows done at the same time is: 26.46327018737793 ms
+Time per window is 1.3231635093688965 ms
+Tiempo de procesamiento de la inferencia del frame 300 es de 30.45964241027832 ms
+Tiempo de procesamiento del frame 300 completo es de 33.96487236022949 ms
+
+301 frame de 80 --> [-376 -264 -548 -202 -450 -624 -420 -686 -928 -831]
+Offset time: 0.03552436828613281 ms
+Preemphasis time: 0.8952617645263672 ms
+El tiempo de cálculo de los coeficientes fb es 6.127357482910156e-05
+El tiempo de cálculo de los coeficientes dct es 4.76837158203125e-06
+Tiempo de procesamiento de la inferencia del frame 301 es de 0.0016689300537109375 ms
+Tiempo de procesamiento del frame 301 completo es de 3.2455921173095703 ms
+
+302 frame de 80 --> [-224 -740 -678 -427 -662 -791 -601 -584 -848 -910]
+Offset time: 0.027418136596679688 ms
+Preemphasis time: 0.8244514465332031 ms
+El tiempo de cálculo de los coeficientes fb es 5.1975250244140625e-05
+El tiempo de cálculo de los coeficientes dct es 3.814697265625e-06
+Move time to cuda: 0.2079010009765625 ms
+Inference time for 20 windows done at the same time is: 18.6769962310791 ms
+Time per window is 0.9338498115539551 ms
+Tiempo de procesamiento de la inferencia del frame 302 es de 21.265745162963867 ms
+Tiempo de procesamiento del frame 302 completo es de 24.45197105407715 ms
+
+303 frame de 80 --> [ -52 -257 -410  412  670  103  -71  131 -195  182]
+Offset time: 0.05984306335449219 ms
+Preemphasis time: 0.8904933929443359 ms
+El tiempo de cálculo de los coeficientes fb es 5.650520324707031e-05
+El tiempo de cálculo de los coeficientes dct es 3.814697265625e-06
+Tiempo de procesamiento de la inferencia del frame 303 es de 0.0016689300537109375 ms
+Tiempo de procesamiento del frame 303 completo es de 3.301858901977539 ms
+
+304 frame de 80 --> [ 650  622  663  780  635  990  775  452  786 1239]
+Offset time: 0.02574920654296875 ms
+Preemphasis time: 0.8046627044677734 ms
+El tiempo de cálculo de los coeficientes fb es 5.745887756347656e-05
+El tiempo de cálculo de los coeficientes dct es 3.0994415283203125e-06
+Move time to cuda: 0.15687942504882812 ms
+Inference time for 20 windows done at the same time is: 20.407676696777344 ms
+Time per window is 1.0203838348388672 ms
+Tiempo de procesamiento de la inferencia del frame 304 es de 23.096799850463867 ms
+Tiempo de procesamiento del frame 304 completo es de 26.30019187927246 ms
+
+305 frame de 80 --> [291 438 518 578  98  79 322 134  89  78]
+Offset time: 0.045299530029296875 ms
+Preemphasis time: 1.6243457794189453 ms
+El tiempo de cálculo de los coeficientes fb es 6.747245788574219e-05
+El tiempo de cálculo de los coeficientes dct es 4.5299530029296875e-06
+Tiempo de procesamiento de la inferencia del frame 305 es de 0.0011920928955078125 ms
+Tiempo de procesamiento del frame 305 completo es de 5.12242317199707 ms
+
+306 frame de 80 --> [-420 -499 -611 -690 -207 -747 -891 -430 -485 -863]
+Offset time: 0.025272369384765625 ms
+Preemphasis time: 1.6503334045410156 ms
+El tiempo de cálculo de los coeficientes fb es 5.626678466796875e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Move time to cuda: 0.0743865966796875 ms
+Inference time for 20 windows done at the same time is: 19.570589065551758 ms
+Time per window is 0.9785294532775879 ms
+Tiempo de procesamiento de la inferencia del frame 306 es de 22.537946701049805 ms
+Tiempo de procesamiento del frame 306 completo es de 27.63676643371582 ms
+
+307 frame de 80 --> [-508  -12 -458 -598 -710 -401 -498 -680 -701 -388]
+Offset time: 0.04172325134277344 ms
+Preemphasis time: 1.7104148864746094 ms
+El tiempo de cálculo de los coeficientes fb es 6.437301635742188e-05
+El tiempo de cálculo de los coeficientes dct es 4.291534423828125e-06
+Tiempo de procesamiento de la inferencia del frame 307 es de 0.0011920928955078125 ms
+Tiempo de procesamiento del frame 307 completo es de 5.259513854980469 ms
+
+308 frame de 80 --> [ -37 -502 -328   53 -441 -863 -445   -5  101 -428]
+Offset time: 0.026702880859375 ms
+Preemphasis time: 1.7218589782714844 ms
+El tiempo de cálculo de los coeficientes fb es 5.7697296142578125e-05
+El tiempo de cálculo de los coeficientes dct es 3.5762786865234375e-06
+Move time to cuda: 0.07104873657226562 ms
+Inference time for 20 windows done at the same time is: 18.96381378173828 ms
+Time per window is 0.9481906890869141 ms
+Tiempo de procesamiento de la inferencia del frame 308 es de 21.647930145263672 ms
+Tiempo de procesamiento del frame 308 completo es de 26.843786239624023 ms
+
+309 frame de 80 --> [ 720  832  774 1064  878  709  865  742  711  917]
+Offset time: 0.03504753112792969 ms
+Preemphasis time: 1.6961097717285156 ms
+El tiempo de cálculo de los coeficientes fb es 6.413459777832031e-05
+El tiempo de cálculo de los coeficientes dct es 4.0531158447265625e-06
+Tiempo de procesamiento de la inferencia del frame 309 es de 0.00095367431640625 ms
+Tiempo de procesamiento del frame 309 completo es de 5.229473114013672 ms
+
+310 frame de 80 --> [ 672  358   26  296  190  121  -67  -56   90 -237]
+Offset time: 0.027894973754882812 ms
+Preemphasis time: 1.6584396362304688 ms
+El tiempo de cálculo de los coeficientes fb es 7.796287536621094e-05
+El tiempo de cálculo de los coeficientes dct es 9.775161743164062e-06
+Move time to cuda: 0.25534629821777344 ms
+Inference time for 20 windows done at the same time is: 30.27796745300293 ms
+Time per window is 1.5138983726501465 ms
+Tiempo de procesamiento de la inferencia del frame 310 es de 34.319162368774414 ms
+Tiempo de procesamiento del frame 310 completo es de 39.70766067504883 ms
+
+311 frame de 80 --> [-403  121    5 -481 -664 -495 -408 -177 -202 -490]
+Offset time: 0.04172325134277344 ms
+Preemphasis time: 1.6982555389404297 ms
+El tiempo de cálculo de los coeficientes fb es 8.20159912109375e-05
+El tiempo de cálculo de los coeficientes dct es 4.291534423828125e-06
+Tiempo de procesamiento de la inferencia del frame 311 es de 0.0021457672119140625 ms
+Tiempo de procesamiento del frame 311 completo es de 5.604743957519531 ms
+
+312 frame de 80 --> [-259 -378 -813 -514 -286 -446 -608 -304   44  118]
+Offset time: 0.04172325134277344 ms
+Preemphasis time: 1.688241958618164 ms
+El tiempo de cálculo de los coeficientes fb es 7.653236389160156e-05
+El tiempo de cálculo de los coeficientes dct es 5.0067901611328125e-06
+Move time to cuda: 0.17452239990234375 ms
+Inference time for 20 windows done at the same time is: 26.334524154663086 ms
+Time per window is 1.3167262077331543 ms
+Tiempo de procesamiento de la inferencia del frame 312 es de 29.468059539794922 ms
+Tiempo de procesamiento del frame 312 completo es de 35.45212745666504 ms
+
+313 frame de 80 --> [383 789 534 681 603 367 668 861 505 266]
+Offset time: 0.03552436828613281 ms
+Preemphasis time: 0.8943080902099609 ms
+El tiempo de cálculo de los coeficientes fb es 5.507469177246094e-05
+El tiempo de cálculo de los coeficientes dct es 3.0994415283203125e-06
+Tiempo de procesamiento de la inferencia del frame 313 es de 0.001430511474609375 ms
+Tiempo de procesamiento del frame 313 completo es de 3.0846595764160156 ms
+
+314 frame de 80 --> [752 835 -70 369 692 822 527 339 723 723]
+Offset time: 0.030279159545898438 ms
+Preemphasis time: 1.0521411895751953 ms
+El tiempo de cálculo de los coeficientes fb es 4.8160552978515625e-05
+El tiempo de cálculo de los coeficientes dct es 4.291534423828125e-06
+Move time to cuda: 0.3674030303955078 ms
+Inference time for 20 windows done at the same time is: 32.26947784423828 ms
+Time per window is 1.613473892211914 ms
+Tiempo de procesamiento de la inferencia del frame 314 es de 38.79427909851074 ms
+Tiempo de procesamiento del frame 314 completo es de 43.55788230895996 ms
+
+315 frame de 80 --> [-790 -866 -491    6 -433 -779 -368 -129 -100 -321]
+Offset time: 0.05078315734863281 ms
+Preemphasis time: 1.722097396850586 ms
+El tiempo de cálculo de los coeficientes fb es 6.413459777832031e-05
+El tiempo de cálculo de los coeficientes dct es 3.814697265625e-06
+Tiempo de procesamiento de la inferencia del frame 315 es de 0.0011920928955078125 ms
+Tiempo de procesamiento del frame 315 completo es de 5.113363265991211 ms
+El tiempo medio de procesamiento es de 18.952199390956334 ms
+El audio tiene len 25345 y tipo float64
+El audio mejorado resulta [ 0.00000000e+00  2.86504178e-06  9.25720677e-06  2.07986916e-05
+  5.84089935e-05  7.31969285e-05  7.95035011e-05  8.57236137e-05
+  1.19661334e-04 -7.41221325e-06]
