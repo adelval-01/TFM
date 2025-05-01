@@ -33,9 +33,9 @@ from eval_utils import *
 with open('metrics/config.json') as json_file:
     cfg = json.load(json_file)
 
-print(f'\n|===================================================================|')
-print(f'|              STARTING SPEECH ENHANCEMENT LATENCY TEST             |')
-print(f'|===================================================================|')
+print(f'\n   |=====================================================================|')
+print(  f'   |              STARTING SPEECH ENHANCEMENT LATENCY TEST               |')
+print(  f'   |=====================================================================|')
 
 #======================= PYTORCH MODEL LOAD ===========================#
 print(f'  \nLoading Pytorch model')
