@@ -29,7 +29,7 @@ from vvtk_net.v1.layers_pytorch import *
 from vvtk_net.config import Configuration
 from eval_utils import *
 
-# Load configuration parameters
+# Load configuration parameterss
 with open('metrics/config.json') as json_file:
     cfg = json.load(json_file)
 
