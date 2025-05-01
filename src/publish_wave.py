@@ -9,7 +9,7 @@ import sys
 import numpy as np
 from livekit import rtc, api
 
-SAMPLE_RATE = 16000
+SAMPLE_RATE = 8000
 NUM_CHANNELS = 1
 FRAME_DURATION_MS = 10  # Frame duration in milliseconds
 
@@ -137,7 +137,7 @@ async def publish_wav_frames(source: rtc.AudioSource, wav_file_path: str):
 if __name__ == "__main__":
     logging.basicConfig(
         level=logging.INFO,
-        handlers=[logging.FileHandler("BTS/TFM/logs/publish_wave.log"), logging.StreamHandler()],
+        handlers=[logging.FileHandler("./logs/publish_wave.log"), logging.StreamHandler()],
     )
 
     loop = asyncio.get_event_loop()

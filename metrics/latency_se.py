@@ -41,7 +41,6 @@ print(  f'   |==================================================================
 print(f'  \nLoading Pytorch model')
 input_dim, output_dim = load_obj(workspace_dir + 'data/model/dimensions.pkl') 
 
-sys.path.append( workspace_dir + 'src/net1')
 from net_snr import Net_snr 
 net_snr = Net_snr(input_dim, output_dim, cuda=True, single_gpu=True)
 net_snr.load( workspace_dir + 'data/model/theta_last')
@@ -59,7 +58,6 @@ print(f'\n  Loading ONNX model from {model_file}')
 onnx_model = onnx.load(model_file)
 onnx.checker.check_model(onnx_model)
 ort_session = onnxruntime.InferenceSession(model_file, providers=["CUDAExecutionProvider"])
-
 
 #=======================================================================#
 
@@ -113,10 +111,10 @@ if cfg["warm_up_factor"] > 0:
 N = int(w * fs)
 F = int(nfft/2)
 fb_time = time.time()
-fb = fb_etsi(F, B, fs)
+fb = mu.fb_etsi(F, B, fs)
 # print(f'El tiempo de cálculo de los filtros es {(time.time() - fb_time)*1000} ms')
 dct_time = time.time()
-dct = f_base_dct(B)
+dct = mu.f_base_dct(B)
 # print(f'El tiempo de cálculo de las bases dct es {(time.time() - dct_time)*1000} ms')
 
 # Media y desviación para la normalización
@@ -200,7 +198,7 @@ for audio_file in x_test:
         buffer_frame = np.concatenate([buffer_frame, frame])
         
         start_time = time.time()
-
+        print(f"Processing frame {n_frame}...")
         if len(buffer_frame) >= window_samples:
             work_window = buffer_frame[:window_samples]
 

@@ -2,6 +2,7 @@ import os
 import sys
 import wave
 import time
+import json
 import asyncio
 import logging
 import numpy as np
@@ -11,34 +12,55 @@ from signal import SIGINT, SIGTERM
 
 import model_utils as mu
 
-SAMPLE_RATE = 16000
+import torch
+import torch.utils.data as data
+
+import onnx
+import onnxruntime
+
+SAMPLE_RATE = 8000
 FRAME_DURATION_MS = 10
 NUM_CHANNELS = 1
 FORMAT = 2 # 16-bit PCM
-WAV_FILE = "BTS/TFM/audios/livekit/audio_received_lk.wav"
-WAV_ENH = "BTS/TFM/audios/livekit/audio_enhanced_lk.wav"
+WAV_FILE = "./audios/livekit/audio_received_lk.wav"
+WAV_ENH = "./audios/livekit/audio_enhanced_lk.wav"
 
+# Load configuration parameterss
+with open('metrics/config.json') as json_file:
+    cfg = json.load(json_file)
 
 # Load model dimensions and weights
 # 8k Net trained
-# workspace_dir = '/home/adelval/BTS/TFM/afterburner8k/'
+workspace_dir = './afterburner8k_win20/'
 
 # 16k Net trained
-workspace_dir = '/home/adelval/BTS/TFM/test/'
+# workspace_dir = '/home/adelval/BTS/TFM/test/'
+
+sys.path.append( workspace_dir + 'src/net1')
+
+#======================= PYTORCH MODEL LOAD ===========================#
+print(f'  \nLoading Pytorch model')
 input_dim, output_dim = mu.load_obj(workspace_dir + 'data/model/dimensions.pkl') 
 
-print('  input_dim: %s' % str(input_dim))
-print('  output_dim: %s' % str(output_dim))
+from net_snr import Net_snr 
+net_snr = Net_snr(input_dim, output_dim, cuda=True, single_gpu=True)
+net_snr.load( workspace_dir + 'data/model/theta_last')
 
-sys.path.append( workspace_dir + 'src/net')
+#========================= ONNX MODEL LOAD =============================#
 
-from net_snr import Net_snr
-# from net_snr_original import Net_snr
+model_file = os.path.join('.','models', 'net_snr_w{}_s{}_{}to{}_d{}.onnx').format(
+    int(cfg['analysis_window_length']*1000),
+    int(cfg['analysis_window_shift']*1000),
+    int(cfg['min_windows']),
+    int(cfg['max_windows']),
+    int(cfg['diezmation_factor']))
 
-net_snr = Net_snr(input_dim, output_dim, cuda=True)
-net_snr.load_theta( workspace_dir + 'data/model/theta_last')
+print(f'\n  Loading ONNX model from {model_file}')
+onnx_model = onnx.load(model_file)
+onnx.checker.check_model(onnx_model)
+ort_session = onnxruntime.InferenceSession(model_file, providers=["CUDAExecutionProvider"])
 
-
+#=======================================================================#
 
 # Initializate wav file
 def setup_wav_file():
@@ -104,13 +126,17 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
             #--------------------------PARAMETERS FOR SE MODEL------------------------------------#
             n_frame = 0     # Counter for frames
             it = 0          # Counter for windows
-
-            fs = SAMPLE_RATE
-            B=[32]
-            w=[0.040]
-            m=0.010
-            nfft=[1024]
-            gmin = 0.0562
+            
+            fs=cfg["fs"]
+            B=32
+            w=cfg["analysis_window_length"]
+            m=cfg["analysis_window_shift"]
+            nfft=cfg["nfft"]
+            gmin = cfg["gmin"]
+            min_windows = cfg["min_windows"]
+            max_windows = cfg["max_windows"]
+            diezmation_factor = cfg["diezmation_factor"]
+            warm_up_factor = cfg["warm_up_factor"]
 
             frame_size = 0.01       # ms
             frame_samples = int(frame_size * fs)  # Muestras por frame
@@ -118,7 +144,7 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
             shift_size = m          # ms
             shift_samples = int(shift_size * fs)  # Desplazamiento entre frames 160
             logging.debug(f'Desplazamiento de {shift_samples} samples')
-            window_size = w[0]      # 40 ms (640 muestras)
+            window_size = w     # 40 ms (640 muestras)
             window_samples = int(window_size * fs)  # Muestras por ventana 640
             logging.debug(f'La ventana tiene una duración de {window_samples} samples')
             min_windows = 4
@@ -126,10 +152,28 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
             window_inference_min = int((min_windows + (window_size/frame_size)-1) * frame_samples)
             window_inference_max = int((max_windows + (window_size/frame_size)-1) * frame_samples)
             logging.debug(f'El buffer retendra hasta {window_inference_max} samples')
+            
+            # Cálculo de los filtros
+            N = int(w * fs)
+            F = int(nfft/2)
+            fb_time = time.time()
+            fb = mu.fb_etsi(F, B, fs)
+            # print(f'El tiempo de cálculo de los filtros es {(time.time() - fb_time)*1000} ms')
+            dct_time = time.time()
+            dct = mu.f_base_dct(B)
+            # print(f'El tiempo de cálculo de las bases dct es {(time.time() - dct_time)*1000} ms')
+
+            # Media y desviación para la normalización
+            file = workspace_dir + 'data/model/fe1_norm1.pkl'
+            mu_, std = mu.read_pkl(file)
+
+            # Ventana de hamming
+            hamming_win = np.hamming(fs * w)
+            
             #-------------------------------------------------------------------------------------#
             
             buffer_frame = np.zeros(0)                      # Buffer de ventana recibida
-
+            Xfft_windows_list = []
             snr_frame_mask = np.ones((512,min_windows))     # Inicializado con la duración de la ventana de inferencia
             yenh = np.zeros(640000)                         # Inicializado con la duración del audio original
 
@@ -146,7 +190,7 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
                     logging.info("Stopping audio processing as track is unpublished.")
                     break
 
-                n_frame += 1
+                print(f"Processing frame {n_frame}...")
                 audio_data_rx = np.frombuffer(event.frame.data, dtype=np.int16)
                 wav.writeframes(audio_data_rx) 
 
@@ -155,56 +199,66 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
                 buffer_frame = np.concatenate([buffer_frame, audio_data_rx])
 
                 if len(buffer_frame) >= window_samples:
+                    work_window = buffer_frame[:window_samples]
 
-                    if len(buffer_frame) < window_inference_max:
-                        work_window = buffer_frame[it*shift_samples:it*shift_samples+window_samples]
-                        logging.debug(f"Frame number: {n_frame} y buffer len {int(len(buffer_frame)/frame_samples)}")
-                        it += 1                                                                 # Number of windows received
-                        if len(buffer_frame) >= window_inference_min:
-                            logging.debug("Reached MIN WINDOW --> STRATING INFERENCE")
-                            work_inf_frames = buffer_frame[:window_inference_max]
-                            fft_windows = mu.frame_fft(work_inf_frames, fs, w, m, nfft, it)
-                            fft_windows_log = mu.log_scale(fft_windows)
-                            fb_windows = mu.frame_fb_mfcc(work_inf_frames, fs, B, w, m, nfft, it)
-                            fb_windows_norm = mu.norm_fb_frame(fb_windows)
-                            windows_concat = np.concatenate( (fft_windows_log,fb_windows_norm), 1 )
-                            snr_frame_mask = mu.net_eval(windows_concat, net_snr)
-                            snr_frame_mask = snr_frame_mask.T
-                            logging.debug(f'Frames restantes en el buffer {len(buffer_frame)/frame_samples}')
+                    start_fft = time.time()
+                    Xfft = mu.window_fft(work_window, hamming_win, nfft)
+                    # accum_fft += (time.time()-start_fft)
 
+                    start_log = time.time()
+                    log_psd_Xfft = mu.log_psd(Xfft)
+                    # accum_log += (time.time()-start_log)
+
+                    start_fb = time.time()
+                    fb_windows = mu.frame_fb_mfcc(Xfft, fb, dct, mu_, std)
+                    # accum_fb_mfcc += (time.time()-start_fb)
+
+                    windows_concat = np.concatenate((log_psd_Xfft,fb_windows))
+                    Xfft_windows_list.append(windows_concat)
+
+                    if n_frame-3 < max_windows:   
+                        if n_frame-3 >= min_windows:
+                            # print("Reached MIN WINDOW --> STRATING INFERENCE")
+                            transformed_windows = np.vstack(Xfft_windows_list)
+
+                            start_prof = time.time()
+                            print(f'{n_frame} de {transformed_windows.shape} y {transformed_windows.dtype}')
+                            if(n_frame % diezmation_factor == 0):
+                                snr_frame_mask = mu.net_eval(net_snr, transformed_windows)
+                                snr_frame_mask = snr_frame_mask.T
+                                # print(f'Time {n_frame}: {(time.time()-start_prof)*1000} ms')
+                            # accum_inf += (time.time()-start_prof)
                     # Si el buffer alcanza o excede las 20 ventanas para hacer la inferencia
                     else:
-                        work_window = buffer_frame[window_inference_max-window_samples:] # Los últimos frames del buffer
-                        logging.debug("Reached MAX WINDOW --> Starting Inference")
-                        work_inf_frames = buffer_frame[:window_inference_max]
-                        fft_windows = mu.frame_fft(work_inf_frames, fs, w, m, nfft, max_windows)
-                        fft_windows_log = mu.log_scale(fft_windows)
-                        fb_windows = mu.frame_fb_mfcc(work_inf_frames, fs, B, w, m, nfft, max_windows)
-                        fb_windows_norm = mu.norm_fb_frame(fb_windows)
-                        windows_concat = np.concatenate( (fft_windows_log,fb_windows_norm), 1 )
-                        snr_frame_mask = mu.net_eval(windows_concat, net_snr)
-                        snr_frame_mask = snr_frame_mask.T
-                        #Desplazar las muestras en `buffer_frame` para la próxima ventana
-                        buffer_frame = buffer_frame[shift_samples:]
-                        logging.debug(f'Frames restantes en el buffer {len(buffer_frame)/frame_samples}')
+                        Xfft_windows_list.pop(0)
+                        transformed_windows = np.vstack(Xfft_windows_list)
+
+                        # start_prof = time.time()
+                        if(n_frame % diezmation_factor == 0):
+                            # snr_frame_mask = mu.net_eval(net_snr, transformed_windows)
+                            # snr_frame_mask = snr_frame_mask.T
+                            print(f'{n_frame} de {transformed_windows.shape} y {transformed_windows.dtype}')
+                            transformed_windows = transformed_windows.reshape(1, max_windows, 576)
+                            ort_inputs = {ort_session.get_inputs()[0].name: transformed_windows}
+                            snr_frame_mask = ort_session.run(None, ort_inputs)[0]
+                            snr_frame_mask = snr_frame_mask.squeeze().T
+                            # print(f'Time onnx {n_frame}: {(time.time()-start_prof)*1000} ms')
+                        # accum_inf += (time.time()-start_prof)
+
+                    buffer_frame = buffer_frame[shift_samples:]
 
                     # Aqui haría la evaluacion con la máscara pertinente (para las primeras 3 ventanas sin máscara calculada)
-                    #---------------------------------EVALUATION OF WINDOW---------------------------------#
-                    cnt = n_frame - 3 # Automatize
-                    logging.debug(f'EVALUATION OF WINDOW {cnt}')
+                    # cnt = int(n_frame - w/m) Ajustar al tamaño de la ventana
+                    cnt = n_frame - 3
+                    # print(f'EVALUATION OF WINDOW {cnt}')
                     x = np.array(work_window, dtype=np.float32) / 2 ** 15 # 0.04 * fs = 640 samples
-                    logging.debug(f'El frame sin enventanado resulta {x[:10]}')
-                    logging.debug(f'Se le aplica la mascara {snr_frame_mask[:10,-1]}')
-                    xenh, filt = mu.noiseReduction(x, snr_frame_mask[:,-1], fs, window_samples, shift_samples, nfft[0], gmin)
-                    logging.debug(f'{n_frame} Frames en xenh {xenh[:10]}')
-                    logging.debug(f'Las dimensiones del filtro son {filt.shape}')
-                    logging.debug(f'Window processed {cnt} {xenh.shape} {yenh[cnt*shift_samples : cnt*shift_samples+window_samples].shape}')
+
+                    xenh, filt = mu.noiseReduction(x, snr_frame_mask[:,-1], fs, window_samples, shift_samples, nfft, gmin)
+
                     slice_size = min(len(yenh) - cnt * shift_samples, window_samples)
-                    if slice_size < 0:
-                        slice_size = 0
+
                     yenh[cnt * shift_samples : cnt * shift_samples + slice_size] += xenh[0:slice_size]
-                    logging.debug(f'{n_frame} Frames en yenh {yenh[cnt * shift_samples : cnt * shift_samples + 10]}')
-                    logging.info(f'Frame {cnt} processed')
+  
                     #-------------------------------------------------------------------------------------#
                     # Usar thread para enviar el frame mejorado simultaneamente
                     # if(cnt == 1000):
@@ -216,13 +270,14 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
                     #             audio_data_tx, 
                     #             (np.clip(yenh[i* frame_samples : i * frame_samples + frame_samples]*2**15, -32768, 32767)).astype(np.int16))
                     #         )
-                    # # Publish audio frames to the track in room_2 with no delay
-                    # await asyncio.ensure_future(publish_frames(
-                    #     source, 
-                    #     audio_frame, 
-                    #     audio_data_tx, 
-                    #     (yenh[cnt * frame_samples : cnt * frame_samples + frame_samples]*2**15).astype(np.int16))
-                    # )
+                    # Publish audio frames to the track in room_2 with no delay
+                    await asyncio.ensure_future(publish_frames(
+                        source, 
+                        audio_frame, 
+                        audio_data_tx, 
+                        ((yenh[cnt * frame_samples : cnt * frame_samples + frame_samples]/3)*2**15).astype(np.int16))
+                    )
+                n_frame += 1
 
             logging.info(f"Audio stream processing completed. {n_frame} frames processed.")
 
@@ -236,7 +291,7 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
                     logging.debug(f'El audio mejorado tiene una longitud de {len(yenh)} y {yenh.dtype}')
                     for i in range(200):
                         logging.debug(f'{i} La señal mejorada es {np.int16((2**15)*yenh[i*160:10+i*160])}')
-                    wavfile.write(WAV_ENH, SAMPLE_RATE, np.clip(yenh*2**15, -32768, 32767).astype(np.int16))
+                    wavfile.write(WAV_ENH, SAMPLE_RATE, np.array((yenh/3)*(2 ** 15), dtype=np.int16))
                     logging.info("Enhanced audio saved successfully.")
                 except Exception as save_error:
                     logging.error(f"Failed to save enhanced audio: {save_error}")
@@ -330,7 +385,7 @@ async def publish_frames(source: rtc.AudioSource, audio_frame:rtc.AudioFrame, au
 if __name__ == "__main__":
     logging.basicConfig(
         level=logging.INFO,
-        handlers=[logging.FileHandler("BTS/TFM/logs/consumer_wave.log"), logging.StreamHandler()],
+        handlers=[logging.FileHandler("./logs/model_rx_tx.log"), logging.StreamHandler()],
     )
 
     loop_1 = asyncio.get_event_loop()

@@ -23,12 +23,11 @@ frame_queue = asyncio.Queue()
 
 # Load model dimensions and weights
 # 8k Net trained
-workspace_dir = '/home/adelval/BTS/TFM/afterburner8k/'
+workspace_dir = '/home/adelval/BTS/TFM/afterburner8k_win20/'
 
 # 16k Net trained
 # workspace_dir = '/home/adelval/BTS/TFM/test/'
-# input_dim, output_dim = mu.load_obj(workspace_dir + 'data/model/dimensions.pkl') 
-input_dim, output_dim = mu.load_obj(workspace_dir + 'data/model/dimensions_rn.pkl') 
+input_dim, output_dim = mu.load_obj(workspace_dir + 'data/model/dimensions.pkl') 
 
 print('  input_dim: %s' % str(input_dim))
 print('  output_dim: %s' % str(output_dim))
