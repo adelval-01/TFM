@@ -1,4 +1,5 @@
 import os
+import gc
 import sys
 import json
 import time
@@ -38,7 +39,7 @@ print(  f'   |              STARTING SPEECH ENHANCEMENT LATENCY TEST            
 print(  f'   |=====================================================================|')
 
 #======================= PYTORCH MODEL LOAD ===========================#
-print(f'  \nLoading Pytorch model')
+print(f'\n  Loading Pytorch model')
 input_dim, output_dim = load_obj(workspace_dir + 'data/model/dimensions.pkl') 
 
 from net_snr import Net_snr 
@@ -47,12 +48,10 @@ net_snr.load( workspace_dir + 'data/model/theta_last')
 
 #========================= ONNX MODEL LOAD =============================#
 
-model_file = os.path.join('.','models', 'net_snr_w{}_s{}_{}to{}_d{}.onnx').format(
+model_file = os.path.join('.','models', 'net_snr_w{}_s{}_{}.onnx').format(
     int(cfg['analysis_window_length']*1000),
     int(cfg['analysis_window_shift']*1000),
-    int(cfg['min_windows']),
-    int(cfg['max_windows']),
-    int(cfg['diezmation_factor']))
+    int(cfg['max_windows']))
 
 print(f'\n  Loading ONNX model from {model_file}')
 onnx_model = onnx.load(model_file)
@@ -102,7 +101,6 @@ if cfg["warm_up_factor"] > 0:
 
     print('  WARM UP DONE')
 
-
 #==================================================================#
 
 
@@ -111,22 +109,30 @@ if cfg["warm_up_factor"] > 0:
 N = int(w * fs)
 F = int(nfft/2)
 fb_time = time.time()
-fb = mu.fb_etsi(F, B, fs)
+fb = mu.fb_etsi(F, B, fs).astype(np.float32)
+print(f'FB : {fb.shape} y {fb.dtype}')
 # print(f'El tiempo de cálculo de los filtros es {(time.time() - fb_time)*1000} ms')
 dct_time = time.time()
-dct = mu.f_base_dct(B)
+dct = mu.f_base_dct(B).astype(np.float32)
+print(f'DCT: {dct.shape} y {dct.dtype}')
 # print(f'El tiempo de cálculo de las bases dct es {(time.time() - dct_time)*1000} ms')
-
 # Media y desviación para la normalización
 file = workspace_dir + 'data/model/fe1_norm1.pkl'
 mu_, std = read_pkl(file)
+mu_ = mu_.astype(np.float32)
+std = std.astype(np.float32)
+print(mu_.dtype)
+print(std.dtype)
 
 # Ventana de hamming
 hamming_win = np.hamming(fs * w)
 
 # x_test = ['./afterburner8k/data/audio/minitest_8k/5-CH0_C01_stadium_15dB.wav']
 x_test = ['./afterburner8k/data/audio/minitest_8k/5-CH0_C01_stadium_15dB.wav',
-          './afterburner8k/data/audio/minitest_8k/6-CH0_C01_traffic_15dB.wav']
+          './afterburner8k/data/audio/minitest_8k/6-CH0_C01_traffic_15dB.wav', 
+          './afterburner8k/data/audio/minitest_8k/7-CH0_C01_city_5dB.wav',
+          './afterburner8k/data/audio/minitest_8k/10-CH0_C01_airport_10dB.wav',
+          './afterburner8k/data/audio/minitest_8k/12-CH0_C01_babies_5dB.wav']
 
 
 print(f'\n|-----------------------------INITIAL PARAMETERS-----------------------------|')
@@ -174,6 +180,8 @@ for audio_file in x_test:
     it = 0
     buffer_frame = np.zeros(0)  # Buffer de ventana recibida
     Xfft_windows_list = []
+    X_mfcc_buffer = np.empty(64, dtype=np.float32)
+    Xb_preallocated = np.empty(32, dtype=np.float32)
     snr_frame_mask = np.ones((512,min_windows)) # Inicializado con la duración de la ventana de inferencia
     yenh = np.zeros(len(audio)) # Inicializado con la duración del audio original
 
@@ -188,6 +196,9 @@ for audio_file in x_test:
     accum_inf = 0
     diff_acum = 0
     diff_inf_acum = 0
+    dropout_rate = 0
+    accum_delay = 0
+    latencies = []
 
     # CALCULO DE LA MÁSCARA SNR 
     for n_frame in range(int((len(audio)/fs)*100)):
@@ -198,7 +209,6 @@ for audio_file in x_test:
         buffer_frame = np.concatenate([buffer_frame, frame])
         
         start_time = time.time()
-        print(f"Processing frame {n_frame}...")
         if len(buffer_frame) >= window_samples:
             work_window = buffer_frame[:window_samples]
 
@@ -211,7 +221,9 @@ for audio_file in x_test:
             accum_log += (time.time()-start_log)
 
             start_fb = time.time()
-            fb_windows = mu.frame_fb_mfcc(Xfft, fb, dct, mu_, std)
+            fb_windows = mu.frame_fb_mfcc(Xfft, Xb_preallocated, fb, dct, mu_, std, X_mfcc_buffer)
+            if time.time()-start_fb > 0.001:
+                print(f'WARNING El tiempo {n_frame} de cálculo de la FB MFCC es: {(time.time()-start_fb)*1000} ms')
             accum_fb_mfcc += (time.time()-start_fb)
 
             windows_concat = np.concatenate((log_psd_Xfft,fb_windows))
@@ -260,10 +272,19 @@ for audio_file in x_test:
 
 
         end_time = time.time()
-        diff_acum += end_time - start_time
+        latencies.append((end_time - start_time) * 1000)    
+        # diff_acum += end_time - start_time
+        if (end_time - start_time) > frame_size:
+            dropout_rate += 1
         # print(f'Tiempo de procesamiento del frame {n_frame} completo es de {(end_time-start_time)*1000} ms')
+
     total_audio_processing = time.time() - start_audio_processing
-    rtf = (diff_acum / n_frame) / cfg["frame_length"]
+    latencies = np.array(latencies)
+    mean_latency = np.mean(latencies)
+    std_latency = np.std(latencies)
+    tail_latency_99 = np.percentile(latencies, 99)
+
+    rtf = mean_latency/ (cfg["frame_length"]*1000)
     if rtf < 1.0:
         color = "\033[92m"  # Green
     else:
@@ -274,10 +295,13 @@ for audio_file in x_test:
     print(f'  Tiempo medio de procesamiento de la escala log: {((accum_log/(n_frame-6))*1000):.4f} ms')
     print(f'  Tiempo medio de procesamiento de la FB MFCC: {((accum_fb_mfcc/(n_frame-6))*1000):.4f} ms')
     print(f'  Tiempo medio de procesamiento de la inferencia: {((accum_inf/(n_frame-6))*1000):.4f} ms')
-    print(f'  Tiempo medio de procesamiento total: {((diff_acum/n_frame)*1000):.4f} ms')
+    print(f'  Tiempo medio de procesamiento total: {(mean_latency):.4f} ms')
+    print(f'  Desviación estándar de la latencia media: ±{std_latency:.4f} ms')
     print(f'\n|-----------------------------TOTAL TIME STATS-------------------------------|')
     print(f'  Tiempo total de procesamiento del audio: {(total_audio_processing):.4f} s')
     print(f'  REAL TIME FACTOR (RTF): {color}{rtf:.4f}\033[0m')
+    print(f'  Frames con delay > {int(cfg["frame_length"]*1000)}ms: {(dropout_rate/n_frame*100):.2f}%')
+    print(f"  99th Percentile Latency: {tail_latency_99:.4f} ms")
     print(f'|----------------------------------------------------------------------------|\n')
 
     yenh = yenh/3     # 4 because in OverLapAdd we sum 4 times the frame

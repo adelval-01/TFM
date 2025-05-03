@@ -57,12 +57,10 @@ calls = 1
 model_dir = os.path.join('.','models')
 if not os.path.exists(model_dir):
     os.makedirs(model_dir)
-model_file = os.path.join(model_dir, 'net_snr_w{}_s{}_{}to{}_d{}.onnx').format(
+model_file = os.path.join(model_dir, 'net_snr_w{}_s{}_{}.onnx').format(
     int(cfg['analysis_window_length']*1000),
     int(cfg['analysis_window_shift']*1000),
-    int(cfg['min_windows']),
-    int(cfg['max_windows']),
-    int(cfg['diezmation_factor']))
+    int(cfg['max_windows']))
 print('Model file: %s' % model_file)
 
 print('Exporting net_snr model to onnx')

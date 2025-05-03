@@ -60,6 +60,35 @@ onnx_model = onnx.load(model_file)
 onnx.checker.check_model(onnx_model)
 ort_session = onnxruntime.InferenceSession(model_file, providers=["CUDAExecutionProvider"])
 
+#======================== MODEL WARM UP ===========================#
+if cfg["warm_up_factor"] > 0:
+
+    print('\n  WARMING UP MODEL...')
+
+    # Pytorch warm up
+    num_windows = cfg["min_windows"]
+    net_snr.model.eval()
+    for n in range(cfg["warm_up_factor"]*(cfg["max_windows"] - cfg["min_windows"] + 1)):
+        if n%cfg["warm_up_factor"] == 0:
+            num_windows += 1
+        # print(f'  Warm up {n} of {WARM_UP_FACTOR*(max_windows - min_windows)}')
+        progresive_warm_up_tensor = torch.randn([1,num_windows-1, input_dim], dtype=torch.float32).cpu().numpy()
+        # print(progresive_warm_up_tensor.shape)
+        start_time = time.time()
+        net_snr.predict(progresive_warm_up_tensor)
+        # print(f'  PyTorch model warm up inference time: {(time.time() - start_time) * 1000} ms')
+
+    # ONNX warm up (ONLY FOR STATIONAY WINDOWING)
+    warm_up_tensor = torch.randn([1, cfg["max_windows"], input_dim], dtype=torch.float32).cpu().numpy()
+    ort_inputs = {ort_session.get_inputs()[0].name: warm_up_tensor}
+
+    for _ in range(cfg["warm_up_factor"]):
+        start_time = time.time()
+        ort_session.run(None, ort_inputs)
+        # print(f'  ONNX model warm up inference time: {(time.time() - start_time) * 1000} ms')
+
+    print('  WARM UP DONE')
+
 #=======================================================================#
 
 # Initializate wav file

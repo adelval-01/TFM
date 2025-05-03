@@ -11,7 +11,7 @@
     "alpha_filter": 1,
     "number_of_mel_filters": [32],
     "nfft": 1024,
-    "min_windows": 4,
+    "min_windows": 19,
     "max_windows": 20,
     "audio_list": ["data/lst/minitest_8k.wav.list"]
    }
