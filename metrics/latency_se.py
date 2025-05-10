@@ -5,6 +5,7 @@ import json
 import time
 import numpy as np
 from scipy.io import wavfile
+from scipy.io import savemat
 
 import model_utils as mu
 
@@ -62,7 +63,7 @@ ort_session = onnxruntime.InferenceSession(model_file, providers=["CUDAExecution
 
 # Parámetros
 fs=cfg["fs"]
-B=32
+B=cfg["number_of_mel_filters"]
 w=cfg["analysis_window_length"]
 m=cfg["analysis_window_shift"]
 nfft=cfg["nfft"]
@@ -110,29 +111,30 @@ N = int(w * fs)
 F = int(nfft/2)
 fb_time = time.time()
 fb = mu.fb_etsi(F, B, fs).astype(np.float32)
-print(f'FB : {fb.shape} y {fb.dtype}')
 # print(f'El tiempo de cálculo de los filtros es {(time.time() - fb_time)*1000} ms')
 dct_time = time.time()
 dct = mu.f_base_dct(B).astype(np.float32)
-print(f'DCT: {dct.shape} y {dct.dtype}')
 # print(f'El tiempo de cálculo de las bases dct es {(time.time() - dct_time)*1000} ms')
+
 # Media y desviación para la normalización
 file = workspace_dir + 'data/model/fe1_norm1.pkl'
 mu_, std = read_pkl(file)
 mu_ = mu_.astype(np.float32)
 std = std.astype(np.float32)
-print(mu_.dtype)
-print(std.dtype)
+
 
 # Ventana de hamming
 hamming_win = np.hamming(fs * w)
 
 # x_test = ['./afterburner8k/data/audio/minitest_8k/5-CH0_C01_stadium_15dB.wav']
-x_test = ['./afterburner8k/data/audio/minitest_8k/5-CH0_C01_stadium_15dB.wav',
-          './afterburner8k/data/audio/minitest_8k/6-CH0_C01_traffic_15dB.wav', 
-          './afterburner8k/data/audio/minitest_8k/7-CH0_C01_city_5dB.wav',
-          './afterburner8k/data/audio/minitest_8k/10-CH0_C01_airport_10dB.wav',
-          './afterburner8k/data/audio/minitest_8k/12-CH0_C01_babies_5dB.wav']
+
+file_list_ = cfg['audio_list']
+x_test = []
+
+for file_list in file_list_:
+    x_test += read_list_str(file_list)
+
+print(f'\n  Audio files to process: {x_test}')
 
 
 print(f'\n|-----------------------------INITIAL PARAMETERS-----------------------------|')
@@ -151,6 +153,7 @@ window_inference_max = int((max_windows + (window_size/frame_size)-1) * frame_sa
 print(f'  Buffer progresivo: {window_inference_min} - {window_inference_max} samples')
 print(f'|----------------------------------------------------------------------------|\n')
 
+all_latency_data = {}
 
 for audio_file in x_test:
     print(f'\n|================================AUDIO {x_test.index(audio_file)+1}===================================|')
@@ -162,7 +165,7 @@ for audio_file in x_test:
         break
     print(f'  Duración del audio: {len(audio)/cfg["fs"]}s - {len(audio)} samples')
 
-    output_enh_dir = os.path.join('.','audios','enhanced')
+    output_enh_dir = os.path.join('.','data','audio','enhanced')
     if not os.path.exists(output_enh_dir):
         os.makedirs(output_enh_dir)
     output_enh_file = os.path.basename(audio_file).replace('.wav','_w{}_s{}_{}to{}_d{}.wav').format(
@@ -198,7 +201,10 @@ for audio_file in x_test:
     diff_inf_acum = 0
     dropout_rate = 0
     accum_delay = 0
-    latencies = []
+    preprocess_latencies = []
+    inference_latencies = []
+    total_latencies = []
+    
 
     # CALCULO DE LA MÁSCARA SNR 
     for n_frame in range(int((len(audio)/fs)*100)):
@@ -210,6 +216,9 @@ for audio_file in x_test:
         
         start_time = time.time()
         if len(buffer_frame) >= window_samples:
+            # Preprocessing: Feature extraction
+            start_preprocess = time.time()
+
             work_window = buffer_frame[:window_samples]
 
             start_fft = time.time()
@@ -228,6 +237,7 @@ for audio_file in x_test:
 
             windows_concat = np.concatenate((log_psd_Xfft,fb_windows))
             Xfft_windows_list.append(windows_concat)
+            preprocess_latencies.append((time.time()-start_preprocess)*1000)
 
             if n_frame-3 < max_windows:   
                 if n_frame-3 >= min_windows:
@@ -240,6 +250,7 @@ for audio_file in x_test:
                         snr_frame_mask = snr_frame_mask.T
                         # print(f'Time {n_frame}: {(time.time()-start_prof)*1000} ms')
                     accum_inf += (time.time()-start_prof)
+                    inference_latencies.append((time.time()-start_prof)*1000)
             # Si el buffer alcanza o excede las 20 ventanas para hacer la inferencia
             else:
                 Xfft_windows_list.pop(0)
@@ -255,6 +266,7 @@ for audio_file in x_test:
                     snr_frame_mask = snr_frame_mask.squeeze().T
                     # print(f'Time onnx {n_frame}: {(time.time()-start_prof)*1000} ms')
                 accum_inf += (time.time()-start_prof)
+                inference_latencies.append((time.time()-start_prof)*1000)
 
             buffer_frame = buffer_frame[shift_samples:]
 
@@ -272,17 +284,17 @@ for audio_file in x_test:
 
 
         end_time = time.time()
-        latencies.append((end_time - start_time) * 1000)    
+        total_latencies.append((end_time - start_time) * 1000)    
         # diff_acum += end_time - start_time
         if (end_time - start_time) > frame_size:
             dropout_rate += 1
         # print(f'Tiempo de procesamiento del frame {n_frame} completo es de {(end_time-start_time)*1000} ms')
 
     total_audio_processing = time.time() - start_audio_processing
-    latencies = np.array(latencies)
-    mean_latency = np.mean(latencies)
-    std_latency = np.std(latencies)
-    tail_latency_99 = np.percentile(latencies, 99)
+    total_latencies = np.array(total_latencies)
+    mean_latency = np.mean(total_latencies)
+    std_latency = np.std(total_latencies)
+    tail_latency_99 = np.percentile(total_latencies, 99)
 
     rtf = mean_latency/ (cfg["frame_length"]*1000)
     if rtf < 1.0:
@@ -294,7 +306,9 @@ for audio_file in x_test:
     print(f'  Tiempo medio de procesamiento de la FFT: {((accum_fft/(n_frame-6))*1000):.4f} ms')
     print(f'  Tiempo medio de procesamiento de la escala log: {((accum_log/(n_frame-6))*1000):.4f} ms')
     print(f'  Tiempo medio de procesamiento de la FB MFCC: {((accum_fb_mfcc/(n_frame-6))*1000):.4f} ms')
+    print(f'  Tiempo medio de extracción de features: {np.mean(preprocess_latencies):.4f} ms')
     print(f'  Tiempo medio de procesamiento de la inferencia: {((accum_inf/(n_frame-6))*1000):.4f} ms')
+    print(f'  Tiempo medio de procesamiento de la inferencia: {(np.mean(inference_latencies)):.4f} ms')
     print(f'  Tiempo medio de procesamiento total: {(mean_latency):.4f} ms')
     print(f'  Desviación estándar de la latencia media: ±{std_latency:.4f} ms')
     print(f'\n|-----------------------------TOTAL TIME STATS-------------------------------|')
@@ -309,3 +323,24 @@ for audio_file in x_test:
     yenh = np.array(yenh*(2 ** 15), dtype=np.int16)     # set int16 wav format
 
     wavfile.write(output_enh_file,fs,yenh)
+
+    latency_data = {
+    f"f_{os.path.basename(audio_file.replace('-','_').replace('.','_'))}_total": np.array(total_latencies),
+    f"f_{os.path.basename(audio_file.replace('-','_').replace('.','_'))}_inference": np.array(inference_latencies),
+    f"f_{os.path.basename(audio_file.replace('-','_').replace('.','_'))}_preprocess": np.array(preprocess_latencies),
+    }
+
+    # Append to a global dictionary (you'd define this once before your for-loop)
+    all_latency_data.update(latency_data)
+
+
+# Save time profiling into mat file to be plotted in MATLAB
+mat_file = os.path.join('.','metrics','time_profiling','latency_se_{}to{}_d{}_wu{}.mat').format(
+    int(cfg['min_windows']),
+    int(cfg['max_windows']),
+    int(cfg['diezmation_factor']),
+    int(cfg['warm_up_factor']))
+if not os.path.exists(os.path.dirname(mat_file)):
+    os.makedirs(os.path.dirname(mat_file))
+savemat(mat_file, all_latency_data)
+print(f'\n  Latency data saved to {mat_file}')
