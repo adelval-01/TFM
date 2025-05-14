@@ -36,7 +36,7 @@ import scipy.io
 from scipy import signal
 from scipy.io import wavfile
 from scipy.io import loadmat
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 warnings.simplefilter('ignore')
 
@@ -176,30 +176,22 @@ def f_base_dct(N):
             b[m, n] = kn * np.cos((2 * m + 1) * n * np.pi / (2 * N))
     return b
 
-# Pre-allocate output array (64,)
-X_buffer = np.empty(64, dtype=np.float32)
 
-def frame_fb_mfcc(Xfft, fb, dct, mu, std):
 
-    start_xb = time.time()
-    Xb = np.log(np.dot(Xfft, fb ) + 1.0)
-    print('Xb time:', time.time() - start_xb)
-    start_xc = time.time()
+def frame_fb_mfcc(Xfft, Xb, fb, dct, mu, std, X_buffer):
+
+    Xb = np.dot(Xfft, fb) + 1.0
+    Xb = (Xfft @ fb) + 1.0
+    Xb = np.log(Xb)
     Xc = np.dot(Xb, dct)             
-    print('Xc time:', time.time() - start_xc)             
 
-    # X = np.concatenate( [Xb, Xc] )
-    
-    # X = np.empty(Xb.shape[0] + Xc.shape[0], dtype=np.float32)
     X_buffer[:Xb.shape[0]] = Xb
     X_buffer[Xb.shape[0]:] = Xc
     
-    # X = np.asarray(X, dtype=np.float32)
-
     X_buffer -= mu
     X_buffer /= std + 1e-6
     
-    return X
+    return X_buffer
 
 #====================================================================#
 

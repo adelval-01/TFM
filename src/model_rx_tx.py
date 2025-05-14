@@ -48,12 +48,10 @@ net_snr.load( workspace_dir + 'data/model/theta_last')
 
 #========================= ONNX MODEL LOAD =============================#
 
-model_file = os.path.join('.','models', 'net_snr_w{}_s{}_{}to{}_d{}.onnx').format(
+model_file = os.path.join('.','models', 'net_snr_w{}_s{}_{}.onnx').format(
     int(cfg['analysis_window_length']*1000),
     int(cfg['analysis_window_shift']*1000),
-    int(cfg['min_windows']),
-    int(cfg['max_windows']),
-    int(cfg['diezmation_factor']))
+    int(cfg['max_windows']))
 
 print(f'\n  Loading ONNX model from {model_file}')
 onnx_model = onnx.load(model_file)
@@ -153,11 +151,9 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
 
         try:
             #--------------------------PARAMETERS FOR SE MODEL------------------------------------#
-            n_frame = 0     # Counter for frames
-            it = 0          # Counter for windows
-            
+        
             fs=cfg["fs"]
-            B=32
+            B=cfg["number_of_mel_filters"]
             w=cfg["analysis_window_length"]
             m=cfg["analysis_window_shift"]
             nfft=cfg["nfft"]
@@ -167,21 +163,7 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
             diezmation_factor = cfg["diezmation_factor"]
             warm_up_factor = cfg["warm_up_factor"]
 
-            frame_size = 0.01       # ms
-            frame_samples = int(frame_size * fs)  # Muestras por frame
-            logging.debug(f'Un frame tiene una duración de {frame_samples} samples')
-            shift_size = m          # ms
-            shift_samples = int(shift_size * fs)  # Desplazamiento entre frames 160
-            logging.debug(f'Desplazamiento de {shift_samples} samples')
-            window_size = w     # 40 ms (640 muestras)
-            window_samples = int(window_size * fs)  # Muestras por ventana 640
-            logging.debug(f'La ventana tiene una duración de {window_samples} samples')
-            min_windows = 4
-            max_windows = 20
-            window_inference_min = int((min_windows + (window_size/frame_size)-1) * frame_samples)
-            window_inference_max = int((max_windows + (window_size/frame_size)-1) * frame_samples)
-            logging.debug(f'El buffer retendra hasta {window_inference_max} samples')
-            
+
             # Cálculo de los filtros
             N = int(w * fs)
             F = int(nfft/2)
@@ -195,17 +177,39 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
             # Media y desviación para la normalización
             file = workspace_dir + 'data/model/fe1_norm1.pkl'
             mu_, std = mu.read_pkl(file)
+            mu_ = mu_.astype(np.float32)
+            std = std.astype(np.float32)
 
             # Ventana de hamming
             hamming_win = np.hamming(fs * w)
             
             #-------------------------------------------------------------------------------------#
             
+            n_frame = 0     # Counter for frames
+            it = 0          # Counter for windows
             buffer_frame = np.zeros(0)                      # Buffer de ventana recibida
             Xfft_windows_list = []
+            X_mfcc_buffer = np.empty(64, dtype=np.float32)
+            Xb_preallocated = np.empty(32, dtype=np.float32)
             snr_frame_mask = np.ones((512,min_windows))     # Inicializado con la duración de la ventana de inferencia
-            yenh = np.zeros(640000)                         # Inicializado con la duración del audio original
+            yenh = np.zeros(int(fs*60))                      # Inicializado con la duración del audio original
 
+
+            logging.debug(f'\n|-----------------------------INITIAL PARAMETERS-----------------------------|')
+            logging.debug(f'  Frecuencia de muestreo: {cfg["fs"]} Hz')
+            frame_size = 0.01  # 10 ms
+            frame_samples = int(cfg["frame_length"] * cfg["fs"])  # Muestras por frame
+            logging.debug(f'  Tamaño de frame: {frame_samples} samples')
+            shift_size = m  # 10 ms
+            shift_samples = int(cfg["analysis_window_shift"] * fs)  # Desplazamiento entre frames 160
+            logging.debug(f'  Desplazamiento: {shift_samples} samples')
+            window_size = w  # 40 ms (640 muestras)
+            window_samples = int(cfg["analysis_window_length"] * fs)  # Muestras por ventana 640
+            logging.debug(f'  Tamaño de ventana: {window_samples} samples')
+            window_inference_min = int((min_windows + (window_size/frame_size)-1) * frame_samples)
+            window_inference_max = int((max_windows + (window_size/frame_size)-1) * frame_samples)
+            logging.debug(f'  Buffer progresivo: {window_inference_min} - {window_inference_max} samples')
+            logging.debug(f'|----------------------------------------------------------------------------|\n')
 
             #------------------------------PARAMETERS SEND FRAMES---------------------------------#
             samples_per_channel = SAMPLE_RATE * FRAME_DURATION_MS // 1000                       # Calculate samples per frame
@@ -230,16 +234,16 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
                 if len(buffer_frame) >= window_samples:
                     work_window = buffer_frame[:window_samples]
 
-                    start_fft = time.time()
+                    # start_fft = time.time()
                     Xfft = mu.window_fft(work_window, hamming_win, nfft)
                     # accum_fft += (time.time()-start_fft)
 
-                    start_log = time.time()
+                    # start_log = time.time()
                     log_psd_Xfft = mu.log_psd(Xfft)
                     # accum_log += (time.time()-start_log)
 
-                    start_fb = time.time()
-                    fb_windows = mu.frame_fb_mfcc(Xfft, fb, dct, mu_, std)
+                    # start_fb = time.time()
+                    fb_windows = mu.frame_fb_mfcc(Xfft, Xb_preallocated, fb, dct, mu_, std, X_mfcc_buffer)
                     # accum_fb_mfcc += (time.time()-start_fb)
 
                     windows_concat = np.concatenate((log_psd_Xfft,fb_windows))
@@ -250,8 +254,7 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
                             # print("Reached MIN WINDOW --> STRATING INFERENCE")
                             transformed_windows = np.vstack(Xfft_windows_list)
 
-                            start_prof = time.time()
-                            print(f'{n_frame} de {transformed_windows.shape} y {transformed_windows.dtype}')
+                            # start_prof = time.time()
                             if(n_frame % diezmation_factor == 0):
                                 snr_frame_mask = mu.net_eval(net_snr, transformed_windows)
                                 snr_frame_mask = snr_frame_mask.T
@@ -264,9 +267,6 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
 
                         # start_prof = time.time()
                         if(n_frame % diezmation_factor == 0):
-                            # snr_frame_mask = mu.net_eval(net_snr, transformed_windows)
-                            # snr_frame_mask = snr_frame_mask.T
-                            print(f'{n_frame} de {transformed_windows.shape} y {transformed_windows.dtype}')
                             transformed_windows = transformed_windows.reshape(1, max_windows, 576)
                             ort_inputs = {ort_session.get_inputs()[0].name: transformed_windows}
                             snr_frame_mask = ort_session.run(None, ort_inputs)[0]
@@ -280,7 +280,8 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
                     # cnt = int(n_frame - w/m) Ajustar al tamaño de la ventana
                     cnt = n_frame - 3
                     # print(f'EVALUATION OF WINDOW {cnt}')
-                    x = np.array(work_window, dtype=np.float32) / 2 ** 15 # 0.04 * fs = 640 samples
+
+                    x = np.array(work_window, dtype=np.float32) / 2 ** 15   # Audio window to be enhanced
 
                     xenh, filt = mu.noiseReduction(x, snr_frame_mask[:,-1], fs, window_samples, shift_samples, nfft, gmin)
 
@@ -289,16 +290,6 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
                     yenh[cnt * shift_samples : cnt * shift_samples + slice_size] += xenh[0:slice_size]
   
                     #-------------------------------------------------------------------------------------#
-                    # Usar thread para enviar el frame mejorado simultaneamente
-                    # if(cnt == 1000):
-                    #     # Publish audio frames to the track in room_2 with delay
-                    #     for i in range(900):
-                    #         await asyncio.ensure_future(publish_frames(
-                    #             source, 
-                    #             audio_frame, 
-                    #             audio_data_tx, 
-                    #             (np.clip(yenh[i* frame_samples : i * frame_samples + frame_samples]*2**15, -32768, 32767)).astype(np.int16))
-                    #         )
                     # Publish audio frames to the track in room_2 with no delay
                     await asyncio.ensure_future(publish_frames(
                         source, 
@@ -318,9 +309,9 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
             if yenh is not None:
                 try:
                     logging.debug(f'El audio mejorado tiene una longitud de {len(yenh)} y {yenh.dtype}')
-                    for i in range(200):
-                        logging.debug(f'{i} La señal mejorada es {np.int16((2**15)*yenh[i*160:10+i*160])}')
-                    wavfile.write(WAV_ENH, SAMPLE_RATE, np.array((yenh/3)*(2 ** 15), dtype=np.int16))
+                    # for i in range(200):
+                    #     logging.debug(f'{i} La señal mejorada es {np.int16((2**15)*yenh[i*160:10+i*160])}')
+                    wavfile.write(WAV_ENH, SAMPLE_RATE, np.array((yenh/2)*(2 ** 15), dtype=np.int16))
                     logging.info("Enhanced audio saved successfully.")
                 except Exception as save_error:
                     logging.error(f"Failed to save enhanced audio: {save_error}")

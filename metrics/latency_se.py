@@ -28,7 +28,6 @@ from vvtk_net.v1.transforms import *
 from vvtk_net.v1.transforms_fe import *
 from vvtk_net.v1.datafeed import *
 from vvtk_net.v1.layers_pytorch import *
-from vvtk_net.config import Configuration
 from eval_utils import *
 
 # Load configuration parameterss
@@ -122,7 +121,6 @@ mu_, std = read_pkl(file)
 mu_ = mu_.astype(np.float32)
 std = std.astype(np.float32)
 
-
 # Ventana de hamming
 hamming_win = np.hamming(fs * w)
 
@@ -164,6 +162,12 @@ for audio_file in x_test:
         print(f'  No se puede procesar el audio, frecuencia de muestreo del audio {fs}kHz != {cfg["fs"]}kHz configurada')
         break
     print(f'  Duración del audio: {len(audio)/cfg["fs"]}s - {len(audio)} samples')
+
+    # #------------------------SNR PRE-----------------------------#
+    # pre_vad = compute_vad(audio, fs, w, m, nfft)
+    # snr_prev = int(wada_snr(audio, fs, pre_vad))
+    # print('snr(wada)=%idB, file: %s' % (snr_prev, audio_file))
+    # #------------------------------------------------------------#
 
     output_enh_dir = os.path.join('.','data','audio','enhanced')
     if not os.path.exists(output_enh_dir):
@@ -274,7 +278,7 @@ for audio_file in x_test:
             # cnt = int(n_frame - w/m) Ajustar al tamaño de la ventana
             cnt = n_frame - 3
             # print(f'EVALUATION OF WINDOW {cnt}')
-            x = np.array(work_window, dtype=np.float32) / 2 ** 15 # 0.04 * fs = 640 samples
+            x = np.array(work_window, dtype=np.float32) / 2 ** 15 
 
             xenh, filt = mu.noiseReduction(x, snr_frame_mask[:,-1], fs, window_samples, shift_samples, nfft, gmin)
 
@@ -321,6 +325,12 @@ for audio_file in x_test:
     yenh = yenh/3     # 4 because in OverLapAdd we sum 4 times the frame
 
     yenh = np.array(yenh*(2 ** 15), dtype=np.int16)     # set int16 wav format
+
+    #--------------------------SNR POST--------------------------#
+    # post_vad = compute_vad(yenh, fs, w, m, nfft)
+    # snr_post = int(wada_snr(yenh_clipped, fs, pre_vad))
+    # print('snr(wada)=%idB, file: %s' % (snr_post, output_enh))
+    #------------------------------------------------------------#
 
     wavfile.write(output_enh_file,fs,yenh)
 

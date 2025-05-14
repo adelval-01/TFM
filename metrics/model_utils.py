@@ -271,3 +271,52 @@ def noiseReduction(data, snr_net, fs, frame, shift, nfft, gmin):
     return yw, filt
 
 #====================================================================#
+
+def compute_vad(x, fs=16000, N=0.025, M=0.010, nfft=512):  
+    maxamplitude, th, lambd, n, coef_floor, alpha  = 0.75, 4, 0.6, 4, 0.22, 0.9
+    x = maxamplitude * (x / (np.abs(x).max()))
+    
+    frame = int(N * fs)
+    shift = int(M * fs)     
+    Nframes = int(1 + np.ceil((x.size-shift)/shift))  
+        
+    x = preemphasis(offset(x))
+    X = windowing2(x, fs, N, M) * np.hamming(frame)    
+    Xfft = np.abs(np.fft.fft(X, nfft))
+    Xfft = Xfft[:, 1:int(nfft/2+1)]
+    
+    # init
+    LTSE = np.zeros(Xfft.shape)
+    r_est = np.zeros(Xfft.shape)
+    r_lt = np.zeros(Xfft.shape)
+    LTSD = np.zeros(Nframes)
+    vad = np.zeros(Nframes)
+
+    LTSE[0] = np.max(Xfft[0:n+1],axis=0)
+    suelo = np.ones(int(nfft/2)) * (coef_floor * np.power(np.mean(Xfft), 2))
+    r_est[0] = np.mean(np.power(Xfft[0:n],2),0)
+    r_lt[0] = r_est[0]
+    LTSD[0] = 10*np.log10(1/(nfft)*sum(np.power(LTSE[0],2)/r_est[0]))
+    vad[0] = int(LTSD[0] > th)
+
+    # LTSE & LTSD => vad
+    for j in range(1,Nframes-1):
+        a = np.max([j - n, 1])
+        aa = np.min([j + n, Nframes + 1])
+        LTSE[j] = np.max(Xfft[np.max([j-n, 0]):np.min([j+n, Nframes+1])+1],axis=0)
+
+        if vad[j-1]:
+            r_est[j] = r_est[j-1]
+        else:
+            r_est[j] = lambd*r_est[j-1]+(1-lambd)*np.power(Xfft[j],2) #MCRA sustituir...ver el de C
+
+        r_lt[j] = alpha*r_lt[j-1]+(1-alpha)*np.min([np.power(Xfft[j],2),r_est[j]],0)
+        LTSD[j] = 10*np.log10(1/(nfft)*sum(np.power(LTSE[j],2)/np.max([r_lt[j],suelo],0)))
+        vad[j] = int(LTSD[j] > th)
+
+    vadsamples = np.kron(vad, np.ones(shift))
+    vadsamples = np.reshape(vadsamples, (1,np.product(vadsamples.shape)))[0]
+    vadsamples = vadsamples[0:x.size]
+    vadsamples = np.asarray(vadsamples, dtype=np.int16)
+
+    return vadsamples, vad   
