@@ -1,27 +1,3 @@
-# import time, os, sys
-# import numpy as np
-# import soundfile as sf
-# import pickle
-# import warnings
-# import gzip
-# import scipy.io
-# from scipy import signal
-# from scipy.io import wavfile
-# import scipy.special as sc
-
-# workspace_dir = '/home/adelval/BTS/TFM/afterburner8k_win20/'
-
-# sys.path.append(workspace_dir + 'src/net1')
-# sys.path.append(workspace_dir + 'src/train')
-# sys.path.append(workspace_dir + 'src/eval')
-# from vvtk_net.v1.utils import *
-# from vvtk_net.v1.transforms import *
-# from vvtk_net.v1.transforms_fe import *
-# from vvtk_net.v1.datafeed import *
-# from vvtk_net.v1.layers_pytorch import *
-# from vvtk_net.config import Configuration
-# from eval_utils import *
-
 
 # imports from run_test
 from __future__ import print_function
@@ -33,6 +9,7 @@ import pickle
 import warnings
 import gzip
 import scipy.io
+import scipy.special as sc
 from scipy import signal
 from scipy.io import wavfile
 from scipy.io import loadmat
@@ -59,7 +36,7 @@ from vvtk_net.v1.transforms_fe import *
 from vvtk_net.v1.datafeed import *
 from vvtk_net.v1.layers_pytorch import *
 from vvtk_net.config import Configuration
-from eval_utils import *
+# from eval_utils import *
 
 #======================= READS AND LOADS ===========================#
 

@@ -63,6 +63,8 @@ async def main(room: rtc.Room) -> None:
         return
 
     # publish a track
+    print("Press Enter to publish a track")
+    await asyncio.to_thread(input)
     source = rtc.AudioSource(SAMPLE_RATE, NUM_CHANNELS)
     track = rtc.LocalAudioTrack.create_audio_track("audio_wav", source)
     options = rtc.TrackPublishOptions()
@@ -71,6 +73,7 @@ async def main(room: rtc.Room) -> None:
     logging.debug("published track %s", publication.sid)
 
     # Wait for Enter key press
+    print("Press Enter to publish wav file")
     await asyncio.to_thread(input)
     print('Publishing wav file')
     try:

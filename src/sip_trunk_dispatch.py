@@ -40,7 +40,7 @@ async def main():
 
   trunk = SIPInboundTrunkInfo(
     name = "Inbound trunk",
-    numbers = ['+12025688661'],
+    numbers = ['+12025688661']
   )
   
   request = CreateSIPInboundTrunkRequest(

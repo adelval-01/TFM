@@ -1,13 +1,45 @@
+"""
+LiveKit SIP Audio Processing - Dual-Room Pipeline
+
+Description:
+    This script integrates LiveKit with a SIP provider to facilitate real-time audio processing for phone calls.
+    - **Phone A (Caller)** dials a SIP provider number.
+    - The SIP provider, using a dispatch rule, routes the call to **Room 1**.
+    - The script detects the incoming participant in **Room 1** and initiates an outbound call to **Phone B (Callee)**.
+    - The script then answers **Phone A**'s.
+    - The received audio from **Phone A** is processed to remove noise.
+    - The cleaned audio is published into **Room 2**, where **Phone B** is connected and receiving the enhanced audio.
+
+    This ensures real-time audio enhancement for SIP-based calls, improving call quality for the callee.
+
+Author: Aitor del Val Allueva 
+Date: 2025-03-12 
+Version: 1.0  
+
+Requirements:
+    - Python 3.9
+    - livekit SDKs
+    - SIP integration library (Twilio)
+    - Real Time Speech Enhancement BTS
+
+Usage:
+    Ensure the SIP provider is properly configured with a dispatch rule for Room 1.
+    Run the script with the necessary credentials for LiveKit and SIP.
+"""
+
+
 import os
 import sys
 import wave
 import time
+from datetime import datetime
 import json
 import asyncio
 import logging
 import numpy as np
 from scipy.io import wavfile
 from livekit import rtc, api
+from livekit.protocol.sip import CreateSIPOutboundTrunkRequest, SIPOutboundTrunkInfo,  ListSIPOutboundTrunkRequest
 from signal import SIGINT, SIGTERM
 
 import model_utils as mu
@@ -23,17 +55,15 @@ FRAME_DURATION_MS = 10
 NUM_CHANNELS = 1
 FORMAT = 2 # 16-bit PCM
 timestamp = datetime.now().strftime("%Y%m%d%H%M")
-WAV_FILE = f"./audios/livekit/audio_{timestamp}_received_lk.wav"
-WAV_ENH = f"./audios/livekit/audio_{timestamp}_enhanced_lk.wav"
+WAV_FILE = f"./audios/livekit/call_{timestamp}_received_lk.wav"
+WAV_ENH = f"./audios/livekit/call_{timestamp}_enhanced_lk.wav"
 
 # Load configuration parameterss
-with open('metrics/config.json') as json_file:
+with open('config.json') as json_file:
     cfg = json.load(json_file)
 
-workspace_dir = './afterburner8k_win20/'    # 8k windowind Net trained
 
-# 16k Net trained
-# workspace_dir = '/home/adelval/BTS/TFM/test/'
+workspace_dir = './afterburner8k_win20/'    # 8k windowind Net trained
 
 sys.path.append( workspace_dir + 'src/net1')
 
@@ -43,7 +73,7 @@ input_dim, output_dim = mu.load_obj(workspace_dir + 'data/model/dimensions.pkl')
 
 from net_snr import Net_snr 
 net_snr = Net_snr(input_dim, output_dim, cuda=True, single_gpu=True)
-net_snr.load( workspace_dir + 'data/model/theta_last')
+net_snr.load_theta( workspace_dir + 'data/model/theta_last')
 
 #========================= ONNX MODEL LOAD =============================#
 
@@ -68,12 +98,8 @@ if cfg["warm_up_factor"] > 0:
     for n in range(cfg["warm_up_factor"]*(cfg["max_windows"] - cfg["min_windows"] + 1)):
         if n%cfg["warm_up_factor"] == 0:
             num_windows += 1
-        # print(f'  Warm up {n} of {WARM_UP_FACTOR*(max_windows - min_windows)}')
         progresive_warm_up_tensor = torch.randn([1,num_windows-1, input_dim], dtype=torch.float32).cpu().numpy()
-        # print(progresive_warm_up_tensor.shape)
-        start_time = time.time()
         net_snr.predict(progresive_warm_up_tensor)
-        # print(f'  PyTorch model warm up inference time: {(time.time() - start_time) * 1000} ms')
 
     # ONNX warm up (ONLY FOR STATIONAY WINDOWING)
     warm_up_tensor = torch.randn([1, cfg["max_windows"], input_dim], dtype=torch.float32).cpu().numpy()
@@ -82,16 +108,25 @@ if cfg["warm_up_factor"] > 0:
     for _ in range(cfg["warm_up_factor"]):
         start_time = time.time()
         ort_session.run(None, ort_inputs)
-        # print(f'  ONNX model warm up inference time: {(time.time() - start_time) * 1000} ms')
 
     print('  WARM UP DONE')
 
 #=======================================================================#
 
-enhancement_enabled = False  # shared flag
+enhancement_enabled = False  # shared flag for enable/disable enhancement
 
+async def command_listener():
+    global enhancement_enabled
+    while True:
+        command = await asyncio.to_thread(input, "Enable/Disable RTSE (on/off): ")
+        if command.lower() == "on":
+            enhancement_enabled = True
+            print("Enhancement enabled.")
+        elif command.lower() == "off":
+            enhancement_enabled = False
+            print("Enhancement disabled.")
 
-# Initializate wav file
+# Initializate wav file to write in real time
 def setup_wav_file():
     os.makedirs(os.path.dirname(WAV_FILE), exist_ok=True)
     wav_file = wave.open(WAV_FILE, 'wb')
@@ -100,16 +135,33 @@ def setup_wav_file():
     wav_file.setframerate(SAMPLE_RATE)
     return wav_file
 
-async def command_listener():
-    global enhancement_enabled
-    while True:
-        command = await asyncio.to_thread(input, "Enter command (on/off): ")
-        if command.lower() == "on":
-            enhancement_enabled = True
-            print("Enhancement enabled.")
-        elif command.lower() == "off":
-            enhancement_enabled = False
-            print("Enhancement disabled.")
+async def publish_track(room: rtc.Room):
+    source = rtc.AudioSource(SAMPLE_RATE, NUM_CHANNELS)
+    track = rtc.LocalAudioTrack.create_audio_track("callback", source)
+    options = rtc.TrackPublishOptions()
+    options.source = rtc.TrackSource.SOURCE_MICROPHONE
+    publication = await room.local_participant.publish_track(track, options)
+    logging.info(f"Callback track {publication.sid} published by {room.local_participant.identity}")
+    return source
+
+async def api_call():
+    livekit_api = api.LiveKitAPI(
+        url="wss://test-tfm-3lii83j0.livekit.cloud",
+        api_key="APIaRjG6ptSKLTy",
+        api_secret="VAovqneYo91unfwHFCGmlJgevds1CZDUIbeufPUuThoE"
+    )
+    return livekit_api
+
+async def send_dtmf_code(dtmf_code: str, room: rtc.Room):
+    await asyncio.to_thread(input)
+    # publishes extension in DTMF
+    for digit in dtmf_code:
+        code = int(digit)  # Convert digit to integer
+        await room.local_participant.publish_dtmf(code=code, digit=digit)
+        await asyncio.sleep(0.5)  # Small delay to avoid overlapping signals
+
+    print(f"DTMF code '{dtmf_code}' sent successfully.")
+
 
 async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
     """
@@ -123,10 +175,95 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
     wav = setup_wav_file()                          # Initialize wav file to save audio frames
     stop_processing = asyncio.Event()               # Event to signal when to stop processing
     asyncio.create_task(command_listener())
-    
+    call_sid = None
+
+    @room_1.on("participant_connected")
+    def on_participant_connected(participant: rtc.RemoteParticipant) -> None:
+        logging.info(
+            "participant connected: %s %s %s %s", participant.sid, participant.identity, participant.metadata, participant.name
+        )
+
+        #-------------------------- MAKE OUTBOUND CALL ---------------------------------#
+        async def make_call():
+            try:
+                logging.info("Connecting to room %s...", room_2.name)
+                await room_2.connect(
+                    url,
+                    token_2,
+                    options=rtc.RoomOptions(
+                        auto_subscribe=False,
+                    ),
+                )
+                logging.info("Connected to room %s", room_2.name)
+
+                livekit_api = await api_call()
+
+                user_identity = "phone_callee"
+                phone_number = cfg["destination_numbrer"]
+                # phone_number = "+34683151962"
+                # phone_number = "+34653429748"
+                # phone_number = "+34616762841"
+                # phone_number = "+34976214883"
+
+                out_trunk_id = "ST_sEbW5d8fhh3E"
+                logging.info(f"Creating SIP participant to {phone_number}")
+                await livekit_api.sip.create_sip_participant(
+                    api.CreateSIPParticipantRequest(
+                        room_name=room_id_2,
+                        sip_trunk_id=out_trunk_id,
+                        sip_call_to=phone_number,
+                        participant_identity=user_identity,
+                    )
+                )
+
+                # participant = await room.wait_for_participant(identity=user_identity)
+                # print(f"Press enter to send the DTMF code to the participant")
+                # await send_dtmf_code("8226", room_1)
+                # print(f"Press enter to send the DTMF code to the participant")
+                # await asyncio.to_thread(input)
+                if cfg["send_dtmf"]:
+                    await asyncio.sleep(22)  # Delay to wait for extension asked
+                    # publishes extension in DTMF
+                    logging.info(f"Sending DTMF code to the participant")
+                    await room_2.local_participant.publish_dtmf(code=int(cfg["dtmf_code"][0]), digit=cfg["dtmf_code"][0])
+                    await room_2.local_participant.publish_dtmf(code=int(cfg["dtmf_code"][1]), digit=cfg["dtmf_code"][1])
+                    await room_2.local_participant.publish_dtmf(code=int(cfg["dtmf_code"][2]), digit=cfg["dtmf_code"][2])
+                    await room_2.local_participant.publish_dtmf(code=int(cfg["dtmf_code"][3]), digit=cfg["dtmf_code"][3])
+
+
+                global room_2_source
+                room_2_source = await publish_track(room_2)
+
+                # Publish a track in room 2
+                
+                # source = rtc.AudioSource(SAMPLE_RATE, NUM_CHANNELS)
+                # track = rtc.LocalAudioTrack.create_audio_track("audio_wav", source)
+                # options = rtc.TrackPublishOptions()
+                # options.source = rtc.TrackSource.SOURCE_MICROPHONE
+                # publication = await room_2.local_participant.publish_track(track, options)
+                # logging.info(f"Track {publication.sid} published by {room_2.local_participant.identity}")
+
+                # Publish a track in room 1 to answer the call
+                # await publish_track(room_1)
+
+            except rtc.ConnectError as e:
+                logging.error("Failed to connect to the room: %s", e)
+                return 
+        
+        asyncio.create_task(make_call())
+        #-----------------------------------------------------------------------------#
+
     @room_1.on("participant_disconnected")
     def on_participant_disconnect(participant: rtc.Participant, *_):
         logging.info("participant disconnected: %s", participant.identity)
+
+    @room_1.on("track_published")
+    def on_track_published(
+        publication: rtc.RemoteTrackPublication,
+        participant: rtc.RemoteParticipant
+    ):
+        publication.set_subscribed(True)
+
 
     @room_1.on("track_subscribed")
     def on_track_subscribed(
@@ -134,8 +271,11 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
         publication: rtc.RemoteTrackPublication,
         participant: rtc.RemoteParticipant,
     ):
-        logging.info("track subscribed: %s", publication.sid)
-        if track.kind == rtc.TrackKind.KIND_AUDIO:
+        global call_sid
+        global room_2_source
+        call_sid = publication.sid
+        logging.info("track subscribed: %s", call_sid)
+        if (track.kind == rtc.TrackKind.KIND_AUDIO):
             print("Subscribed to an Audio Track")
             _audio_stream = rtc.AudioStream(
                 track,
@@ -145,15 +285,17 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
             # audio_stream is an async iterator that yields AudioFrame
 
         # Start an async task to handle the audio frames
-        asyncio.create_task(process_audio_stream(_audio_stream, source))
+        asyncio.create_task(process_audio_stream(_audio_stream, room_2_source))
         
     @room_1.on("track_unpublished")
     def on_track_unpublished(
         publication: rtc.RemoteTrackPublication,
         participant: rtc.RemoteParticipant,
     ):
+        global call_sid
         logging.info("Track unpublished: %s", publication.sid)
-        stop_processing.set()                       # Signal to stop audio processing
+        if publication.sid == call_sid:
+            stop_processing.set()                       # Signal to stop audio processing
 
     async def process_audio_stream(audio_stream, source):
         """
@@ -164,7 +306,7 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
         """
 
         try:
-            #--------------------------PARAMETERS FOR SE MODEL------------------------------------#
+            #--------------------------PARAMETERS FOR RTSE MODEL------------------------------------#
         
             fs=cfg["fs"]
             B=cfg["number_of_mel_filters"]
@@ -206,7 +348,7 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
             X_mfcc_buffer = np.empty(64, dtype=np.float32)
             Xb_preallocated = np.empty(32, dtype=np.float32)
             snr_frame_mask = np.ones((512,min_windows))     # Inicializado con la duración de la ventana de inferencia
-            yenh = np.zeros(int(fs*300))                      # Inicializado con la duración del audio original
+            yenh = np.zeros(int(fs*90))                      # Inicializado con la duración del audio original
 
 
             logging.debug(f'\n|-----------------------------INITIAL PARAMETERS-----------------------------|')
@@ -232,7 +374,8 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
             #-------------------------------------------------------------------------------------#
 
             global enhancement_enabled
-            
+
+            logging.info("Processing audio stream...")
             async for event in audio_stream:
                 # Check if participant has unpublished the track
                 if stop_processing.is_set():
@@ -261,36 +404,31 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
                         if n_frame-3 >= min_windows:
                             # print("Reached MIN WINDOW --> STRATING INFERENCE")
                             transformed_windows = np.vstack(Xfft_windows_list)
-                            
+
                             if enhancement_enabled:
-                                # start_prof = time.time()
                                 if(n_frame % diezmation_factor == 0):
                                     snr_frame_mask = mu.net_eval(net_snr, transformed_windows)
                                     snr_frame_mask = snr_frame_mask.T
-                                    # print(f'Time {n_frame}: {(time.time()-start_prof)*1000} ms')
-                                # accum_inf += (time.time()-start_prof)
+
                     # Si el buffer alcanza o excede las 20 ventanas para hacer la inferencia
                     else:
                         Xfft_windows_list.pop(0)
-                        
+
                         if enhancement_enabled:
                             transformed_windows = np.vstack(Xfft_windows_list)
-                            # start_prof = time.time()
+
                             if(n_frame % diezmation_factor == 0):
                                 transformed_windows = transformed_windows.reshape(1, max_windows, 576)
                                 ort_inputs = {ort_session.get_inputs()[0].name: transformed_windows}
                                 snr_frame_mask = ort_session.run(None, ort_inputs)[0]
                                 snr_frame_mask = snr_frame_mask.squeeze().T
-                                # print(f'Time onnx {n_frame}: {(time.time()-start_prof)*1000} ms')
-                            # accum_inf += (time.time()-start_prof)
-                    
+
                     buffer_frame = buffer_frame[shift_samples:]
 
                     # Aqui haría la evaluacion con la máscara pertinente (para las primeras 3 ventanas sin máscara calculada)
                     # cnt = int(n_frame - w/m) Ajustar al tamaño de la ventana
                     cnt = n_frame - 3
-                    # print(f'EVALUATION OF WINDOW {cnt}')
-                    
+
                     if enhancement_enabled:
                         x = np.array(work_window, dtype=np.float32) / 2 ** 15   # Audio window to be enhanced
                         xenh, filt = mu.noiseReduction(x, snr_frame_mask[:,-1], fs, window_samples, shift_samples, nfft, gmin)
@@ -298,11 +436,11 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
 
                         yenh[cnt * shift_samples : cnt * shift_samples + slice_size] += xenh[0:slice_size]
                     else:
-                        yenh[cnt * frame_samples : cnt * frame_samples + frame_samples] += audio_data_rx
+                        yenh[cnt * frame_samples : cnt * frame_samples + frame_samples] = audio_data_rx
                     
+  
                     #-------------------------------------------------------------------------------------#
                     # Publish audio frames to the track in room_2 with no delay
-                    
                     if enhancement_enabled:
                         await asyncio.ensure_future(publish_frames(
                             source, 
@@ -337,12 +475,19 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
                 except Exception as save_error:
                     logging.error(f"Failed to save enhanced audio: {save_error}")
             wav.close()
+            print("Shutting down...")
+            await room_2.disconnect()
+            logging.info("Disconnected from room %s", room_2.name)
+            await room_1.disconnect()
+            logging.info("Disconnected from room %s", room_1.name)
+            exit(0)
     
     room_id_1 = input("Please enter an id for the receiver room: ")
+    # room_id_1 = "TFM"
     token_1 = (
         api.AccessToken('API4bcDob32kABX','fWCQds2YzguBZJbVgdXbPCodqYY0jcHviHqIkwDZ7yV')
-        .with_identity("python-model")
-        .with_name("Python Model")
+        .with_identity("rtse-consumer")
+        .with_name("RTSE Consumer")
         .with_grants(
             api.VideoGrants(
                 room_join=True,
@@ -354,8 +499,8 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
     room_id_2 = input("Please enter an id for the sender room: ")
     token_2 = (
         api.AccessToken('API4bcDob32kABX','fWCQds2YzguBZJbVgdXbPCodqYY0jcHviHqIkwDZ7yV')
-        .with_identity("python-model")
-        .with_name("Python Model")
+        .with_identity("rtse-publisher")
+        .with_name("RTSE publisher")
         .with_grants(
             api.VideoGrants(
                 room_join=True,
@@ -369,30 +514,12 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
 
     logging.info("Connecting to %s", url)
     try:
-        logging.info("Connecting to room %s...", room_2.name)
-        await room_2.connect(
-            url,
-            token_2,
-            options=rtc.RoomOptions(
-                auto_subscribe=False,
-            ),
-        )
-        logging.info("Connected to room %s", room_2.name)
-
-        # Publish a track
-        source = rtc.AudioSource(SAMPLE_RATE, NUM_CHANNELS)
-        track = rtc.LocalAudioTrack.create_audio_track("audio_wav", source)
-        options = rtc.TrackPublishOptions()
-        options.source = rtc.TrackSource.SOURCE_MICROPHONE
-        publication = await room_2.local_participant.publish_track(track, options)
-        logging.info(f"Track {publication.sid} published by {room_2.local_participant.identity}")
-
         logging.info("Connecting to room %s...", room_1.name)
         await room_1.connect(
             url,
             token_1,
             options=rtc.RoomOptions(
-                auto_subscribe=True,
+                auto_subscribe=False,
             ),
         )
         logging.info("Connected to room %s", room_1.name)
@@ -419,19 +546,19 @@ async def publish_frames(source: rtc.AudioSource, audio_frame:rtc.AudioFrame, au
     # Capture frame to send it to the track
     # logging.info(f"Capturing frame {list(audio_frame.data[:10])}")
     await source.capture_frame(audio_frame)
-    # time.sleep(0.001) # Study the effect of delay
+    # time.sleep(0.008) # Study the effect of delay
 
 if __name__ == "__main__":
     logging.basicConfig(
         level=logging.INFO,
-        handlers=[logging.FileHandler("./logs/model_rx_tx.log"), logging.StreamHandler()],
+        handlers=[logging.FileHandler("./logs/caller_rtse.log"), logging.StreamHandler()],
     )
 
     loop_1 = asyncio.get_event_loop()
     room_1 = rtc.Room(loop=loop_1)
     loop_2 = asyncio.get_event_loop()
     room_2 = rtc.Room(loop=loop_2)
-
+    
     async def cleanup_1():
         await room_1.disconnect()
         loop_1.stop()
@@ -439,7 +566,7 @@ if __name__ == "__main__":
     async def cleanup_2():
         await room_2.disconnect()
         loop_2.stop()
-    
+
     asyncio.ensure_future(main(room_1, room_2))
     for signal in [SIGINT, SIGTERM]:
         loop_1.add_signal_handler(signal, lambda: asyncio.ensure_future(cleanup_1()))

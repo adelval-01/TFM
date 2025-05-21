@@ -1,0 +1,18 @@
+{
+    "snr_umbral": 120,
+    "gmin": 0.0562,
+    "fs": 8000,
+    "frame_length": 0.010,
+    "analysis_window_length": 0.040,
+    "analysis_window_shift": 0.01,
+    "diezmation_factor": 2,
+    "warm_up_factor": 2,
+    "epsilon": 1e-7,
+    "alpha_filter": 1,
+    "number_of_mel_filters": 32,
+    "nfft": 1024,
+    "min_windows": 20,
+    "max_windows": 20,
+    "audio_list": ["data/lst/minitest_8k.wav.list"]
+   }
+   
