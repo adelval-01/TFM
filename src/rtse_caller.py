@@ -13,8 +13,8 @@ Description:
     This ensures real-time audio enhancement for SIP-based calls, improving call quality for the callee.
 
 Author: Aitor del Val Allueva 
-Date: 2025-06-03
-Version: 1.5  
+Date: 2025-03-12 
+Version: 1.0  
 
 Requirements:
     - Python 3.9
@@ -40,6 +40,7 @@ import numpy as np
 from scipy.io import wavfile
 from livekit import rtc, api
 from livekit.protocol.sip import CreateSIPOutboundTrunkRequest, SIPOutboundTrunkInfo,  ListSIPOutboundTrunkRequest
+from livekit.protocol.room import MuteRoomTrackRequest
 from signal import SIGINT, SIGTERM
 
 import model_utils as mu
@@ -135,14 +136,16 @@ def setup_wav_file():
     wav_file.setframerate(SAMPLE_RATE)
     return wav_file
 
-async def publish_track(room: rtc.Room) -> rtc.AudioSource:
+async def publish_track(room: rtc.Room, name: str, muted: bool) -> tuple[rtc.AudioSource, str]:
     source = rtc.AudioSource(SAMPLE_RATE, NUM_CHANNELS)
-    track = rtc.LocalAudioTrack.create_audio_track("callback", source)
+    track = rtc.LocalAudioTrack.create_audio_track(name, source)
+    if muted:
+        track.mute()  # Mute the track initially
     options = rtc.TrackPublishOptions()
     options.source = rtc.TrackSource.SOURCE_MICROPHONE
     publication = await room.local_participant.publish_track(track, options)
-    logging.info(f"Callback track {publication.sid} published by {room.local_participant.identity}")
-    return source
+    logging.info(f"Track {publication.sid} published by {room.local_participant.identity}")
+    return source, publication.sid
 
 async def api_call():
     livekit_api = api.LiveKitAPI(
@@ -162,6 +165,26 @@ async def send_dtmf_code(dtmf_code: str, room: rtc.Room):
 
     print(f"DTMF code '{dtmf_code}' sent successfully.")
 
+async def publish_frames(source: rtc.AudioSource, audio_frame:rtc.AudioFrame, audio_data: np.ndarray, frame: np.ndarray):
+    """
+    Send audio frames through the source
+    Args:   
+        source: rtc.AudioSource object --> Audio source to publish the audio frames
+        audio_frame: rtc.AudioFrame object --> Audio frame to send
+        audio_data: np.ndarray --> Audio data mapped to audio frame to send
+        frame: np.ndarray --> Frame to send
+
+    """
+    #source.clear_queue()
+
+    np.copyto(audio_data, frame)
+
+    # Capture frame to send it to the track
+    # logging.info(f"Capturing frame {list(audio_frame.data[:10])}")
+    await source.capture_frame(audio_frame)
+    # time.sleep(0.008) # Study the effect of delay
+
+
 
 async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
     """
@@ -177,23 +200,59 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
     asyncio.create_task(command_listener())
     call_sid = None
     room_2_source = None
+    livekit_api = await api_call()
 
     @room_1.on("participant_connected")
     def on_participant_connected(participant: rtc.RemoteParticipant) -> None:
         logging.info(
-            "participant connected: %s %s %s %s", participant.sid, participant.identity, participant.metadata, participant.name
+            "Participant connected: %s %s %s %s", participant.sid, participant.identity, participant.metadata, participant.name
         )
 
     @room_1.on("participant_disconnected")
     def on_participant_disconnect(participant: rtc.Participant, *_):
-        logging.info("participant disconnected: %s", participant.identity)
+        logging.info("Participant disconnected: %s", participant.identity)
 
     @room_1.on("track_published")
     def on_track_published(
         publication: rtc.RemoteTrackPublication,
         participant: rtc.RemoteParticipant
     ):
-        publication.set_subscribed(True)
+        logging.info("Track published: %s by %s", publication.sid, participant.identity)
+        
+        my_identity = room_1.local_participant.identity
+        logging.info("My identity: %s", my_identity)
+        
+
+        if participant.identity == "sip_101":
+            update_request = MuteRoomTrackRequest(
+                room="TFM",
+                identity="rtse-callee",
+                track_sid=publication.sid,
+                muted=True
+            )
+
+            response = asyncio.create_task(livekit_api.room.mute_published_track(update_request))
+            print(f"Track {publication.sid} muted for participant sip_101: {response}")
+
+
+        if my_identity == "rtse-model":
+            # RTSE should subscribe to the caller
+            if participant.identity == "sip_101":
+                publication.set_subscribed(True)
+
+        elif my_identity == "rtse-callee":
+            # Callee should subscribe to RTSE
+            if participant.identity == "rtse-model":
+                publication.set_subscribed(True)
+
+        elif my_identity == "sip_101":
+            # Caller should subscribe to callee
+            if participant.identity == "rtse-callee":
+                publication.set_subscribed(True)
+
+        else:
+            publication.set_subscribed(False)
+
 
 
     @room_1.on("track_subscribed")
@@ -205,9 +264,8 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
         global call_sid
         global room_2_source
         call_sid = publication.sid
-        logging.info("track subscribed: %s", call_sid)
+        logging.info("Participant %s subscribed to track: %s", room_1.local_participant.identity ,call_sid)
         if (track.kind == rtc.TrackKind.KIND_AUDIO):
-            print("Subscribed to an Audio Track")
             _audio_stream = rtc.AudioStream(
                 track,
                 sample_rate=SAMPLE_RATE, 
@@ -218,19 +276,19 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
     #-------------------------- MAKE OUTBOUND CALL ---------------------------------#
         async def make_call():
             try:
-                logging.info("Connecting to room %s...", room_2.name)
-                await room_2.connect(
-                    url,
-                    token_2,
-                    options=rtc.RoomOptions(
-                        auto_subscribe=False,
-                    ),
-                )
-                logging.info("Connected to room 2 %s", room_2.name)
+                # logging.info("Connecting to room %s...", room_2.name)
+                # await room_2.connect(
+                #     url,
+                #     token_2,
+                #     options=rtc.RoomOptions(
+                #         auto_subscribe=False,
+                #     ),
+                # )
+                # logging.info("Connected to room 2 %s", room_2.name)
 
                 livekit_api = await api_call()
 
-                user_identity = "phone_callee"
+                user_identity = "rtse-callee"
                 phone_number = cfg["destination_numbrer"]
                 # phone_number = "+34683151962"
                 # phone_number = "+34653429748"
@@ -238,10 +296,10 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
                 # phone_number = "+34976214883"
 
                 out_trunk_id = "ST_sEbW5d8fhh3E"
-                logging.info(f"Creating SIP participant to {phone_number}")
+                logging.info(f"Creating SIP participant {user_identity} to {phone_number}")
                 await livekit_api.sip.create_sip_participant(
                     api.CreateSIPParticipantRequest(
-                        room_name=room_id_2,
+                        room_name=room_id_1,
                         sip_trunk_id=out_trunk_id,
                         sip_call_to=phone_number,
                         participant_identity=user_identity,
@@ -264,26 +322,19 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
                     await room_2.local_participant.publish_dtmf(code=int(cfg["dtmf_code"][3]), digit=cfg["dtmf_code"][3])
 
 
-                global room_2_source
-                room_2_source = await publish_track(room_2)
-                logging.info("Track published in room 2 by %s", room_2.local_participant.identity)
-                # Publish a track in room 2
+                # room_1_source, track_id = await publish_track(room_1, 'rtse_track', True)
                 
-                # source = rtc.AudioSource(SAMPLE_RATE, NUM_CHANNELS)
-                # track = rtc.LocalAudioTrack.create_audio_track("audio_wav", source)
-                # options = rtc.TrackPublishOptions()
-                # options.source = rtc.TrackSource.SOURCE_MICROPHONE
-                # publication = await room_2.local_participant.publish_track(track, options)
-                # logging.info(f"Track {publication.sid} published by {room_2.local_participant.identity}")
-                
-                # await asyncio.sleep(5)
+                # # Mute a participant's track
+                # await livekit_api.room.mute_published_track(
+                #     room=room_id_1,
+                #     identity="sip_101",
+                #     track_sid=track_id,
+                #     muted=True
+                # )
 
 
-                # Publish a track in room 1 to answer the call
-                await publish_track(room_1)
-
-                logging.info("RTSE start")
-                await process_audio_stream(_audio_stream, room_2_source)
+                # logging.info("RTSE start")
+                # await process_audio_stream(_audio_stream, room_1_source)
 
             except rtc.ConnectError as e:
                 logging.error("Failed to connect to the room: %s", e)
@@ -465,10 +516,8 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
                                 source, 
                                 audio_frame, 
                                 audio_data_tx, 
-                                # (audio_data_rx)
-                                ((yenh[cnt * frame_samples : cnt * frame_samples + frame_samples]/2) * 2**15).astype(np.int16))
-                            )
-
+                                (audio_data_rx)
+                            ))
                 n_frame += 1
 
             logging.info(f"Audio stream processing completed. {n_frame} frames processed.")
@@ -483,7 +532,7 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
                     logging.debug(f'El audio mejorado tiene una longitud de {len(yenh)} y {yenh.dtype}')
                     # for i in range(200):
                     #     logging.debug(f'{i} La señal mejorada es {np.int16((2**15)*yenh[i*160:10+i*160])}')
-                    wavfile.write(WAV_ENH, SAMPLE_RATE, np.array((yenh/1.5)*(2 ** 15), dtype=np.int16))
+                    wavfile.write(WAV_ENH, SAMPLE_RATE, np.array((yenh/1)*(2 ** 15), dtype=np.int16))
                     logging.info("Enhanced audio saved successfully.")
                 except Exception as save_error:
                     logging.error(f"Failed to save enhanced audio: {save_error}")
@@ -499,7 +548,7 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
     room_id_1 = "TFM"
     token_1 = (
         api.AccessToken('API4bcDob32kABX','fWCQds2YzguBZJbVgdXbPCodqYY0jcHviHqIkwDZ7yV')
-        .with_identity("rtse-consumer")
+        .with_identity("rtse-model")
         .with_name("RTSE Consumer")
         .with_grants(
             api.VideoGrants(
@@ -509,7 +558,8 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
         )
         .to_jwt()
     )
-    room_id_2 = input("Please enter an id for the sender room: ")
+    # room_id_2 = input("Please enter an id for the sender room: ")
+    room_id_2 = "tsest"
     token_2 = (
         api.AccessToken('API4bcDob32kABX','fWCQds2YzguBZJbVgdXbPCodqYY0jcHviHqIkwDZ7yV')
         .with_identity("rtse-publisher")
@@ -527,7 +577,6 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
 
     logging.info("Connecting to %s", url)
     try:
-        logging.info("Connecting to room %s...", room_1.name)
         await room_1.connect(
             url,
             token_1,
@@ -542,28 +591,10 @@ async def main(room_1: rtc.Room, room_2: rtc.Room) -> None:
     
     
 
-async def publish_frames(source: rtc.AudioSource, audio_frame:rtc.AudioFrame, audio_data: np.ndarray, frame: np.ndarray):
-    """
-    Send audio frames through the source
-    Args:   
-        source: rtc.AudioSource object --> Audio source to publish the audio frames
-        audio_frame: rtc.AudioFrame object --> Audio frame to send
-        audio_data: np.ndarray --> Audio data mapped to audio frame to send
-        frame: np.ndarray --> Frame to send
-
-    """
-    #source.clear_queue()
-
-    np.copyto(audio_data, frame)
-
-    # Capture frame to send it to the track
-    # logging.info(f"Capturing frame {list(audio_frame.data[:10])}")
-    await source.capture_frame(audio_frame)
-    # time.sleep(0.008) # Study the effect of delay
 
 if __name__ == "__main__":
     logging.basicConfig(
-        level=logging.DEBUG,
+        level=logging.INFO,
         handlers=[logging.FileHandler("./logs/caller_rtse.log"), logging.StreamHandler()],
     )
 
